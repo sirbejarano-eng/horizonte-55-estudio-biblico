@@ -1,0 +1,160 @@
+const LANGUAGE_KEY = 'horizonte55-language';
+
+const translations = {
+  es: {
+    home: 'Inicio', library: 'Biblioteca', timeline: 'Línea de tiempo', reader: 'Lectura', search: 'Buscar',
+    language: 'Idioma', openMenu: 'Abrir menú', closeMenu: 'Cerrar menú', studyDesk: 'Tu mesa de estudio',
+    libraryIndex: 'Índice de lectura', findBook: 'Encuentra cada libro por testamento y abre el capítulo desde el que quieras comenzar.',
+    testament: 'Testamento', allBooks: 'Todos los libros', oldTestament: 'Antiguo Testamento', newTestament: 'Nuevo Testamento',
+    searchBook: 'Buscar libro', searchBookPlaceholder: 'Escribe un libro, por ejemplo Mateo', books: 'libros',
+    openBook: 'Abrir libro', noBook: 'No se encontró ningún libro con ese criterio.', chaptersCompleted: 'capítulos completados en este dispositivo',
+    reading: 'Lectura', chapter: 'Capítulo', previous: 'Anterior', next: 'Siguiente', complete: 'Marcar como completado', completed: 'Completado',
+    notes: 'Notas del capítulo', notesPlaceholder: 'Escribe tus observaciones, preguntas o referencias...', savedLocally: 'Guardado localmente en este dispositivo',
+    copyReference: 'Copiar referencia', copyChapter: 'Copiar', shareVerse: 'Compartir versículo', openVerse: 'Abrir versículo en Horizonte 55', shared: 'Versículo preparado para compartir', copied: 'copiado al portapapeles', reduceText: 'Reducir tamaño del texto', increaseText: 'Aumentar tamaño del texto',
+    chooseChapter: 'Seleccionar capítulo', searchBible: 'Buscar en la Biblia', noResults: 'No se encontraron resultados.',
+    searchBibleTitle: 'Buscar en la Biblia', localSearch: 'Búsqueda local', wordsTopicsReferences: 'Palabras o referencias',
+    searchHint: 'Busca palabras o referencias como Mateo 1:25.', oldDescription: 'Libros de Israel y su historia', newDescription: 'Relatos y testimonios de Jesús',
+    timelineTitle: 'Línea de tiempo bíblica', timelineIntro: 'Una vista de contexto para situar pueblos, territorios y desplazamientos alrededor de Jerusalén y Egipto.', mapReference: 'Mapa de referencia', mapTitle: 'Entre el Nilo, Jerusalén y Mesopotamia', mapIntro: 'Las rutas son una guía visual de estudio. Las fechas se presentan como aproximaciones y no sustituyen el análisis histórico especializado.',
+    heroTitle: 'Lee. Anota. Vuelve a la fuente.', heroIntro: 'Una biblioteca personal para recorrer las Escrituras capítulo a capítulo, con tus propias preguntas y ritmo.', catalogPhase: 'Catálogo disponible en esta fase', continueReading: 'Continuar leyendo', contextTitle: 'Una historia en movimiento', contextIntro: 'Sitúa Egipto, Jerusalén, Canaán y Mesopotamia antes de volver al texto.', chapters: 'capítulos', of: 'de',
+    loadErrorNetwork: 'No se pudo cargar el contenido. Revisa tu conexión e inténtalo de nuevo.', loadErrorContent: 'El contenido bíblico no está disponible ahora mismo.', loadErrorGeneric: 'Ocurrió un problema al cargar la página.', retry: 'Reintentar', skipToContent: 'Saltar al contenido',
+    exportProgress: 'Exportar progreso', importProgress: 'Importar progreso', progressManagement: 'Progreso y notas', progressManagementHint: 'Descarga una copia de tu progreso y notas, o restaura una copia guardada en este dispositivo.', exportProgressDone: 'Progreso exportado.', importProgressDone: 'Progreso importado correctamente.', importProgressError: 'El archivo de progreso no es válido.',
+    saveErrorNotes: 'No se pudo guardar la nota en este dispositivo. Copia el texto para no perderlo.', saveErrorGeneric: 'No se pudo guardar el cambio en este dispositivo.', copyNote: 'Copiar nota', exportProgressError: 'No se pudo exportar el progreso.',
+    importPreviewTitle: 'Vista previa de la importación', importConfirm: 'Confirmar importación', importCancel: 'Cancelar', importOverwriteWarning: 'Esto reemplazará datos guardados en este dispositivo. Queda una copia de seguridad temporal por si necesitas deshacerlo.', importSummaryPosition: 'posición de lectura', importSummaryCompleted: 'capítulos completados', importSummaryNotes: 'notas', importSummaryScale: 'tamaño de texto', importNoChanges: 'El archivo no contiene cambios aplicables.', importUndoDone: 'Importación deshecha.',
+    offlineReady: 'Disponible sin conexión', offlineNotReady: 'Aún no disponible sin conexión en este idioma', offlineChecking: 'Comprobando disponibilidad sin conexión…',
+    copyrightNotice: '© {year} Jose A Bejarano V. Código, interfaz y contenido propio: todos los derechos reservados.',
+    privacyNote: 'No se recopilan datos personales: el progreso y las notas se guardan únicamente en tu dispositivo.', spanishVersion: 'Versión bíblica', onbvVersion: 'Open Nueva Biblia Viva — lectura contemporánea', rv1909Version: 'Reina-Valera 1909 — edición histórica', onbvAttribution: 'Biblica® Open Nueva Biblia Viva™ / Copyright © 2006, 2008 by Biblica, Inc. / Usado con permiso. / Licencia Creative Commons Attribution-ShareAlike 4.0 International.', onbvLicense: 'Licencia CC BY-SA 4.0', onbvSource: 'Fuente oficial de Open.Bible', onbvNoEndorsement: 'Biblica no respalda ni patrocina Horizonte 55.', rv1909Attribution: 'Santa Biblia — Reina Valera 1909. Dominio público.', rv1909Source: 'Fuente oficial de eBible.org', webpbAttribution: 'World English Bible British Edition — inglés británico/internacional, 66 libros. Dominio público. “World English Bible” es una marca registrada; Horizonte 55 no modifica el texto bíblico.', webpbSource: 'Fuente oficial de eBible.org', schlachterAttribution: 'Die Schlachter-Bibel 1951 / Copyright © 1951 Genfer Bibelgesellschaft / Traducción de Franz-Eugen Schlachter / Licencia Creative Commons Attribution 4.0 International.', schlachterLicense: 'Licencia CC BY 4.0', schlachterSource: 'Fuente oficial de eBible.org',
+    undoImport: 'Deshacer importación', importErrorInvalidFile: 'El archivo no tiene un formato válido.', importErrorTooLarge: 'El archivo supera el tamaño máximo permitido.', importErrorInvalidJson: 'El archivo no contiene JSON válido.', importErrorVersion: 'La versión del archivo de progreso no es compatible.', importErrorShape: 'El archivo contiene datos con un formato incorrecto.', importErrorReference: 'El archivo hace referencia a libros o capítulos que no existen en este catálogo.',
+    resultLabel: 'resultado', showingResultsLabel: 'Mostrando', showMoreResults: 'Mostrar más resultados', openReference: 'Abrir', copyErrorReference: 'No se pudo copiar la referencia.', shareErrorVerse: 'No se pudo compartir el versículo.',
+    importErrorRollbackFailed: 'La importación falló y no se pudo revertir por completo. Revisa tu progreso manualmente.', undoErrorGeneric: 'No se pudo deshacer. Revisa tu progreso manualmente.'
+  },
+  en: {
+    home: 'Home', library: 'Library', timeline: 'Timeline', reader: 'Reading', search: 'Search',
+    language: 'Language', openMenu: 'Open menu', closeMenu: 'Close menu', studyDesk: 'Your study desk',
+    libraryIndex: 'Reading index', findBook: 'Find a book by testament and open the chapter where you want to begin.',
+    testament: 'Testament', allBooks: 'All books', oldTestament: 'Old Testament', newTestament: 'New Testament',
+    searchBook: 'Search book', searchBookPlaceholder: 'Type a book, for example Matthew', books: 'books',
+    openBook: 'Open book', noBook: 'No book matched that search.', chaptersCompleted: 'chapters completed on this device',
+    reading: 'Reading', chapter: 'Chapter', previous: 'Previous', next: 'Next', complete: 'Mark as completed', completed: 'Completed',
+    notes: 'Chapter notes', notesPlaceholder: 'Write your observations, questions or references...', savedLocally: 'Saved locally on this device',
+    copyReference: 'Copy reference', copyChapter: 'Copy', shareVerse: 'Share verse', openVerse: 'Open verse in Horizonte 55', shared: 'Verse ready to share', copied: 'copied to clipboard', reduceText: 'Reduce text size', increaseText: 'Increase text size',
+    chooseChapter: 'Select chapter', searchBible: 'Search the Bible', noResults: 'No results found.',
+    searchBibleTitle: 'Search the Bible', localSearch: 'Local search', wordsTopicsReferences: 'Words or references',
+    searchHint: 'Search words or references such as Matthew 1:25.', oldDescription: 'Books of Israel and its history', newDescription: 'Accounts and testimonies of Jesus',
+    timelineTitle: 'Biblical timeline', timelineIntro: 'A context view for peoples, territories and movements around Jerusalem and Egypt.', mapReference: 'Reference map', mapTitle: 'Between the Nile, Jerusalem and Mesopotamia', mapIntro: 'The routes are a visual study guide. Dates are approximate and do not replace specialized historical analysis.',
+    heroTitle: 'Read. Take notes. Return to the source.', heroIntro: 'A personal library for exploring Scripture chapter by chapter, with your own questions and pace.', catalogPhase: 'Catalog available in this phase', continueReading: 'Continue reading', contextTitle: 'A story in motion', contextIntro: 'Place Egypt, Jerusalem, Canaan and Mesopotamia before returning to the text.', chapters: 'chapters', of: 'of',
+    loadErrorNetwork: 'Content could not be loaded. Check your connection and try again.', loadErrorContent: 'The Bible content is not available right now.', loadErrorGeneric: 'Something went wrong while loading the page.', retry: 'Retry', skipToContent: 'Skip to content',
+    exportProgress: 'Export progress', importProgress: 'Import progress', progressManagement: 'Progress and notes', progressManagementHint: 'Download a copy of your progress and notes, or restore a saved copy on this device.', exportProgressDone: 'Progress exported.', importProgressDone: 'Progress imported successfully.', importProgressError: 'The progress file is not valid.',
+    saveErrorNotes: 'The note could not be saved on this device. Copy the text so you do not lose it.', saveErrorGeneric: 'The change could not be saved on this device.', copyNote: 'Copy note', exportProgressError: 'Progress could not be exported.',
+    importPreviewTitle: 'Import preview', importConfirm: 'Confirm import', importCancel: 'Cancel', importOverwriteWarning: 'This will replace data saved on this device. A temporary backup is kept in case you need to undo it.', importSummaryPosition: 'reading position', importSummaryCompleted: 'completed chapters', importSummaryNotes: 'notes', importSummaryScale: 'text size', importNoChanges: 'The file has no applicable changes.', importUndoDone: 'Import undone.',
+    offlineReady: 'Available offline', offlineNotReady: 'Not yet available offline in this language', offlineChecking: 'Checking offline availability…',
+    copyrightNotice: '© {year} Jose A Bejarano V. Code, interface and original content: all rights reserved.',
+    privacyNote: 'No personal data is collected: your progress and notes are stored only on your device.', spanishVersion: 'Bible version', onbvVersion: 'Open Nueva Biblia Viva — contemporary reading', rv1909Version: 'Reina-Valera 1909 — historical edition', onbvAttribution: 'Biblica® Open Nueva Biblia Viva™ / Copyright © 2006, 2008 by Biblica, Inc. / Used by permission. / Creative Commons Attribution-ShareAlike 4.0 International license.', onbvLicense: 'CC BY-SA 4.0 license', onbvSource: 'Official Open.Bible source', onbvNoEndorsement: 'Biblica does not endorse or sponsor Horizonte 55.', rv1909Attribution: 'Holy Bible — Reina Valera 1909. Public Domain.', rv1909Source: 'Official eBible.org source', webpbAttribution: 'World English Bible British Edition — British/International English, 66 books. Public Domain. “World English Bible” is a trademark; Horizonte 55 does not modify the biblical text.', webpbSource: 'Official eBible.org source', schlachterAttribution: 'Die Schlachter-Bibel 1951 / Copyright © 1951 Genfer Bibelgesellschaft / Translation by Franz-Eugen Schlachter / Creative Commons Attribution 4.0 International.', schlachterLicense: 'CC BY 4.0 license', schlachterSource: 'Official eBible.org source',
+    undoImport: 'Undo import', importErrorInvalidFile: 'The file is not in a valid format.', importErrorTooLarge: 'The file exceeds the maximum allowed size.', importErrorInvalidJson: 'The file does not contain valid JSON.', importErrorVersion: 'The progress file version is not supported.', importErrorShape: 'The file contains incorrectly formatted data.', importErrorReference: 'The file refers to books or chapters that do not exist in this catalog.',
+    resultLabel: 'result', showingResultsLabel: 'Showing', showMoreResults: 'Show more results', openReference: 'Open', copyErrorReference: 'The reference could not be copied.', shareErrorVerse: 'The verse could not be shared.',
+    importErrorRollbackFailed: 'The import failed and could not be fully rolled back. Please check your progress manually.', undoErrorGeneric: 'Undo failed. Please check your progress manually.'
+  },
+  de: {
+    home: 'Startseite', library: 'Bibliothek', timeline: 'Zeitleiste', reader: 'Lesen', search: 'Suchen',
+    language: 'Sprache', openMenu: 'Menü öffnen', closeMenu: 'Menü schließen', studyDesk: 'Dein Studiertisch',
+    libraryIndex: 'Leseindex', findBook: 'Finde ein Buch nach Testament und öffne das Kapitel, mit dem du beginnen möchtest.',
+    testament: 'Testament', allBooks: 'Alle Bücher', oldTestament: 'Altes Testament', newTestament: 'Neues Testament',
+    searchBook: 'Buch suchen', searchBookPlaceholder: 'Gib ein Buch ein, zum Beispiel Matthäus', books: 'Bücher',
+    openBook: 'Buch öffnen', noBook: 'Kein passendes Buch gefunden.', chaptersCompleted: 'Kapitel auf diesem Gerät abgeschlossen',
+    reading: 'Lesen', chapter: 'Kapitel', previous: 'Zurück', next: 'Weiter', complete: 'Als abgeschlossen markieren', completed: 'Abgeschlossen',
+    notes: 'Notizen zum Kapitel', notesPlaceholder: 'Beobachtungen, Fragen oder Verweise eingeben...', savedLocally: 'Lokal auf diesem Gerät gespeichert',
+    copyReference: 'Verweis kopieren', copyChapter: 'Kopieren', shareVerse: 'Vers teilen', openVerse: 'Vers in Horizonte 55 öffnen', shared: 'Vers zum Teilen bereit', copied: 'in die Zwischenablage kopiert', reduceText: 'Text verkleinern', increaseText: 'Text vergrößern',
+    chooseChapter: 'Kapitel auswählen', searchBible: 'In der Bibel suchen', noResults: 'Keine Ergebnisse gefunden.',
+    searchBibleTitle: 'In der Bibel suchen', localSearch: 'Lokale Suche', wordsTopicsReferences: 'Wörter oder Verweise',
+    searchHint: 'Suche nach Wörtern oder Verweisen wie Matthäus 1:25.', oldDescription: 'Bücher Israels und seine Geschichte', newDescription: 'Berichte und Zeugnisse über Jesus',
+    timelineTitle: 'Biblische Zeitleiste', timelineIntro: 'Ein Überblick über Völker, Gebiete und Bewegungen rund um Jerusalem und Ägypten.', mapReference: 'Referenzkarte', mapTitle: 'Zwischen Nil, Jerusalem und Mesopotamien', mapIntro: 'Die Routen dienen als visuelle Orientierung. Die Datierungen sind ungefähr und ersetzen keine spezialisierte historische Analyse.',
+    heroTitle: 'Lies. Notiere. Kehre zur Quelle zurück.', heroIntro: 'Eine persönliche Bibliothek, um die Bibel Kapitel für Kapitel mit deinen eigenen Fragen und in deinem Tempo zu erkunden.', catalogPhase: 'Katalog in dieser Phase', continueReading: 'Weiterlesen', contextTitle: 'Eine Geschichte in Bewegung', contextIntro: 'Ordne Ägypten, Jerusalem, Kanaan und Mesopotamien ein, bevor du zum Text zurückkehrst.', chapters: 'Kapitel', of: 'von',
+    loadErrorNetwork: 'Inhalt konnte nicht geladen werden. Prüfe deine Verbindung und versuche es erneut.', loadErrorContent: 'Der biblische Inhalt ist gerade nicht verfügbar.', loadErrorGeneric: 'Beim Laden der Seite ist ein Problem aufgetreten.', retry: 'Erneut versuchen', skipToContent: 'Zum Inhalt springen',
+    exportProgress: 'Fortschritt exportieren', importProgress: 'Fortschritt importieren', progressManagement: 'Fortschritt und Notizen', progressManagementHint: 'Lade eine Kopie deines Fortschritts und deiner Notizen herunter oder stelle eine gespeicherte Kopie auf diesem Gerät wieder her.', exportProgressDone: 'Fortschritt exportiert.', importProgressDone: 'Fortschritt erfolgreich importiert.', importProgressError: 'Die Fortschrittsdatei ist ungültig.',
+    saveErrorNotes: 'Die Notiz konnte auf diesem Gerät nicht gespeichert werden. Kopiere den Text, damit er nicht verloren geht.', saveErrorGeneric: 'Die Änderung konnte auf diesem Gerät nicht gespeichert werden.', copyNote: 'Notiz kopieren', exportProgressError: 'Der Fortschritt konnte nicht exportiert werden.',
+    importPreviewTitle: 'Vorschau des Imports', importConfirm: 'Import bestätigen', importCancel: 'Abbrechen', importOverwriteWarning: 'Dadurch werden auf diesem Gerät gespeicherte Daten ersetzt. Es wird eine temporäre Sicherung aufbewahrt, falls du es rückgängig machen musst.', importSummaryPosition: 'Leseposition', importSummaryCompleted: 'abgeschlossene Kapitel', importSummaryNotes: 'Notizen', importSummaryScale: 'Textgröße', importNoChanges: 'Die Datei enthält keine anwendbaren Änderungen.', importUndoDone: 'Import rückgängig gemacht.',
+    offlineReady: 'Offline verfügbar', offlineNotReady: 'In dieser Sprache noch nicht offline verfügbar', offlineChecking: 'Offline-Verfügbarkeit wird geprüft…',
+    copyrightNotice: '© {year} Jose A Bejarano V. Code, Benutzeroberfläche und eigene Inhalte: alle Rechte vorbehalten.',
+    privacyNote: 'Es werden keine personenbezogenen Daten erhoben: Fortschritt und Notizen werden nur auf deinem Gerät gespeichert.', spanishVersion: 'Bibelversion', onbvVersion: 'Open Nueva Biblia Viva — zeitgenössische Lesart', rv1909Version: 'Reina-Valera 1909 — historische Ausgabe', onbvAttribution: 'Biblica® Open Nueva Biblia Viva™ / Copyright © 2006, 2008 by Biblica, Inc. / Mit Genehmigung verwendet. / Creative-Commons-Lizenz Attribution-ShareAlike 4.0 International.', onbvLicense: 'CC-BY-SA-4.0-Lizenz', onbvSource: 'Offizielle Open.Bible-Quelle', onbvNoEndorsement: 'Biblica unterstützt oder sponsert Horizonte 55 nicht.', rv1909Attribution: 'Santa Biblia — Reina Valera 1909. Gemeinfrei.', rv1909Source: 'Offizielle Quelle bei eBible.org', webpbAttribution: 'World English Bible British Edition — britisches/internationales Englisch, 66 Bücher. Gemeinfrei. „World English Bible“ ist eine Marke; Horizonte 55 verändert den Bibeltext nicht.', webpbSource: 'Offizielle Quelle bei eBible.org', schlachterAttribution: 'Die Schlachter-Bibel 1951 / Copyright © 1951 Genfer Bibelgesellschaft / Übersetzung von Franz-Eugen Schlachter / Creative Commons Namensnennung 4.0 International.', schlachterLicense: 'CC-BY-4.0-Lizenz', schlachterSource: 'Offizielle Quelle bei eBible.org',
+    undoImport: 'Import rückgängig machen', importErrorInvalidFile: 'Die Datei hat kein gültiges Format.', importErrorTooLarge: 'Die Datei überschreitet die maximal zulässige Größe.', importErrorInvalidJson: 'Die Datei enthält kein gültiges JSON.', importErrorVersion: 'Die Version der Fortschrittsdatei wird nicht unterstützt.', importErrorShape: 'Die Datei enthält falsch formatierte Daten.', importErrorReference: 'Die Datei verweist auf Bücher oder Kapitel, die in diesem Katalog nicht existieren.',
+    resultLabel: 'Ergebnis', showingResultsLabel: 'Angezeigt', showMoreResults: 'Weitere Ergebnisse anzeigen', openReference: 'Öffnen', copyErrorReference: 'Der Verweis konnte nicht kopiert werden.', shareErrorVerse: 'Der Vers konnte nicht geteilt werden.',
+    importErrorRollbackFailed: 'Der Import ist fehlgeschlagen und konnte nicht vollständig rückgängig gemacht werden. Bitte überprüfe deinen Fortschritt manuell.', undoErrorGeneric: 'Rückgängig machen fehlgeschlagen. Bitte überprüfe deinen Fortschritt manuell.'
+  }
+};
+
+const localizedBookNames = {
+  en: { genesis: 'Genesis', exodo: 'Exodus', levitico: 'Leviticus', numeros: 'Numbers', deuteronomio: 'Deuteronomy', josue: 'Joshua', jueces: 'Judges', rut: 'Ruth', '1-samuel': '1 Samuel', '2-samuel': '2 Samuel', '1-reyes': '1 Kings', '2-reyes': '2 Kings', '1-cronicas': '1 Chronicles', '2-cronicas': '2 Chronicles', esdras: 'Ezra', nehemias: 'Nehemiah', ester: 'Esther', job: 'Job', salmos: 'Psalms', proverbios: 'Proverbs', eclesiastes: 'Ecclesiastes', cantares: 'Song of Solomon', isaias: 'Isaiah', jeremias: 'Jeremiah', lamentaciones: 'Lamentations', ezequiel: 'Ezekiel', daniel: 'Daniel', oseas: 'Hosea', joel: 'Joel', amos: 'Amos', abdias: 'Obadiah', jonas: 'Jonah', miqueas: 'Micah', nahum: 'Nahum', habacuc: 'Habakkuk', sofonias: 'Zephaniah', hageo: 'Haggai', zacarias: 'Zechariah', malaquias: 'Malachi', mateo: 'Matthew', marcos: 'Mark', lucas: 'Luke', juan: 'John', hechos: 'Acts', romanos: 'Romans', '1-corintios': '1 Corinthians', '2-corintios': '2 Corinthians', galatas: 'Galatians', efesios: 'Ephesians', filipenses: 'Philippians', colosenses: 'Colossians', '1-tesalonicenses': '1 Thessalonians', '2-tesalonicenses': '2 Thessalonians', '1-timoteo': '1 Timothy', '2-timoteo': '2 Timothy', tito: 'Titus', filemon: 'Philemon', hebreos: 'Hebrews', santiago: 'James', '1-pedro': '1 Peter', '2-pedro': '2 Peter', '1-juan': '1 John', '2-juan': '2 John', '3-juan': '3 John', judas: 'Jude', apocalipsis: 'Revelation' },
+  de: { genesis: '1. Mose', exodo: '2. Mose', levitico: '3. Mose', numeros: '4. Mose', deuteronomio: '5. Mose', josue: 'Josua', jueces: 'Richter', rut: 'Rut', '1-samuel': '1. Samuel', '2-samuel': '2. Samuel', '1-reyes': '1. Könige', '2-reyes': '2. Könige', '1-cronicas': '1. Chronik', '2-cronicas': '2. Chronik', esdras: 'Esra', nehemias: 'Nehemia', ester: 'Ester', job: 'Hiob', salmos: 'Psalmen', proverbios: 'Sprüche', eclesiastes: 'Prediger', cantares: 'Hoheslied', isaias: 'Jesaja', jeremias: 'Jeremia', lamentaciones: 'Klagelieder', ezequiel: 'Hesekiel', daniel: 'Daniel', oseas: 'Hosea', joel: 'Joel', amos: 'Amos', abdias: 'Obadja', jonas: 'Jona', miqueas: 'Micha', nahum: 'Nahum', habacuc: 'Habakuk', sofonias: 'Zefanja', hageo: 'Haggai', zacarias: 'Sacharja', malaquias: 'Maleachi', mateo: 'Matthäus', marcos: 'Markus', lucas: 'Lukas', juan: 'Johannes', hechos: 'Apostelgeschichte', romanos: 'Römer', '1-corintios': '1. Korinther', '2-corintios': '2. Korinther', galatas: 'Galater', efesios: 'Epheser', filipenses: 'Philipper', colosenses: 'Kolosser', '1-tesalonicenses': '1. Thessalonicher', '2-tesalonicenses': '2. Thessalonicher', '1-timoteo': '1. Timotheus', '2-timoteo': '2. Timotheus', tito: 'Titus', filemon: 'Philemon', hebreos: 'Hebräer', santiago: 'Jakobus', '1-pedro': '1. Petrus', '2-pedro': '2. Petrus', '1-juan': '1. Johannes', '2-juan': '2. Johannes', '3-juan': '3. Johannes', judas: 'Judas', apocalipsis: 'Offenbarung' }
+};
+
+const timelineMilestones = {
+  es: [
+    { id: 'patriarchs', period: 'Patriarcas', title: 'Abraham sale hacia Canaán', region: 'Mesopotamia · Canaán · Egipto', text: 'La historia de Abraham conecta Ur, Harán, Canaán y las rutas hacia Egipto. El desplazamiento abre el relato de las promesas patriarcales.', book: 'genesis', bookTitle: 'Génesis', chapter: 12 },
+    { id: 'exodus', period: 'Éxodo', title: 'Israel sale de Egipto', region: 'Egipto · Mar Rojo · Sinaí', text: 'La salida de Egipto y el camino por el desierto forman el gran eje geográfico del éxodo y preparan la entrada en Canaán.', book: 'exodo', bookTitle: 'Éxodo', chapter: 12 },
+    { id: 'conquest', period: 'Conquista', title: 'Entrada y asentamiento en Canaán', region: 'Jordán · Jericó · Canaán', text: 'El cruce del Jordán y la organización del territorio sitúan a Israel en Canaán, con Jerusalén como referencia posterior.', book: 'josue', bookTitle: 'Josué', chapter: 1 },
+    { id: 'monarchy', period: 'Monarquía', title: 'Jerusalén se convierte en capital', region: 'Jerusalén · Judá · Israel', text: 'David establece Jerusalén como centro político y espiritual del reino, un punto que marcará la memoria bíblica.', book: '2-samuel', bookTitle: '2 Samuel', chapter: 5 },
+    { id: 'exile', period: 'Exilio', title: 'Jerusalén cae ante Babilonia', region: 'Judá · Babilonia · Mesopotamia', text: 'La caída de Jerusalén desplaza a comunidades de Judá hacia Babilonia y abre una etapa de pérdida, memoria y esperanza de retorno.', book: '2-reyes', bookTitle: '2 Reyes', chapter: 25 },
+    { id: 'return', period: 'Retorno', title: 'Regreso y reconstrucción', region: 'Babilonia · Jerusalén · Judá', text: 'El retorno desde Babilonia reactiva la vida comunitaria y la reconstrucción de Jerusalén.', book: 'esdras', bookTitle: 'Esdras', chapter: 1 },
+    { id: 'gospels', period: 'Evangelios', title: 'Jesús nace en Judea y recorre Galilea', region: 'Belén · Galilea · Jerusalén', text: 'Los evangelios recorren Galilea, Judea y Jerusalén, conectando aldeas, caminos y la ciudad de los acontecimientos finales.', book: 'mateo', bookTitle: 'Mateo', chapter: 1 },
+    { id: 'early-church', period: 'Iglesia primitiva', title: 'El mensaje llega a las naciones', region: 'Jerusalén · Siria · Mediterráneo', text: 'Hechos muestra la expansión del movimiento desde Jerusalén hacia Siria, Asia Menor, Grecia y Roma.', book: 'hechos', bookTitle: 'Hechos', chapter: 2 }
+  ],
+  en: [
+    { id: 'patriarchs', period: 'Patriarchs', title: 'Abraham sets out for Canaan', region: 'Mesopotamia · Canaan · Egypt', text: "Abraham's story connects Ur, Haran, Canaan and the routes toward Egypt. The journey opens the account of the patriarchal promises.", book: 'genesis', bookTitle: 'Genesis', chapter: 12 },
+    { id: 'exodus', period: 'Exodus', title: 'Israel leaves Egypt', region: 'Egypt · Red Sea · Sinai', text: 'The departure from Egypt and the journey through the desert form the great geographic axis of the exodus and prepare the entrance into Canaan.', book: 'exodo', bookTitle: 'Exodus', chapter: 12 },
+    { id: 'conquest', period: 'Conquest', title: 'Entry and settlement in Canaan', region: 'Jordan · Jericho · Canaan', text: 'The crossing of the Jordan and the organization of the territory place Israel in Canaan, with Jerusalem as a later reference point.', book: 'josue', bookTitle: 'Joshua', chapter: 1 },
+    { id: 'monarchy', period: 'Monarchy', title: 'Jerusalem becomes the capital', region: 'Jerusalem · Judah · Israel', text: 'David establishes Jerusalem as the political and spiritual center of the kingdom, a point that will mark biblical memory.', book: '2-samuel', bookTitle: '2 Samuel', chapter: 5 },
+    { id: 'exile', period: 'Exile', title: 'Jerusalem falls to Babylon', region: 'Judah · Babylon · Mesopotamia', text: 'The fall of Jerusalem displaces communities from Judah to Babylon and opens a stage of loss, memory and hope of return.', book: '2-reyes', bookTitle: '2 Kings', chapter: 25 },
+    { id: 'return', period: 'Return', title: 'Return and rebuilding', region: 'Babylon · Jerusalem · Judah', text: 'The return from Babylon revives community life and the rebuilding of Jerusalem.', book: 'esdras', bookTitle: 'Ezra', chapter: 1 },
+    { id: 'gospels', period: 'Gospels', title: 'Jesus is born in Judea and travels through Galilee', region: 'Bethlehem · Galilee · Jerusalem', text: "The Gospels move through Galilee, Judea and Jerusalem, connecting villages, roads and the city of the final events.", book: 'mateo', bookTitle: 'Matthew', chapter: 1 },
+    { id: 'early-church', period: 'Early church', title: 'The message reaches the nations', region: 'Jerusalem · Syria · Mediterranean', text: "Acts shows the movement's expansion from Jerusalem toward Syria, Asia Minor, Greece and Rome.", book: 'hechos', bookTitle: 'Acts', chapter: 2 }
+  ],
+  de: [
+    { id: 'patriarchs', period: 'Patriarchen', title: 'Abraham bricht nach Kanaan auf', region: 'Mesopotamien · Kanaan · Ägypten', text: 'Abrahams Geschichte verbindet Ur, Haran, Kanaan und die Wege nach Ägypten. Der Aufbruch eröffnet die Erzählung der patriarchalischen Verheißungen.', book: 'genesis', bookTitle: '1. Mose', chapter: 12 },
+    { id: 'exodus', period: 'Auszug', title: 'Israel verlässt Ägypten', region: 'Ägypten · Rotes Meer · Sinai', text: 'Der Auszug aus Ägypten und der Weg durch die Wüste bilden die große geografische Achse des Exodus und bereiten den Einzug in Kanaan vor.', book: 'exodo', bookTitle: '2. Mose', chapter: 12 },
+    { id: 'conquest', period: 'Landnahme', title: 'Einzug und Ansiedlung in Kanaan', region: 'Jordan · Jericho · Kanaan', text: 'Die Durchquerung des Jordan und die Gliederung des Gebiets verorten Israel in Kanaan, mit Jerusalem als späterem Bezugspunkt.', book: 'josue', bookTitle: 'Josua', chapter: 1 },
+    { id: 'monarchy', period: 'Königszeit', title: 'Jerusalem wird Hauptstadt', region: 'Jerusalem · Juda · Israel', text: 'David macht Jerusalem zum politischen und geistlichen Zentrum des Reiches, ein Punkt, der die biblische Erinnerung prägen wird.', book: '2-samuel', bookTitle: '2. Samuel', chapter: 5 },
+    { id: 'exile', period: 'Exil', title: 'Jerusalem fällt an Babylon', region: 'Juda · Babylon · Mesopotamien', text: 'Der Fall Jerusalems verdrängt Gemeinschaften aus Juda nach Babylon und eröffnet eine Zeit des Verlusts, der Erinnerung und der Hoffnung auf Rückkehr.', book: '2-reyes', bookTitle: '2. Könige', chapter: 25 },
+    { id: 'return', period: 'Rückkehr', title: 'Rückkehr und Wiederaufbau', region: 'Babylon · Jerusalem · Juda', text: 'Die Rückkehr aus Babylon belebt das Gemeinschaftsleben und den Wiederaufbau Jerusalems neu.', book: 'esdras', bookTitle: 'Esra', chapter: 1 },
+    { id: 'gospels', period: 'Evangelien', title: 'Jesus wird in Judäa geboren und zieht durch Galiläa', region: 'Betlehem · Galiläa · Jerusalem', text: 'Die Evangelien führen durch Galiläa, Judäa und Jerusalem und verbinden Dörfer, Wege und die Stadt der abschließenden Ereignisse.', book: 'mateo', bookTitle: 'Matthäus', chapter: 1 },
+    { id: 'early-church', period: 'Frühe Kirche', title: 'Die Botschaft erreicht die Völker', region: 'Jerusalem · Syrien · Mittelmeerraum', text: 'Die Apostelgeschichte zeigt die Ausbreitung der Bewegung von Jerusalem nach Syrien, Kleinasien, Griechenland und Rom.', book: 'hechos', bookTitle: 'Apostelgeschichte', chapter: 2 }
+  ]
+};
+
+export function getLanguage() {
+  const language = localStorage.getItem(LANGUAGE_KEY);
+  return ['es', 'en', 'de'].includes(language) ? language : 'es';
+}
+
+export function t(key) {
+  return translations[getLanguage()][key] || translations.es[key] || key;
+}
+
+export function localizedBookTitle(book) {
+  return localizedBookNames[getLanguage()]?.[book.id] || book.title;
+}
+
+export function localizedBookTitleFor(book, language) {
+  return localizedBookNames[language]?.[book.id] || book.title;
+}
+
+export function getTimelineMilestones() {
+  return timelineMilestones[getLanguage()] || timelineMilestones.es;
+}
+
+export function applyLanguage() {
+  const language = getLanguage();
+  document.documentElement.lang = language;
+  document.querySelectorAll('[data-i18n]').forEach((element) => {
+    element.textContent = t(element.dataset.i18n);
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach((element) => {
+    element.placeholder = t(element.dataset.i18nPlaceholder);
+  });
+  document.querySelectorAll('[data-i18n-aria-label]').forEach((element) => {
+    element.setAttribute('aria-label', t(element.dataset.i18nAriaLabel));
+  });
+}
+
+export function setLanguage(language) {
+  localStorage.setItem(LANGUAGE_KEY, ['es', 'en', 'de'].includes(language) ? language : 'es');
+  window.location.reload();
+}

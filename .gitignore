@@ -1,0 +1,5 @@
+node_modules/
+vendor/*-source/extracted/
+npm-debug.log*
+.DS_Store
+Thumbs.db

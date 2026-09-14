@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "retrieved_on": "2026-09-14",
+  "sources": [
+    {
+      "id": "spaRV1909",
+      "title": "Santa Biblia — Reina Valera 1909",
+      "catalog": "content/books.json",
+      "catalog_sha256": "684D17B7980C254A4408969E5753042361531E8255DD6B6107EB12630F4857E0",
+      "source_url": "https://ebible.org/Bible/details.php?id=spaRV1909",
+      "download_url": "https://ebible.org/Scriptures/spaRV1909_usfm.zip",
+      "original_package": "vendor/spaRV1909-source/spaRV1909-usfm-original.zip",
+      "original_sha256": "B5BFAC87199A561FCBACB5E32BE5D8D280934B1C6830088D9EB8C68FFBFBE711",
+      "license": "Public Domain",
+      "transformation": "Deterministic USFM-to-JSON structural conversion; footnotes, cross-references, formatting markers and Strong attributes are not part of the reading catalog. Explicit empty verse markers are omitted without renumbering or inventing text."
+    },
+    {
+      "id": "spaonbv",
+      "title": "Biblica® Open Nueva Biblia Viva™",
+      "catalog": "content/books-es-onbv.json",
+      "catalog_sha256": "E4FEE69C712EA4C5FE097C49786BB7084B12EF0426EAC7B74634E7A821D2D55B",
+      "source_url": "https://open.bible/bibles/biblica-open-nueva-biblia-viva",
+      "original_package": "vendor/onbv-source/onbv-usfm-original.zip",
+      "original_sha256": "46B95A1A8D48807246947E6D2F75A62B0C1697924B071C1C1041C7926C73B802",
+      "license": "CC BY-SA 4.0",
+      "transformation": "Deterministic USFM-to-JSON structural conversion documented in tools/convert-onbv.js."
+    },
+    {
+      "id": "deu1951",
+      "title": "Die Schlachter-Bibel 1951",
+      "catalog": "content/books-de.json",
+      "catalog_sha256": "16936ABF81646384BDA288FAA82082ABDB71572DF2AA1EF96F3A8960EEE4DC87",
+      "source_url": "https://ebible.org/Bible/details.php?id=deu1951",
+      "download_url": "https://ebible.org/Scriptures/deu1951_usfm.zip",
+      "original_package": "vendor/deu1951-source/deu1951-usfm-original.zip",
+      "original_sha256": "B267C8BCB0C3036DD3C00D106573B884FAFCB471B163A57968EF1033FCDE47DA",
+      "license": "CC BY 4.0",
+      "copyright": "Copyright © 1951 Genfer Bibelgesellschaft; translation by Franz-Eugen Schlachter",
+      "transformation": "Deterministic USFM-to-JSON structural conversion; footnotes, cross-references and formatting markers are omitted from the reading catalog. Explicit empty verse markers are omitted without renumbering or inventing text."
+    },
+    {
+      "id": "engwebpb",
+      "title": "World English Bible British Edition",
+      "catalog": "content/books-en.json",
+      "catalog_sha256": "FCABC1D8A1B365050FD1D2B1D86CC4A0078C27BB5010199401C7A626902F6966",
+      "source_url": "https://ebible.org/bible/details.php?id=engwebpb",
+      "download_url": "https://ebible.org/Scriptures/engwebpb_usfm.zip",
+      "original_package": "vendor/engwebpb-source/engwebpb-usfm-original.zip",
+      "original_sha256": "D719A61B520191FB4861B4996C92DDD9931C06C63F2BFB4E119B952356F4CE15",
+      "license": "Public Domain",
+      "trademark_note": "World English Bible is a trademark; the biblical text is not rewritten by this project.",
+      "transformation": "Deterministic USFM-to-JSON structural conversion; footnotes, cross-references, formatting markers and Strong attributes are not part of the reading catalog. Explicit empty verse markers are omitted without renumbering or inventing text."
+    }
+  ]
+}

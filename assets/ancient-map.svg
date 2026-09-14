@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">Mapa antiguo del Mediterráneo oriental</title>
+  <desc id="desc">Mapa ilustrado de Egipto, Canaán, Jerusalén, Mesopotamia y las rutas del Mediterráneo oriental.</desc>
+  <rect width="1200" height="700" fill="#d9c49e"/>
+  <path d="M0 0h1200v185c-120 38-190-12-280 34-105 52-180-12-276 24-112 42-204-7-304 28-126 43-207-8-340 24V0Z" fill="#94b7b0" opacity=".82"/>
+  <path d="M0 215c150-38 268 24 394-10 122-34 218 30 326-10 133-50 260 39 480-3v508H0Z" fill="#b5c08d"/>
+  <path d="M0 430c142-60 248-18 368-52 108-30 234 21 330-20 145-62 318 30 502-13v355H0Z" fill="#cba76d"/>
+  <path d="M0 470c160-28 268 24 372-15 120-45 236 0 338-33 142-45 300 22 490-20" fill="none" stroke="#9e774b" stroke-width="3" opacity=".65"/>
+  <path d="M735 160c-30 74-59 142-74 207-18 83 16 185 56 333l61-5c-34-139-57-230-43-306 12-65 36-130 57-207Z" fill="#8db7bd" stroke="#477f87" stroke-width="4"/>
+  <path d="M755 185c104 23 171 49 238 103 49 39 101 54 207 62" fill="none" stroke="#477f87" stroke-width="4"/>
+  <path d="M434 412c90-32 172-50 243-44 45 4 86 18 130 39" fill="none" stroke="#746347" stroke-width="7" stroke-dasharray="16 12"/>
+  <path d="M430 412c-45 15-91 14-138 1-61-18-106-40-155-84" fill="none" stroke="#746347" stroke-width="7" stroke-dasharray="16 12"/>
+  <path d="M436 412c103-16 191-98 246-190 44-73 75-117 120-149" fill="none" stroke="#746347" stroke-width="7" stroke-dasharray="16 12"/>
+  <path d="M434 412c93 22 180 75 256 159 60 66 121 90 226 112" fill="none" stroke="#746347" stroke-width="7" stroke-dasharray="16 12"/>
+  <g fill="#a94b2b" stroke="#fff1d5" stroke-width="5">
+    <circle cx="170" cy="512" r="11"/><circle cx="431" cy="412" r="13"/><circle cx="637" cy="223" r="11"/><circle cx="850" cy="289" r="11"/><circle cx="953" cy="176" r="11"/>
+  </g>
+  <g fill="#4d3a2a" font-family="Georgia,serif" font-size="25">
+    <text x="95" y="555">Egipto</text><text x="386" y="384">Jerusalén</text><text x="585" y="190">Canaán</text><text x="812" y="270">Mesopotamia</text><text x="930" y="145">Nínive</text><text x="830" y="580">Arabia</text><text x="85" y="105" fill="#315e67">Mediterráneo oriental</text>
+  </g>
+  <g fill="#6f583d" font-family="Trebuchet MS,Verdana,sans-serif" font-size="16" opacity=".82">
+    <text x="100" y="610">Ruta del éxodo</text><text x="725" y="390">Rutas de exilio y retorno</text><text x="160" y="675">Mapa ilustrativo para orientación de estudio</text>
+  </g>
+  <path d="M1040 620h90M1040 610v20M1130 610v20" stroke="#6f583d" stroke-width="3"/><text x="1040" y="650" fill="#6f583d" font-family="Trebuchet MS,Verdana,sans-serif" font-size="14">escala simbólica</text>
+</svg>

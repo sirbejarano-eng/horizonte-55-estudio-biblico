@@ -1,0 +1,11 @@
+{
+  "name": "Horizonte 55",
+  "short_name": "H55",
+  "description": "Local Bible study library.",
+  "lang": "en",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f3eadb",
+  "theme_color": "#2e261f",
+  "icons": [{ "src": "./assets/icon-en.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }]
+}

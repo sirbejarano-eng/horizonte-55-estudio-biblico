@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#2e261f" />
+    <title>Biblioteca | Horizonte 55</title>
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="icon" href="./assets/icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./css/styles.css?v=33" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main" data-i18n="skipToContent">Saltar al contenido</a>
+    <header class="topbar site-header"><a class="brand-wrap brand-link" href="./index.html"><span class="brand-mark">H55</span><span><span class="eyebrow">Tu mesa de estudio</span><strong>Horizonte 55</strong></span></a><nav class="site-nav" aria-label="Navegación principal"><a data-nav="home" href="./index.html">Inicio</a><a data-nav="library" href="./biblioteca.html">Biblioteca</a><a data-nav="timeline" href="./cronologia.html">Línea de tiempo</a><a data-nav="reader" href="./lectura.html">Lectura</a><a data-nav="search" href="./buscar.html">Buscar</a></nav><button class="menu-button" type="button" aria-label="Abrir menú" aria-expanded="false">☰</button></header>
+    <main class="page-layout" id="main" tabindex="-1"><header class="page-heading"><p class="eyebrow" data-i18n="libraryIndex">Índice de lectura</p><h1 data-i18n="library">Biblioteca</h1><p data-i18n="findBook">Encuentra cada libro por testamento y abre el capítulo desde el que quieras comenzar.</p></header><section class="library-filters" aria-label="Buscar un libro"><div><label for="testamentFilter" data-i18n="testament">Testamento</label><select id="testamentFilter"><option value="all"></option><option value="old-testament"></option><option value="new-testament"></option></select></div><div class="book-filter-field"><label for="bookFilter" data-i18n="searchBook">Buscar libro</label><input id="bookFilter" type="search" autocomplete="off" data-i18n-placeholder="searchBookPlaceholder" placeholder="Escribe un libro, por ejemplo Mateo" aria-controls="bookSuggestionsMenu" aria-expanded="false" /><div id="bookSuggestionsMenu" class="book-suggestions" role="listbox" aria-label="Libros disponibles"></div></div></section><section class="progress-management"><p class="eyebrow" data-i18n="progressManagement">Progreso y notas</p><p data-i18n="progressManagementHint">Descarga una copia de tu progreso y notas, o restaura una copia guardada en este dispositivo.</p><div class="progress-management-actions"><button id="exportProgressButton" class="secondary-button" type="button" data-i18n="exportProgress">Exportar progreso</button><button id="importProgressButton" class="secondary-button" type="button" data-i18n="importProgress">Importar progreso</button><input id="importProgressInput" type="file" accept="application/json" hidden /></div><div id="importPreview" class="import-preview" hidden><p class="eyebrow" data-i18n="importPreviewTitle">Vista previa de la importación</p><ul id="importPreviewList" class="import-preview-list"></ul><p id="importOverwriteWarning" class="import-overwrite-warning" hidden data-i18n="importOverwriteWarning"></p><div class="import-preview-actions"><button id="importConfirmButton" class="hero-button" type="button" data-i18n="importConfirm">Confirmar importación</button><button id="importCancelButton" class="secondary-button" type="button" data-i18n="importCancel">Cancelar</button></div></div><p id="progressManagementStatus" class="action-status" role="status"></p></section><div id="libraryGrid" class="library-grid"></div></main>
+    <script type="module" src="./js/library.js?v=27"></script>
+  </body>
+</html>

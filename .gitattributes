@@ -1,0 +1,23 @@
+* text=auto
+
+.gitattributes text eol=lf
+.gitignore text eol=lf
+
+*.css text eol=lf
+*.html text eol=lf
+*.js text eol=lf
+*.cjs text eol=lf
+*.mjs text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.svg text eol=lf
+*.usfm text eol=lf
+*.ps1 text eol=crlf
+
+*.jpg binary
+*.png binary
+*.zip binary
+vendor/** binary
+vendor/SOURCES.json text eol=lf
+vendor/*-source/*.sha256 text eol=lf
+js/core.js whitespace=-blank-at-eof

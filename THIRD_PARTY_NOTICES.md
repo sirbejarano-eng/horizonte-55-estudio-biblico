@@ -1,6 +1,6 @@
 # Third-party Bible text notices
 
-The software, interface and original study material of Horizonte 55 remain governed by `LICENSE`. Bible translations retain their own legal status and are not relicensed as proprietary software.
+The original software code of Horizonte 55 is licensed under MIT; see `LICENSE`. Original non-code study material remains all rights reserved unless expressly licensed otherwise. Bible translations and their derived catalogs retain their own terms and are not relicensed under MIT.
 
 ## Biblica® Open Nueva Biblia Viva™ (`spaonbv`)
 

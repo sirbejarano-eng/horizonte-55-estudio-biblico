@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Plataforma estática para estudio bíblico neutral y educativo.",
   "author": "Jose A Bejarano V",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "dev": "serve . -l 4173 -c serve.json",
     "start": "serve . -l 4173 -c serve.json",

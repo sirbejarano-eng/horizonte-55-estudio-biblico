@@ -76,6 +76,31 @@ try {
   assertFileExists('serve.json');
   assertFileExists('README.md');
 
+
+  // La entrada debe cargar la aplicación real, no una página de ejemplo.
+  const pages = [
+    ['index.html', 'homeApp', 'home'],
+    ['biblioteca.html', 'libraryGrid', 'library'],
+    ['lectura.html', 'readerApp', 'reader'],
+    ['buscar.html', 'pageSearchResults', 'search'],
+    ['cronologia.html', 'main', 'timeline']
+  ];
+  for (const [page, mount, module] of pages) {
+    const html = fs.readFileSync(path.join(root, page), 'utf8');
+    assertContentPresent(page, 'id="' + mount + '"');
+    assertContentPresent(page, './js/' + module + '.js');
+    assertContentPresent(page, 'type="module"');
+    assertContentPresent(page, 'Content-Security-Policy');
+    assertContentPresent(page, 'rel="manifest"');
+    assertContentPresent(page, './css/styles.css');
+    if (/<meta[^>]+http-equiv=["']refresh["']/i.test(html)) {
+      throw new Error(page + ': no debe redirigir fuera de la aplicación.');
+    }
+    for (const match of html.matchAll(/(?:src|href)=["'](\.[^"']+)["']/g)) {
+      assertFileExists(match[1].split(/[?#]/)[0]);
+    }
+  }
+
   assertContentPresent('index.html', 'Horizonte 55');
   assertContentPresent('css/styles.css', '@media (min-width: 760px)');
   assertContentPresent('js/core.js', 'loadBooks');
@@ -92,6 +117,15 @@ try {
     throw new Error('serve.json debe conservar las extensiones .html para no perder los parámetros de lectura en redirecciones.');
   }
   const packageJson = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
+  if (serveConfig.directoryListing !== false || !serveConfig.rewrites?.some(rule => rule.source === '/' && rule.destination === '/index.html')) {
+    throw new Error('serve.json debe abrir la portada en / sin mostrar un listado de archivos.');
+  }
+  const lock = JSON.parse(fs.readFileSync(path.join(root, 'package-lock.json'), 'utf8'));
+  if (packageJson.license !== 'MIT' || lock.packages[''].license !== 'MIT') {
+    throw new Error('Los metadatos deben reflejar MIT para el código propio.');
+  }
+  assertContentPresent('LICENSE', 'MIT License');
+  assertContentPresent('LICENSE', 'THIRD_PARTY_NOTICES.md');
   if (!packageJson.scripts?.dev?.includes('-c serve.json') || !packageJson.scripts?.start?.includes('-c serve.json')) {
     throw new Error('Los comandos de desarrollo deben cargar serve.json.');
   }

@@ -4,7 +4,7 @@ Plataforma web estática para explorar contenido de estudio bíblico desde una i
 
 ## Licencia y propiedad
 
-El código de este proyecto (excluyendo los textos bíblicos de dominio público listados en la sección "Procedencia y edición de los catálogos") es propiedad intelectual exclusiva de Jose A Bejarano V. Todos los derechos reservados — ver [LICENSE](LICENSE). Cada página muestra este aviso en el pie, junto con una nota de privacidad breve: la app no recopila datos personales, todo el progreso y las notas se guardan únicamente en el dispositivo del usuario (`localStorage`).
+El código propio de Horizonte 55 se distribuye bajo la licencia **MIT** — ver [LICENSE](LICENSE). El material de estudio propio que no sea código conserva los derechos reservados salvo indicación expresa. Los textos bíblicos y sus catálogos derivados quedan excluidos de MIT: mantienen las condiciones descritas en [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). El pie de cada página refleja esta separación. El progreso y las notas se guardan localmente en el dispositivo del usuario (`localStorage`).
 
 ## Requisitos
 
@@ -18,7 +18,7 @@ npm install
 npm run dev
 ```
 
-La aplicación se sirve en `http://localhost:4173`. Los comandos cargan `serve.json` con `cleanUrls: false`; esta configuración evita que una redirección del servidor elimine los parámetros `book` y `chapter` al abrir una lectura o un resultado de búsqueda.
+La aplicación se sirve en `http://localhost:4173`. Los comandos cargan `serve.json` con `cleanUrls: false`; esta configuración evita que una redirección del servidor elimine los parámetros `book` y `chapter` al abrir una lectura o un resultado de búsqueda. La ruta `/` sirve `index.html` y el listado de directorios está desactivado.
 
 La aplicación también puede instalarse como PWA en móviles, tablets y ordenadores compatibles. La interfaz, el catálogo y la lógica se guardan en caché para poder continuar la lectura sin conexión después de la primera carga.
 
@@ -87,7 +87,7 @@ La interfaz y el contenido están preparados en tres idiomas mediante `js/i18n.j
 | Inglés | `content/books-en.json` | World English Bible British Edition (`engwebpb`), edición de 66 libros | Dominio público; “World English Bible” es una marca y el texto no se reformula. |
 | Alemán | `content/books-de.json` | Die Schlachter-Bibel 1951 (`deu1951`) | Copyright © 1951 Genfer Bibelgesellschaft; CC BY 4.0. |
 
-Las fuentes, URLs de descarga, fecha de adquisición, archivos originales, SHA-256 y transformaciones están registradas en `vendor/SOURCES.json`. Los avisos que deben acompañar una distribución están reunidos en [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). `LICENSE` cubre el código y el contenido propio; no vuelve propietarios los textos bíblicos. Git conserva los paquetes ZIP originales y excluye las carpetas `vendor/*-source/extracted/`, que son copias de trabajo regenerables y no evidencia adicional.
+Las fuentes, URLs de descarga, fecha de adquisición, archivos originales, SHA-256 y transformaciones están registradas en `vendor/SOURCES.json`. Los avisos que deben acompañar una distribución están reunidos en [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). `LICENSE` delimita MIT al código propio y reserva los derechos del material de estudio propio que no sea código; no modifica las licencias de los textos bíblicos. Git conserva los paquetes ZIP originales y excluye las carpetas `vendor/*-source/extracted/`, que son copias de trabajo regenerables y no evidencia adicional.
 
 Los catálogos se regeneran de forma determinista desde los paquetes originales preservados. `npm run convert:ebible` regenera RV1909, Schlachter 1951 y WEB británica; `npm run convert:onbv` regenera ONBV; `npm run convert:all-bibles` ejecuta ambos procesos. La conversión transforma la estructura USFM a JSON y omite metadatos de formato, atributos Strong, notas al pie y referencias cruzadas. No traduce, resume ni reformula el texto. Los marcadores explícitamente vacíos se omiten sin renumerar ni inventar versículos.
 
@@ -107,7 +107,7 @@ La interfaz española ofrece dos ediciones deliberadamente distintas: **Reina-Va
 
 ONBV procede exclusivamente de la ficha oficial de Open.Bible: [Spanish: Biblica® Open Nueva Biblia Viva](https://open.bible/bibles/biblica-open-nueva-biblia-viva). La descarga usada en esta integración fue el paquete **USFM (Paratext)** descargado manualmente el 13 de septiembre de 2026 y conservado sin modificar en `vendor/onbv-source/onbv-usfm-original.zip`. Su SHA-256 es `46B95A1A8D48807246947E6D2F75A62B0C1697924B071C1C1041C7926C73B802`. El catálogo convertido está en `content/books-es-onbv.json`.
 
-El texto ONBV y el catálogo derivado de él se distribuyen bajo **Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)**, según la ficha oficial. La licencia del corpus ONBV es independiente de la licencia del código de Horizonte 55: el código, la interfaz, el conversor y el contenido de estudio propio siguen siendo propiedad de Jose A Bejarano V según [LICENSE](LICENSE). Las notas del usuario, las preguntas de estudio, el resto del código y cualquier contenido editorial de Horizonte 55 no forman parte del corpus ONBV. Biblica no respalda ni patrocina Horizonte 55.
+El texto ONBV y el catálogo derivado de él se distribuyen bajo **Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)**, según la ficha oficial. La licencia del corpus ONBV es independiente de la licencia del código de Horizonte 55: el código propio, incluido el de la interfaz y el conversor, se distribuye bajo MIT; el material de estudio propio que no sea código conserva los derechos reservados según [LICENSE](LICENSE). Las notas del usuario, las preguntas de estudio, el resto del código y cualquier contenido editorial de Horizonte 55 no forman parte del corpus ONBV. Biblica no respalda ni patrocina Horizonte 55.
 
 La conversión solo transforma la estructura USFM al formato JSON interno: elimina marcas técnicas, conserva el texto y usa los IDs canónicos ya existentes. No se inventan correspondencias entre versículos. ONBV conserva 66 libros y 1189 capítulos, pero tiene diferencias de versificación en numerosos capítulos frente a RV1909; las referencias deben interpretarse dentro de la edición activa. Las descripciones de salmos, etiquetas de interlocutor y tablas se aplanan según las reglas documentadas en `tools/convert-onbv.js`.
 
@@ -204,7 +204,7 @@ Cerró huecos concretos que quedaban en el manejo de notas, importación y modo 
 - **Imagen de portada autoalojada**: la imagen de fondo de `index.html` se descargó a `assets/hero-background.jpg` en vez de cargarse desde un dominio externo (Unsplash); esto la hace compatible con la CSP y con el modo offline, y evita una petición de red a terceros en cada carga.
 - **`js/app.js` eliminado** (código muerto que ninguna página cargaba).
 - **`npm audit`**: 0 vulnerabilidades (se generó `package-lock.json`).
-- **`LICENSE`** con todos los derechos reservados a favor de Jose A Bejarano V, y `package.json` con los campos `author`/`license` a juego.
+- **Estado histórico de `LICENSE` en este lote:** derechos reservados. El 17 de septiembre de 2026 se confirmó MIT para el código propio y se actualizaron los metadatos y avisos; los textos bíblicos conservan sus licencias independientes.
 - **Pie de página común** (`js/shell.js`, sección `.site-footer`) con el aviso de copyright y la nota de privacidad, visible en las 5 páginas.
 
 **Probado**: verificado en navegador real que no hay violaciones de CSP en ninguna página y que el pie de copyright/privacidad se muestra correctamente. **Limitación de las pruebas de navegador**: en este entorno solo hay disponible un navegador basado en Chromium; no se probó en Safari/iOS ni en Firefox reales. Antes de publicar, se recomienda una prueba manual en esos navegadores, especialmente el comportamiento de instalación como PWA en Safari/iOS, que suele diferir de Chrome.

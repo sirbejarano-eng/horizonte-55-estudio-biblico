@@ -1,6 +1,6 @@
 import { loadBooks, findBook, getReadingPosition, saveReadingPosition, getCompletedChapters, toggleCompleted, getNotes, saveNote, getReadingScale, saveReadingScale, copyReference, navigateTo, escapeHtml, getSpanishVersion, normalizeRv1909Opening } from './core.js?v=31';
-import { renderError, renderShell } from './shell.js?v=14';
-import { t, localizedBookTitle } from './i18n.js?v=34';
+import { renderError, renderShell } from './shell.js?v=15';
+import { t, localizedBookTitle } from './i18n.js?v=35';
 
 const app = document.getElementById('readerApp');
 const params = new URLSearchParams(window.location.search);

@@ -81,6 +81,11 @@ try {
   assertContentPresent('js/core.js', 'loadBooks');
   assertContentPresent('js/reader.js', 'renderReader');
   assertContentPresent('js/shell.js', 'serviceWorker.register');
+  assertContentPresent('js/shell.js', "if (!window.isSecureContext)");
+  assertContentPresent('js/shell.js', "t('offlineRequiresHttps')");
+  assertContentPresent('js/shell.js', "t('offlineUnsupported')");
+  assertContentPresent('js/shell.js', "t('offlineUnavailable')");
+  assertContentPresent('js/i18n.js', "offlineRequiresHttps: 'El modo sin conexión requiere una conexión HTTPS segura en este dispositivo.'");
   assertContentPresent('cronologia.html', 'Línea de tiempo bíblica');
   const serveConfig = JSON.parse(fs.readFileSync(path.join(root, 'serve.json'), 'utf8'));
   if (serveConfig.cleanUrls !== false) {

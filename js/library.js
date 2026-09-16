@@ -1,6 +1,6 @@
 import { loadBooks, getCompletedChapters, navigateTo, normalizeText, totalChapters, totalCompleted, exportProgress, validateProgressImport, applyProgressImport, restoreProgressBackup, summarizeCurrentProgress, getPersistedImportBackup, escapeHtml } from './core.js?v=31';
-import { renderError, renderShell } from './shell.js?v=14';
-import { t, localizedBookTitle } from './i18n.js?v=34';
+import { renderError, renderShell } from './shell.js?v=15';
+import { t, localizedBookTitle } from './i18n.js?v=35';
 
 const grid = document.getElementById('libraryGrid');
 const testamentFilter = document.getElementById('testamentFilter');

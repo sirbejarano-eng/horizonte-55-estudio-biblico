@@ -1,6 +1,6 @@
-import { renderShell } from './shell.js?v=14';
+import { renderShell } from './shell.js?v=15';
 import { navigateTo } from './core.js?v=31';
-import { getLanguage, getTimelineMilestones, t } from './i18n.js?v=34';
+import { getLanguage, getTimelineMilestones, t } from './i18n.js?v=35';
 
 const track = document.getElementById('timelineTrack');
 const contextMap = document.getElementById('contextMap');

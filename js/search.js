@@ -1,6 +1,6 @@
 import { loadBooks, normalizeText, navigateTo, escapeHtml } from './core.js?v=31';
-import { renderError, renderShell } from './shell.js?v=14';
-import { t, localizedBookTitle, getLanguage } from './i18n.js?v=34';
+import { renderError, renderShell } from './shell.js?v=15';
+import { t, localizedBookTitle, getLanguage } from './i18n.js?v=35';
 
 const RESULTS_PAGE_SIZE = 20;
 const input = document.getElementById('pageSearchInput');

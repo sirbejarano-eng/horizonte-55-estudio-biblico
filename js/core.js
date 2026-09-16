@@ -1,4 +1,4 @@
-import { getLanguage } from './i18n.js?v=34';
+import { getLanguage } from './i18n.js?v=35';
 
 export const READING_POSITION_KEY = 'horizonte55-reading-position';
 export const COMPLETED_CHAPTERS_KEY = 'horizonte55-completed-chapters';

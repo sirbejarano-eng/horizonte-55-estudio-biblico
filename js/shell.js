@@ -1,4 +1,4 @@
-import { applyLanguage, getLanguage, setLanguage, t } from './i18n.js?v=34';
+import { applyLanguage, getLanguage, setLanguage, t } from './i18n.js?v=35';
 import { isLanguageOfflineReady, ensureLanguageOfflineReady, getSpanishVersion, setSpanishVersion } from './core.js?v=31';
 
 export function renderShell(activePage) {
@@ -127,11 +127,20 @@ function renderBibleAttribution(attribution) {
 // primera visita no hay ningún control todavía, así que revisar la caché antes de este punto siempre
 // daría "no disponible" aunque el fetch de aseguramiento nunca llegó a pasar por el Service Worker.
 async function initOfflineStatus(offlineStatus, language) {
-  if ('serviceWorker' in navigator) {
-    try {
-      await navigator.serviceWorker.register('./sw.js');
-      await navigator.serviceWorker.ready;
-    } catch (error) { /* seguimos sin Service Worker: quedará marcado como no disponible offline */ }
+  if (!window.isSecureContext) {
+    offlineStatus.textContent = t('offlineRequiresHttps');
+    return;
+  }
+  if (!('serviceWorker' in navigator)) {
+    offlineStatus.textContent = t('offlineUnsupported');
+    return;
+  }
+  try {
+    await navigator.serviceWorker.register('./sw.js');
+    await navigator.serviceWorker.ready;
+  } catch (error) {
+    offlineStatus.textContent = t('offlineUnavailable');
+    return;
   }
   const ready = await isLanguageOfflineReady(language);
   offlineStatus.textContent = ready ? t('offlineReady') : t('offlineNotReady');

@@ -58,6 +58,19 @@ node tests/validate-bible-sources.cjs
 node tests/validate-behavior.mjs
 ```
 
+## Publicación
+
+Cada actualización de la rama `main` ejecuta la suite completa, prepara una carpeta `dist/` con únicamente los archivos públicos de la aplicación y la publica mediante GitHub Pages. Los catálogos fuente, pruebas, herramientas y documentación interna no forman parte del sitio desplegado.
+
+La construcción y su comprobación se pueden reproducir localmente:
+
+```bash
+npm run build:pages
+npm run test:pages
+```
+
+El dominio propio se configurará después desde GitHub Pages y el proveedor DNS. No debe codificarse en los archivos de la aplicación hasta que su propiedad y configuración estén confirmadas.
+
 El contenido se encuentra en `content/books.json` (y `books-en.json`/`books-de.json`), la interfaz en `index.html` y `css/styles.css`, y la lógica en `js/core.js`, `js/shell.js` y los módulos por página.
 
 El catálogo contiene los 66 libros y 1.189 capítulos de la Biblia completa. El contenido procede de una edición pública de Reina-Valera 1909 y se mantiene separado del motor de la aplicación.

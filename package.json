@@ -12,6 +12,8 @@
     "open": "powershell -ExecutionPolicy Bypass -File ./abrir-horizonte.ps1",
     "dev:network": "powershell -ExecutionPolicy Bypass -File ./launch-network.ps1",
     "test": "node tests/validate.cjs && node tests/validate-bible-sources.cjs && node tests/validate-behavior.mjs",
+    "build:pages": "node tools/build-pages.cjs",
+    "test:pages": "node tests/validate-pages-build.cjs",
     "convert:onbv": "node tools/convert-onbv.js",
     "convert:ebible": "node tools/convert-ebible-usfm.js all",
     "convert:all-bibles": "node tools/convert-ebible-usfm.js all && node tools/convert-onbv.js"

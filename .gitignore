@@ -1,4 +1,5 @@
 node_modules/
+dist/
 vendor/*-source/extracted/
 npm-debug.log*
 .DS_Store

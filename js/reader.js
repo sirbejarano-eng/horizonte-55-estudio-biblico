@@ -20,6 +20,10 @@ function setReaderStatus(message, { isError = false } = {}) {
   readerStatusMessage = isError ? message : null;
 }
 
+function formatVerseCopyText(book, chapter, verse) {
+  return `${localizedBookTitle(book)} ${chapter.number}:${verse.number}\n${verse.text}`;
+}
+
 function renderReader() {
   const position = getReadingPosition(books);
   const book = findBook(books, params.get('book') || position?.bookId);
@@ -44,7 +48,7 @@ function renderReader() {
   app.innerHTML = `
     <article class="chapter-card">
       <header class="chapter-header">
-        <div>
+        <div class="chapter-header-main">
           <p class="eyebrow chapter-book-title">${escapeHtml(localizedBookTitle(book))}</p>
           <h1 class="chapter-title">${t('chapter')} ${chapter.number}</h1>
           <div class="book-progress">
@@ -54,7 +58,8 @@ function renderReader() {
             <span class="book-progress-label">${t('chapter')} ${chapterIndex + 1} ${t('of')} ${book.chapters.length}</span>
           </div>
         </div>
-        <div class="chapter-actions">
+        <button class="chapter-menu-toggle secondary-button" type="button" aria-expanded="false" aria-controls="chapterActionMenu" aria-label="${t('openMenu')}">${t('reading')}</button>
+        <div class="chapter-actions" id="chapterActionMenu">
           <button class="secondary-button" data-action="complete" aria-pressed="${completedChapter}">${completedChapter ? t('completed') : t('complete')}</button>
           <div class="reading-tools">
             <button class="text-size-button" data-action="smaller" aria-label="${t('reduceText')}">A-</button>
@@ -89,6 +94,16 @@ function renderReader() {
     app.querySelector('#copyNoteButton').hidden = false;
   }
 
+  const menuToggle = app.querySelector('.chapter-menu-toggle');
+  const actionPanel = app.querySelector('.chapter-actions');
+  if (menuToggle && actionPanel) {
+    menuToggle.addEventListener('click', () => {
+      const isOpen = actionPanel.classList.toggle('is-open');
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+      menuToggle.setAttribute('aria-label', isOpen ? t('closeMenu') : t('openMenu'));
+    });
+  }
+
   const goTo = (number) => navigateTo(book.id, number);
   app.querySelector('[data-action="complete"]').addEventListener('click', () => {
     const success = toggleCompleted(completed, book.id, chapter.number);
@@ -121,7 +136,7 @@ function renderReader() {
       const verseNumber = Number(button.dataset.verseNumber);
       const verse = chapter.verses.find((item) => item.number === verseNumber);
       const reference = `${localizedBookTitle(book)} ${chapter.number}:${verse.number}`;
-      const shareText = `${reference}\n${verse.text}`;
+      const shareText = formatVerseCopyText(book, chapter, verse);
       const shareUrl = new URL(`./lectura.html?book=${encodeURIComponent(book.id)}&chapter=${chapter.number}#verse-${verse.number}`, window.location.href).href;
       try {
         if (navigator.share) {

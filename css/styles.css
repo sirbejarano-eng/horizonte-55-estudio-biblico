@@ -56,7 +56,7 @@ body {
   background: rgba(46, 38, 31, 0.96);
   border-bottom: 1px solid var(--border);
   color: #fffaf0;
-  z-index: 10;
+  z-index: 30;
 }
 
 .brand-wrap { display: flex; align-items: center; gap: 0.8rem; }
@@ -337,7 +337,7 @@ h2, h3 { font-family: var(--serif); }
   align-items: center;
 }
 .chapter-select-label { align-self: center; color: var(--muted); font-size: 0.85rem; }
-.chapter-select, .secondary-button {
+.book-select, .chapter-select, .secondary-button {
   padding: 0.55rem 0.8rem;
   border-radius: 12px;
 }
@@ -360,7 +360,7 @@ h2, h3 { font-family: var(--serif); }
   border-color: rgba(42, 95, 76, 0.22);
   color: var(--primary-strong);
 }
-.chapter-select {
+.book-select, .chapter-select {
   border: 1px solid var(--border);
   border-radius: 12px;
   background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(245,239,232,0.8));
@@ -516,6 +516,7 @@ h2, h3 { font-family: var(--serif); }
     background: rgba(255, 250, 240, 0.99);
     box-shadow: 0 16px 30px rgba(35, 27, 20, 0.16);
     animation: menu-pop 0.18s ease-out;
+    z-index: 40;
   }
   @keyframes menu-pop {
     from {
@@ -630,6 +631,7 @@ h2, h3 { font-family: var(--serif); }
   .chapter-actions > button, .chapter-actions > select, .chapter-actions > .reading-tools { width: 100%; min-height: 2.3rem; }
   .chapter-actions .secondary-button[data-action="complete"], .chapter-actions .secondary-button[data-action="copy"] { grid-column: 1 / -1; }
   .chapter-actions .reading-tools { justify-self: stretch; }
+  .chapter-actions .book-select { grid-column: 1 / -1; min-width: 0; }
   .chapter-actions .chapter-select { min-width: 0; }
   .chapter-actions .secondary-button { padding: .5rem .42rem; font-size: .72rem; }
   .chapter-actions .text-size-button { min-width: 1.5rem; padding: .22rem .28rem; }

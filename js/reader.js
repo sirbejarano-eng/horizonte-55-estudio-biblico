@@ -38,6 +38,9 @@ function renderReader() {
   const chapterOptions = book.chapters.map((item) => (
     `<option value="${item.number}" ${item.number === chapter.number ? 'selected' : ''}>${t('chapter')} ${item.number}</option>`
   )).join('');
+  const bookOptions = books.map((item) => (
+    `<option value="${escapeHtml(item.id)}" ${item.id === book.id ? 'selected' : ''}>${escapeHtml(localizedBookTitle(item))}</option>`
+  )).join('');
     const verses = chapter.verses.map((verse) => {
       const displayText = getSpanishVersion() === 'rv1909' ? normalizeRv1909Opening(verse.text, verse.number) : verse.text;
       return (
@@ -67,6 +70,7 @@ function renderReader() {
             <button class="text-size-button" data-action="larger" aria-label="${t('increaseText')}">A+</button>
           </div>
           <button class="secondary-button" data-action="copy">${t('copyChapter')} ${escapeHtml(localizedBookTitle(book))} ${chapter.number}</button>
+          <select class="book-select" aria-label="${t('chooseBook')}">${bookOptions}</select>
           <select class="chapter-select" aria-label="${t('chooseChapter')}">${chapterOptions}</select>
           <button class="secondary-button" data-action="previous" ${chapterIndex === 0 ? 'disabled' : ''}>${t('previous')}</button>
           <button class="secondary-button" data-action="next" ${chapterIndex === book.chapters.length - 1 ? 'disabled' : ''}>${t('next')}</button>
@@ -154,7 +158,8 @@ function renderReader() {
       }
     });
   });
-  app.querySelector('select').addEventListener('change', (event) => goTo(Number(event.target.value)));
+  app.querySelector('.book-select').addEventListener('change', (event) => navigateTo(event.target.value, 1));
+  app.querySelector('.chapter-select').addEventListener('change', (event) => goTo(Number(event.target.value)));
   app.querySelector('[data-action="previous"]').addEventListener('click', () => goTo(book.chapters[chapterIndex - 1].number));
   app.querySelector('[data-action="next"]').addEventListener('click', () => goTo(book.chapters[chapterIndex + 1].number));
   const notesField = app.querySelector('#chapterNotes');

@@ -307,7 +307,7 @@ h2, h3 { font-family: var(--serif); }
 }
 .chapter-header {
   position: sticky;
-  top: 0.75rem;
+  top: 4.75rem;
   z-index: 15;
   display: flex;
   align-items: center;
@@ -583,7 +583,7 @@ h2, h3 { font-family: var(--serif); }
   }
   .chapter-header {
     position: sticky;
-    top: 0.35rem;
+    top: 3.75rem;
     display: flex;
     align-items: center;
     justify-content: space-between;

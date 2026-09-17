@@ -1,4 +1,4 @@
-const CACHE_NAME = 'horizonte55-v68';
+const CACHE_NAME = 'horizonte55-v69';
 const CACHE_PREFIX = 'horizonte55-';
 // Solo el shell esencial se precachea; los catálogos, mapas e íconos por idioma
 // se cachean bajo demanda en el evento fetch, para no descargar los 3 idiomas de una vez.

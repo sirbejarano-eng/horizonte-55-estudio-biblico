@@ -13,6 +13,7 @@ const publicFiles = [
   'biblioteca.html',
   'buscar.html',
   'cronologia.html',
+  'contexto-eden.html',
   'lectura.html',
   'manifest.json',
   'manifest-es.json',

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'horizonte55-v69';
+const CACHE_NAME = 'horizonte55-v77';
 const CACHE_PREFIX = 'horizonte55-';
 // Solo el shell esencial se precachea; los catálogos, mapas e íconos por idioma
 // se cachean bajo demanda en el evento fetch, para no descargar los 3 idiomas de una vez.
@@ -7,6 +7,7 @@ const APP_SHELL = [
   './index.html',
   './biblioteca.html',
   './cronologia.html',
+  './contexto-eden.html',
   './lectura.html',
   './buscar.html',
   './css/styles.css',
@@ -18,9 +19,14 @@ const APP_SHELL = [
   './js/reader.js',
   './js/search.js',
   './js/timeline.js',
+  './js/eden-study.js',
+  './js/eden-content.js',
   './manifest.json',
   './assets/icon.svg',
-  './assets/hero-background.jpg'
+  './assets/hero-background.jpg',
+  './assets/contexto-eden-cabeceras-norte-v1.webp',
+  './assets/contexto-eden-golfo-v1.webp',
+  './assets/contexto-eden-simbolica-v2.webp'
 ];
 
 self.addEventListener('install', (event) => {

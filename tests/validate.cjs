@@ -64,7 +64,11 @@ try {
   assertFileExists('lectura.html');
   assertFileExists('buscar.html');
   assertFileExists('cronologia.html');
+  assertFileExists('contexto-eden.html');
   assertFileExists('assets/ancient-map.svg');
+  assertFileExists('assets/contexto-eden-cabeceras-norte-v1.webp');
+  assertFileExists('assets/contexto-eden-golfo-v1.webp');
+  assertFileExists('assets/contexto-eden-simbolica-v2.webp');
   assertFileExists('js/timeline.js');
   assertFileExists('content/books.json');
   assertFileExists('content/books-en.json');
@@ -83,7 +87,8 @@ try {
     ['biblioteca.html', 'libraryGrid', 'library'],
     ['lectura.html', 'readerApp', 'reader'],
     ['buscar.html', 'pageSearchResults', 'search'],
-    ['cronologia.html', 'main', 'timeline']
+    ['cronologia.html', 'main', 'timeline'],
+    ['contexto-eden.html', 'main', 'eden-study']
   ];
   for (const [page, mount, module] of pages) {
     const html = fs.readFileSync(path.join(root, page), 'utf8');
@@ -112,6 +117,29 @@ try {
   assertContentPresent('js/shell.js', "t('offlineUnavailable')");
   assertContentPresent('js/i18n.js', "offlineRequiresHttps: 'El modo sin conexión requiere una conexión HTTPS segura en este dispositivo.'");
   assertContentPresent('cronologia.html', 'Línea de tiempo bíblica');
+  assertContentPresent('contexto-eden.html', 'Los cuatro ríos del Edén: del texto sagrado al mapa');
+  assertContentPresent('contexto-eden.html', './assets/contexto-eden-simbolica-v2.webp');
+  assertContentPresent('contexto-eden.html', 'un río se divide claramente en cuatro ramas');
+  assertContentPresent('contexto-eden.html', 'Observa antes de mirar los mapas');
+  assertContentPresent('contexto-eden.html', 'id="comparison-title"');
+  assertContentPresent('contexto-eden.html', 'id="reflection-title"');
+  assertContentPresent('contexto-eden.html', '¿Qué aporta esto a mi lectura?');
+  assertContentPresent('contexto-eden.html', 'Ver una respuesta orientativa');
+  assertContentPresent('contexto-eden.html', 'id="contextImageDialog"');
+  assertContentPresent('js/eden-study.js', "imageDialog.showModal()");
+  assertContentPresent('contexto-eden.html', 'id="glossary-title"');
+  assertContentPresent('contexto-eden.html', 'id="editorial-title"');
+  assertContentPresent('js/reader.js', './contexto-eden.html');
+  assertContentPresent('js/reader.js', "t('edenStudyOpen')");
+  assertContentPresent('js/eden-content.js', 'The four rivers of Eden: from sacred text to map');
+  assertContentPresent('js/eden-content.js', 'Die vier Flüsse Edens: von der Heiligen Schrift zur Karte');
+  const edenHtml = fs.readFileSync(path.join(root, 'contexto-eden.html'), 'utf8');
+  if (edenHtml.indexOf('Geografía teológica o simbólica') > edenHtml.indexOf('Cabeceras del norte de Mesopotamia')) {
+    throw new Error('La lectura teológica debe aparecer antes de las reconstrucciones geográficas.');
+  }
+  if (edenHtml.indexOf('<th scope="row">Lectura teológica</th>') > edenHtml.indexOf('<th scope="row">Cabeceras del norte</th>')) {
+    throw new Error('La lectura teológica debe ocupar la primera fila comparativa.');
+  }
   const serveConfig = JSON.parse(fs.readFileSync(path.join(root, 'serve.json'), 'utf8'));
   if (serveConfig.cleanUrls !== false) {
     throw new Error('serve.json debe conservar las extensiones .html para no perder los parámetros de lectura en redirecciones.');

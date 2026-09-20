@@ -1,6 +1,6 @@
 import { loadBooks, findBook, getReadingPosition, saveReadingPosition, getCompletedChapters, toggleCompleted, getNotes, saveNote, getReadingScale, saveReadingScale, copyReference, navigateTo, escapeHtml, getSpanishVersion, normalizeRv1909Opening } from './core.js?v=31';
 import { renderError, renderShell } from './shell.js?v=15';
-import { t, localizedBookTitle } from './i18n.js?v=35';
+import { getLanguage, t, localizedBookTitle } from './i18n.js?v=35';
 
 const app = document.getElementById('readerApp');
 const params = new URLSearchParams(window.location.search);
@@ -41,6 +41,9 @@ function renderReader() {
   const bookOptions = books.map((item) => (
     `<option value="${escapeHtml(item.id)}" ${item.id === book.id ? 'selected' : ''}>${escapeHtml(localizedBookTitle(item))}</option>`
   )).join('');
+  const relatedStudy = book.id === 'genesis' && chapter.number === 2
+    ? `<aside class="context-study-prompt" aria-labelledby="eden-study-title"><p class="eyebrow">${t('edenStudyEyebrow')}</p><h2 id="eden-study-title">${t('edenStudyTitle')}</h2><p>${t('edenStudyPrompt')}</p><a class="secondary-button" href="./contexto-eden.html">${t('edenStudyOpen')}</a></aside>`
+    : '';
     const verses = chapter.verses.map((verse) => {
       const displayText = getSpanishVersion() === 'rv1909' ? normalizeRv1909Opening(verse.text, verse.number) : verse.text;
       return (
@@ -77,6 +80,7 @@ function renderReader() {
         </div>
       </header>
       <p class="action-status" id="readerStatus" role="status"></p>
+      ${relatedStudy}
       <div class="verses">${verses}</div>
       <section class="notes-panel">
         <p class="eyebrow">${t('notes')}</p>

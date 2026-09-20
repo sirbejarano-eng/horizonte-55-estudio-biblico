@@ -14,6 +14,8 @@ export function renderShell(activePage) {
   const menuButton = document.querySelector('.menu-button');
   const nav = document.querySelector('.site-nav');
   if (!menuButton || !nav) return;
+  menuButton.setAttribute('aria-label', t('openMenu'));
+  nav.setAttribute('aria-label', t('mainNavigation'));
   const languageControl = document.createElement('label');
   languageControl.className = 'language-control';
   languageControl.innerHTML = `<span>${t('language')}</span><select aria-label="${t('language')}"><option value="es">ES</option><option value="en">EN</option><option value="de">DE</option></select>`;

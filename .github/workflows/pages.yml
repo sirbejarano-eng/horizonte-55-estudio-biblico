@@ -23,13 +23,19 @@ jobs:
       - name: Preparar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            web/package-lock.json
       - name: Instalar dependencias
         run: npm ci
-      - name: Validar proyecto
+      - name: Instalar dependencias de la web (Next.js)
+        run: npm ci
+        working-directory: web
+      - name: Validar contenido bíblico
         run: npm test
-      - name: Preparar publicación
+      - name: Compilar la web y preparar la publicación
         run: npm run build:pages
       - name: Validar publicación
         run: npm run test:pages

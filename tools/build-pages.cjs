@@ -1,46 +1,29 @@
+// Prepara dist/ para GitHub Pages a partir de la versión Next.js (web/).
+// La versión anterior (HTML + JS en la raíz) deja de publicarse; sus direcciones antiguas
+// (lectura.html?book=…, biblioteca.html, contexto-*.html…) siguen funcionando porque web/public
+// incluye páginas que redirigen a las nuevas.
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 const root = path.resolve(__dirname, '..');
+const web = path.join(root, 'web');
 const output = path.join(root, 'dist');
 
 if (path.dirname(output) !== root || path.basename(output) !== 'dist') {
   throw new Error('La carpeta de salida no es la esperada.');
 }
 
-const publicFiles = [
-  'index.html',
-  'biblioteca.html',
-  'buscar.html',
-  'cronologia.html',
-  'contexto-babel.html',
-  'contexto-eden.html',
-  'lectura.html',
-  'manifest.json',
-  'manifest-es.json',
-  'manifest-en.json',
-  'manifest-de.json',
-  'sw.js',
-  'LICENSE',
-  'THIRD_PARTY_NOTICES.md'
-];
-
-const publicDirectories = ['assets', 'content', 'css', 'js'];
+// next build copia antes catálogos e imágenes (web/scripts/sync-content.mjs) y genera web/out/.
+execSync('npm run build', { cwd: web, stdio: 'inherit' });
 
 fs.rmSync(output, { recursive: true, force: true });
-fs.mkdirSync(output, { recursive: true });
+fs.cpSync(path.join(web, 'out'), output, { recursive: true });
 
-for (const relativePath of publicFiles) {
-  const source = path.join(root, relativePath);
-  if (!fs.existsSync(source)) throw new Error(`Falta el archivo público: ${relativePath}`);
-  fs.copyFileSync(source, path.join(output, relativePath));
+for (const file of ['LICENSE', 'THIRD_PARTY_NOTICES.md']) {
+  fs.copyFileSync(path.join(root, file), path.join(output, file));
 }
 
-for (const relativePath of publicDirectories) {
-  const source = path.join(root, relativePath);
-  if (!fs.existsSync(source)) throw new Error(`Falta la carpeta pública: ${relativePath}`);
-  fs.cpSync(source, path.join(output, relativePath), { recursive: true });
-}
-
+// Sin este archivo GitHub Pages (Jekyll) ignoraría la carpeta _next/ y la web quedaría sin JavaScript ni estilos.
 fs.writeFileSync(path.join(output, '.nojekyll'), '');
 console.log(`✅ Sitio público preparado en ${path.relative(root, output)}/`);

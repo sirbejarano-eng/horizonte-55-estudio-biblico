@@ -1,13 +1,15 @@
+// Comprueba dist/ antes de publicar: páginas clave de los tres idiomas, las cuatro ediciones
+// completas, redirecciones de las direcciones antiguas, modo sin conexión y nada interno.
 const fs = require('fs');
 const path = require('path');
 
 const root = path.resolve(__dirname, '..');
 const output = path.join(root, 'dist');
+const CHAPTERS = 1189;
 
+const exists = (relativePath) => fs.existsSync(path.join(output, relativePath));
 function assertExists(relativePath) {
-  if (!fs.existsSync(path.join(output, relativePath))) {
-    throw new Error(`Falta en la publicación: ${relativePath}`);
-  }
+  if (!exists(relativePath)) throw new Error(`Falta en la publicación: ${relativePath}`);
 }
 
 function collectFiles(directory, prefix = '') {
@@ -20,33 +22,46 @@ function collectFiles(directory, prefix = '') {
 }
 
 try {
-  assertExists('index.html');
-  assertExists('sw.js');
-  assertExists('manifest.json');
-  assertExists('content/books.json');
-  assertExists('content/books-es-onbv.json');
-  assertExists('content/books-en.json');
-  assertExists('content/books-de.json');
-  assertExists('assets/hero-background.jpg');
-  assertExists('contexto-babel.html');
-  assertExists('assets/contexto-babel-teologica-v1.webp');
-  assertExists('.nojekyll');
+  const pages = [
+    'index.html', 'biblioteca/index.html', 'buscar/index.html', 'cronologia/index.html', 'sin-conexion/index.html',
+    'estudios/eden/index.html', 'estudios/babel/index.html',
+    'en/index.html', 'en/library/index.html', 'en/search/index.html', 'en/timeline/index.html', 'en/offline/index.html', 'en/studies/eden/index.html',
+    'de/index.html', 'de/bibliothek/index.html', 'de/suche/index.html', 'de/zeitleiste/index.html', 'de/offline/index.html', 'de/studien/babel/index.html',
+  ];
+  pages.forEach(assertExists);
 
-  const forbidden = ['vendor', 'tests', 'tools', 'docs', 'node_modules', '.git'];
-  for (const relativePath of forbidden) {
-    if (fs.existsSync(path.join(output, relativePath))) {
-      throw new Error(`La publicación no debe incluir: ${relativePath}`);
-    }
+  // Redirecciones de la versión anterior (enlaces compartidos y marcadores).
+  ['lectura.html', 'biblioteca.html', 'buscar.html', 'cronologia.html', 'contexto-eden.html', 'contexto-babel.html'].forEach(assertExists);
+
+  // Cada edición con todos sus capítulos.
+  const editions = { 'leer': 'ONBV', 'rv1909/leer': 'RV1909', 'en/read': 'inglés', 'de/lesen': 'alemán' };
+  for (const [base, name] of Object.entries(editions)) {
+    const dir = path.join(output, base);
+    if (!fs.existsSync(dir)) throw new Error(`Falta la edición ${name} (${base}/)`);
+    const count = collectFiles(dir).filter((file) => /^[a-z0-9-]+\/\d+\/index\.html$/.test(file)).length;
+    if (count !== CHAPTERS) throw new Error(`La edición ${name} tiene ${count} capítulos (se esperaban ${CHAPTERS}).`);
   }
 
+  ['books.json', 'books-es-onbv.json', 'books-en.json', 'books-de.json'].forEach((file) => assertExists(`content/${file}`));
+  ['hero-background.jpg', 'icon.svg', 'icon-192.png', 'icon-es.png', 'icon-en.png', 'icon-de.png', 'mapa-es.webp', 'mapa-en.webp', 'mapa-de.webp', 'contexto-eden-simbolica-v2.webp', 'contexto-babel-teologica-v1.webp']
+    .forEach((file) => assertExists(`assets/${file}`));
+  ['sw.js', 'manifest.json', 'manifest-es.json', 'manifest-en.json', 'manifest-de.json', '.nojekyll', 'LICENSE', '_next'].forEach(assertExists);
+
+  // Las páginas que el service worker guarda para leer sin conexión deben existir.
   const serviceWorker = fs.readFileSync(path.join(output, 'sw.js'), 'utf8');
-  const appShellMatch = serviceWorker.match(/const APP_SHELL = \[([\s\S]*?)\];/);
-  if (!appShellMatch) throw new Error('No se pudo leer APP_SHELL de sw.js.');
-  const appShellPaths = [...appShellMatch[1].matchAll(/'\.\/(.*?)'/g)].map((match) => match[1]);
-  for (const relativePath of appShellPaths.filter(Boolean)) assertExists(relativePath);
+  const offlineBlock = serviceWorker.match(/const OFFLINE_PAGES = \{([^}]*)\}/);
+  if (!offlineBlock) throw new Error('No se pudo leer OFFLINE_PAGES de sw.js.');
+  const offlinePages = [...offlineBlock[1].matchAll(/'([^']+)'/g)].map((match) => match[1]);
+  if (offlinePages.length !== 3) throw new Error('sw.js debe declarar una página sin conexión por idioma.');
+  for (const page of offlinePages) assertExists(path.join(page, 'index.html'));
+
+  const forbidden = ['vendor', 'tests', 'tools', 'docs', 'node_modules', '.git', 'web', 'js', 'css'];
+  for (const relativePath of forbidden) {
+    if (exists(relativePath)) throw new Error(`La publicación no debe incluir: ${relativePath}`);
+  }
 
   const files = collectFiles(output);
-  console.log(`✅ Publicación verificada: ${files.length} archivos, sin fuentes ni herramientas internas.`);
+  console.log(`✅ Publicación verificada: ${files.length} archivos, ${CHAPTERS} capítulos × 4 ediciones, sin fuentes ni herramientas internas.`);
 } catch (error) {
   console.error('❌ Validación de publicación fallida:', error.message);
   process.exit(1);

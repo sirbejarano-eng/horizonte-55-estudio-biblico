@@ -64,11 +64,18 @@ try {
   assertFileExists('lectura.html');
   assertFileExists('buscar.html');
   assertFileExists('cronologia.html');
+  assertFileExists('contexto-babel.html');
   assertFileExists('contexto-eden.html');
   assertFileExists('assets/ancient-map.svg');
   assertFileExists('assets/contexto-eden-cabeceras-norte-v1.webp');
   assertFileExists('assets/contexto-eden-golfo-v1.webp');
   assertFileExists('assets/contexto-eden-simbolica-v2.webp');
+  assertFileExists('assets/contexto-babel-babilonia-v1.webp');
+  assertFileExists('assets/contexto-babel-teologica-v1.webp');
+  assertFileExists('assets/contexto-babel-zigurat-v1.webp');
+  assertFileExists('js/context-study.js');
+  assertFileExists('js/babel-content.js');
+  assertFileExists('js/babel-study.js');
   assertFileExists('js/timeline.js');
   assertFileExists('content/books.json');
   assertFileExists('content/books-en.json');
@@ -88,6 +95,7 @@ try {
     ['lectura.html', 'readerApp', 'reader'],
     ['buscar.html', 'pageSearchResults', 'search'],
     ['cronologia.html', 'main', 'timeline'],
+    ['contexto-babel.html', 'main', 'babel-study'],
     ['contexto-eden.html', 'main', 'eden-study']
   ];
   for (const [page, mount, module] of pages) {
@@ -126,19 +134,41 @@ try {
   assertContentPresent('contexto-eden.html', '¿Qué aporta esto a mi lectura?');
   assertContentPresent('contexto-eden.html', 'Ver una respuesta orientativa');
   assertContentPresent('contexto-eden.html', 'id="contextImageDialog"');
-  assertContentPresent('js/eden-study.js', "imageDialog.showModal()");
+  assertContentPresent('js/context-study.js', "imageDialog.showModal()");
   assertContentPresent('contexto-eden.html', 'id="glossary-title"');
   assertContentPresent('contexto-eden.html', 'id="editorial-title"');
   assertContentPresent('js/reader.js', './contexto-eden.html');
-  assertContentPresent('js/reader.js', "t('edenStudyOpen')");
+  assertContentPresent('js/reader.js', './contexto-babel.html');
+  assertContentPresent('js/reader.js', "translationKey: 'edenStudy'");
+  assertContentPresent('js/reader.js', "translationKey: 'babelStudy'");
+  assertContentPresent('js/i18n.js', "babelStudyTitle: 'Babel: ciudad, torre y dispersión'");
   assertContentPresent('js/eden-content.js', 'The four rivers of Eden: from sacred text to map');
   assertContentPresent('js/eden-content.js', 'Die vier Flüsse Edens: von der Heiligen Schrift zur Karte');
+  assertContentPresent('js/eden-study.js', "startContextStudy(edenCopy)");
+  assertContentPresent('js/babel-study.js', "startContextStudy(babelCopy)");
+  assertContentPresent('contexto-babel.html', 'Babel: ciudad, torre y dispersión');
+  assertContentPresent('contexto-babel.html', 'Piloto interno · versión 0.1');
+  assertContentPresent('contexto-babel.html', 'La Escritura es el fundamento');
+  assertContentPresent('contexto-babel.html', './assets/contexto-babel-teologica-v1.webp');
+  assertContentPresent('contexto-babel.html', './assets/contexto-babel-babilonia-v1.webp');
+  assertContentPresent('contexto-babel.html', './assets/contexto-babel-zigurat-v1.webp');
+  assertContentPresent('contexto-babel.html', 'id="source-6"');
+  assertContentPresent('contexto-babel.html', 'Ver una respuesta orientativa');
+  assertContentPresent('js/babel-content.js', 'Babel: city, tower and scattering');
+  assertContentPresent('js/babel-content.js', 'Babel: Stadt, Turm und Zerstreuung');
   const edenHtml = fs.readFileSync(path.join(root, 'contexto-eden.html'), 'utf8');
   if (edenHtml.indexOf('Geografía teológica o simbólica') > edenHtml.indexOf('Cabeceras del norte de Mesopotamia')) {
     throw new Error('La lectura teológica debe aparecer antes de las reconstrucciones geográficas.');
   }
   if (edenHtml.indexOf('<th scope="row">Lectura teológica</th>') > edenHtml.indexOf('<th scope="row">Cabeceras del norte</th>')) {
     throw new Error('La lectura teológica debe ocupar la primera fila comparativa.');
+  }
+  const babelHtml = fs.readFileSync(path.join(root, 'contexto-babel.html'), 'utf8');
+  if (babelHtml.indexOf('Lectura teológica del relato') > babelHtml.indexOf('Babilonia en la llanura de Mesopotamia')) {
+    throw new Error('La lectura teológica debe abrir el estudio de Babel.');
+  }
+  if (babelHtml.indexOf('<th scope="row">Lectura teológica</th>') > babelHtml.indexOf('<th scope="row">Contexto de Babilonia</th>')) {
+    throw new Error('La lectura teológica debe ocupar la primera fila comparativa de Babel.');
   }
   const serveConfig = JSON.parse(fs.readFileSync(path.join(root, 'serve.json'), 'utf8'));
   if (serveConfig.cleanUrls !== false) {

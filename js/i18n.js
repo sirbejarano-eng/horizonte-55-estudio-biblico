@@ -26,7 +26,8 @@ const translations = {
     undoImport: 'Deshacer importación', importErrorInvalidFile: 'El archivo no tiene un formato válido.', importErrorTooLarge: 'El archivo supera el tamaño máximo permitido.', importErrorInvalidJson: 'El archivo no contiene JSON válido.', importErrorVersion: 'La versión del archivo de progreso no es compatible.', importErrorShape: 'El archivo contiene datos con un formato incorrecto.', importErrorReference: 'El archivo hace referencia a libros o capítulos que no existen en este catálogo.',
     resultLabel: 'resultado', showingResultsLabel: 'Mostrando', showMoreResults: 'Mostrar más resultados', openReference: 'Abrir', copyErrorReference: 'No se pudo copiar la referencia.', shareErrorVerse: 'No se pudo compartir el versículo.',
     importErrorRollbackFailed: 'La importación falló y no se pudo revertir por completo. Revisa tu progreso manualmente.', undoErrorGeneric: 'No se pudo deshacer. Revisa tu progreso manualmente.',
-    edenStudyEyebrow: 'Contexto bíblico', edenStudyTitle: 'Los cuatro ríos del Edén', edenStudyPrompt: 'Compara tres formas de comprender la geografía de Génesis 2 y los límites de cada propuesta.', edenStudyOpen: 'Abrir estudio relacionado'
+    edenStudyEyebrow: 'Contexto bíblico', edenStudyTitle: 'Los cuatro ríos del Edén', edenStudyPrompt: 'Compara tres formas de comprender la geografía de Génesis 2 y los límites de cada propuesta.', edenStudyOpen: 'Abrir estudio relacionado',
+    babelStudyEyebrow: 'Contexto bíblico', babelStudyTitle: 'Babel: ciudad, torre y dispersión', babelStudyPrompt: 'Explora el mensaje de Génesis 11 y distingue el texto sagrado del contexto de Babilonia y los zigurats.', babelStudyOpen: 'Abrir estudio relacionado'
   },
   en: {
     home: 'Home', library: 'Library', timeline: 'Timeline', reader: 'Reading', search: 'Search',
@@ -53,7 +54,8 @@ const translations = {
     undoImport: 'Undo import', importErrorInvalidFile: 'The file is not in a valid format.', importErrorTooLarge: 'The file exceeds the maximum allowed size.', importErrorInvalidJson: 'The file does not contain valid JSON.', importErrorVersion: 'The progress file version is not supported.', importErrorShape: 'The file contains incorrectly formatted data.', importErrorReference: 'The file refers to books or chapters that do not exist in this catalog.',
     resultLabel: 'result', showingResultsLabel: 'Showing', showMoreResults: 'Show more results', openReference: 'Open', copyErrorReference: 'The reference could not be copied.', shareErrorVerse: 'The verse could not be shared.',
     importErrorRollbackFailed: 'The import failed and could not be fully rolled back. Please check your progress manually.', undoErrorGeneric: 'Undo failed. Please check your progress manually.',
-    edenStudyEyebrow: 'Biblical context', edenStudyTitle: 'The four rivers of Eden', edenStudyPrompt: 'Compare three ways of understanding the geography of Genesis 2 and the limits of each proposal.', edenStudyOpen: 'Open related study'
+    edenStudyEyebrow: 'Biblical context', edenStudyTitle: 'The four rivers of Eden', edenStudyPrompt: 'Compare three ways of understanding the geography of Genesis 2 and the limits of each proposal.', edenStudyOpen: 'Open related study',
+    babelStudyEyebrow: 'Biblical context', babelStudyTitle: 'Babel: city, tower and scattering', babelStudyPrompt: 'Explore the message of Genesis 11 and distinguish the sacred text from the context of Babylon and ziggurats.', babelStudyOpen: 'Open related study'
   },
   de: {
     home: 'Startseite', library: 'Bibliothek', timeline: 'Zeitleiste', reader: 'Lesen', search: 'Suchen',
@@ -80,7 +82,8 @@ const translations = {
     undoImport: 'Import rückgängig machen', importErrorInvalidFile: 'Die Datei hat kein gültiges Format.', importErrorTooLarge: 'Die Datei überschreitet die maximal zulässige Größe.', importErrorInvalidJson: 'Die Datei enthält kein gültiges JSON.', importErrorVersion: 'Die Version der Fortschrittsdatei wird nicht unterstützt.', importErrorShape: 'Die Datei enthält falsch formatierte Daten.', importErrorReference: 'Die Datei verweist auf Bücher oder Kapitel, die in diesem Katalog nicht existieren.',
     resultLabel: 'Ergebnis', showingResultsLabel: 'Angezeigt', showMoreResults: 'Weitere Ergebnisse anzeigen', openReference: 'Öffnen', copyErrorReference: 'Der Verweis konnte nicht kopiert werden.', shareErrorVerse: 'Der Vers konnte nicht geteilt werden.',
     importErrorRollbackFailed: 'Der Import ist fehlgeschlagen und konnte nicht vollständig rückgängig gemacht werden. Bitte überprüfe deinen Fortschritt manuell.', undoErrorGeneric: 'Rückgängig machen fehlgeschlagen. Bitte überprüfe deinen Fortschritt manuell.',
-    edenStudyEyebrow: 'Biblischer Kontext', edenStudyTitle: 'Die vier Flüsse Edens', edenStudyPrompt: 'Vergleiche drei Ansätze zur Geografie von 1. Mose 2 und die Grenzen jedes Vorschlags.', edenStudyOpen: 'Zugehörige Studie öffnen'
+    edenStudyEyebrow: 'Biblischer Kontext', edenStudyTitle: 'Die vier Flüsse Edens', edenStudyPrompt: 'Vergleiche drei Ansätze zur Geografie von 1. Mose 2 und die Grenzen jedes Vorschlags.', edenStudyOpen: 'Zugehörige Studie öffnen',
+    babelStudyEyebrow: 'Biblischer Kontext', babelStudyTitle: 'Babel: Stadt, Turm und Zerstreuung', babelStudyPrompt: 'Erkunde die Botschaft von 1. Mose 11 und unterscheide die Heilige Schrift vom Kontext Babylons und der Zikkurate.', babelStudyOpen: 'Zugehörige Studie öffnen'
   }
 };
 

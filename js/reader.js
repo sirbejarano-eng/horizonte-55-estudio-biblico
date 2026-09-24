@@ -1,6 +1,6 @@
 import { loadBooks, findBook, getReadingPosition, saveReadingPosition, getCompletedChapters, toggleCompleted, getNotes, saveNote, getReadingScale, saveReadingScale, copyReference, navigateTo, escapeHtml, getSpanishVersion, normalizeRv1909Opening } from './core.js?v=31';
 import { renderError, renderShell } from './shell.js?v=15';
-import { getLanguage, t, localizedBookTitle } from './i18n.js?v=35';
+import { getLanguage, t, localizedBookTitle } from './i18n.js?v=36';
 
 const app = document.getElementById('readerApp');
 const params = new URLSearchParams(window.location.search);
@@ -41,8 +41,14 @@ function renderReader() {
   const bookOptions = books.map((item) => (
     `<option value="${escapeHtml(item.id)}" ${item.id === book.id ? 'selected' : ''}>${escapeHtml(localizedBookTitle(item))}</option>`
   )).join('');
-  const relatedStudy = book.id === 'genesis' && chapter.number === 2
-    ? `<aside class="context-study-prompt" aria-labelledby="eden-study-title"><p class="eyebrow">${t('edenStudyEyebrow')}</p><h2 id="eden-study-title">${t('edenStudyTitle')}</h2><p>${t('edenStudyPrompt')}</p><a class="secondary-button" href="./contexto-eden.html">${t('edenStudyOpen')}</a></aside>`
+  const relatedStudyConfig = book.id === 'genesis'
+    ? {
+        2: { slug: 'eden', href: './contexto-eden.html', translationKey: 'edenStudy' },
+        11: { slug: 'babel', href: './contexto-babel.html', translationKey: 'babelStudy' }
+      }[chapter.number]
+    : null;
+  const relatedStudy = relatedStudyConfig
+    ? `<aside class="context-study-prompt" aria-labelledby="${relatedStudyConfig.slug}-study-title"><p class="eyebrow">${t(`${relatedStudyConfig.translationKey}Eyebrow`)}</p><h2 id="${relatedStudyConfig.slug}-study-title">${t(`${relatedStudyConfig.translationKey}Title`)}</h2><p>${t(`${relatedStudyConfig.translationKey}Prompt`)}</p><a class="secondary-button" href="${relatedStudyConfig.href}">${t(`${relatedStudyConfig.translationKey}Open`)}</a></aside>`
     : '';
     const verses = chapter.verses.map((verse) => {
       const displayText = getSpanishVersion() === 'rv1909' ? normalizeRv1909Opening(verse.text, verse.number) : verse.text;

@@ -28,6 +28,8 @@ try {
   assertExists('content/books-en.json');
   assertExists('content/books-de.json');
   assertExists('assets/hero-background.jpg');
+  assertExists('contexto-babel.html');
+  assertExists('assets/contexto-babel-teologica-v1.webp');
   assertExists('.nojekyll');
 
   const forbidden = ['vendor', 'tests', 'tools', 'docs', 'node_modules', '.git'];

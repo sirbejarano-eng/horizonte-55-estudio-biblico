@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { chapterHref, getBook, getBooks, neighbours } from "@/lib/bible";
 import ReaderTools from "@/components/ReaderTools";
+import VerseShare from "@/components/VerseShare";
+import ChapterNotes from "@/components/ChapterNotes";
 
 type Params = { params: Promise<{ libro: string; capitulo: string }> };
 
@@ -64,7 +66,7 @@ export default async function ChapterPage({ params }: Params) {
             <span className="book-progress-label">Capítulo {index + 1} de {book.chapters.length}</span>
           </div>
         </div>
-        <ReaderTools bookId={book.id} chapter={chapter.number} books={options} />
+        <ReaderTools bookId={book.id} bookTitle={book.title} chapter={chapter.number} books={options} />
       </header>
 
       {study && (
@@ -75,14 +77,22 @@ export default async function ChapterPage({ params }: Params) {
         </aside>
       )}
 
+      <VerseShare bookTitle={book.title} bookId={book.id} chapter={chapter.number} />
       <div className="verses">
         {chapter.verses.map((verse) => (
           <div className="verse" id={`verse-${verse.number}`} key={verse.number}>
             <span className="verse-number">{verse.number}</span>
-            <div className="verse-content"><p className="verse-text">{verse.text}</p></div>
+            <div className="verse-content">
+              <p className="verse-text">{verse.text}</p>
+              <button className="verse-share" type="button" data-verse-number={verse.number} aria-label={`Compartir versículo ${book.title} ${chapter.number}:${verse.number}`}>
+                Compartir versículo
+              </button>
+            </div>
           </div>
         ))}
       </div>
+
+      <ChapterNotes bookId={book.id} chapter={chapter.number} />
 
       <nav className="chapter-nav" aria-label="Capítulos">
         {prev ? (

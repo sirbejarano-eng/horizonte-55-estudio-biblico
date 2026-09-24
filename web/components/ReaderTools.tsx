@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getCompleted, getScale, savePosition, saveScale, toggleCompleted } from "@/lib/storage";
+import { copyText, getCompleted, getScale, savePosition, saveScale, toggleCompleted } from "@/lib/storage";
 
 type BookOption = { id: string; title: string; chapters: number };
 
 // Parte interactiva del capítulo. El texto bíblico ya viene en el HTML; esto solo añade
 // progreso, tamaño de letra y salto rápido, con las mismas claves de guardado que la versión actual.
-export default function ReaderTools({ bookId, chapter, books }: { bookId: string; chapter: number; books: BookOption[] }) {
+export default function ReaderTools({ bookId, bookTitle, chapter, books }: { bookId: string; bookTitle: string; chapter: number; books: BookOption[] }) {
   const router = useRouter();
   const [done, setDone] = useState(false);
   const [scale, setScale] = useState(1);
@@ -62,6 +62,21 @@ export default function ReaderTools({ bookId, chapter, books }: { bookId: string
           <span className="text-size-label">{Math.round(scale * 100)}%</span>
           <button className="text-size-button" type="button" aria-label="Aumentar texto" onClick={() => changeScale(0.1)}>A+</button>
         </div>
+        <button
+          className="secondary-button"
+          type="button"
+          data-action="copy"
+          onClick={async () => {
+            try {
+              await copyText(`${bookTitle} ${chapter}`);
+              setStatus(`${bookTitle} ${chapter} copiado al portapapeles`);
+            } catch {
+              setStatus("No se pudo copiar la referencia.");
+            }
+          }}
+        >
+          Copiar {bookTitle} {chapter}
+        </button>
         <select className="book-select" aria-label="Seleccionar libro" value={bookId} onChange={(event) => router.push(`/leer/${event.target.value}/1/`)}>
           {books.map((book) => <option key={book.id} value={book.id}>{book.title}</option>)}
         </select>

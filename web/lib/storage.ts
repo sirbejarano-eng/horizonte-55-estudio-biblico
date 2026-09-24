@@ -66,3 +66,45 @@ export function getScale() {
 export function saveScale(scale: number) {
   write(READING_SCALE_KEY, String(scale));
 }
+
+// Notas por capítulo: mismo formato que la versión actual ({ libro: { capítulo: texto } }).
+export const CHAPTER_NOTES_KEY = "horizonte55-chapter-notes";
+export const MAX_NOTE_LENGTH = 20000;
+
+type Notes = Record<string, Record<string, string>>;
+
+function getAllNotes(): Notes {
+  const saved = read<Notes>(CHAPTER_NOTES_KEY);
+  return saved && typeof saved === "object" && !Array.isArray(saved) ? saved : {};
+}
+
+export function getNote(bookId: string, chapter: number) {
+  const note = getAllNotes()[bookId]?.[chapter];
+  return typeof note === "string" ? note : "";
+}
+
+export function saveNote(bookId: string, chapter: number, value: string) {
+  const notes = getAllNotes();
+  const text = value.slice(0, MAX_NOTE_LENGTH);
+  notes[bookId] = { ...(notes[bookId] ?? {}) };
+  if (text.trim()) notes[bookId][chapter] = text;
+  else delete notes[bookId][chapter];
+  return write(CHAPTER_NOTES_KEY, notes);
+}
+
+// Copia al portapapeles con alternativa para navegadores sin la API moderna.
+export async function copyText(text: string) {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+  const input = document.createElement("textarea");
+  input.value = text;
+  input.setAttribute("readonly", "");
+  input.style.position = "fixed";
+  input.style.opacity = "0";
+  document.body.appendChild(input);
+  input.select();
+  document.execCommand("copy");
+  input.remove();
+}

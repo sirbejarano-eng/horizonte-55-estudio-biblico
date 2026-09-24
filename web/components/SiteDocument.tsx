@@ -10,6 +10,7 @@ export const siteMetadata = (lang: Lang): Metadata => ({
   title: { default: "Horizonte 55", template: "%s · Horizonte 55" },
   description: t(lang).siteDescription,
   icons: { icon: "/assets/icon.svg", apple: "/assets/icon-192.png" },
+  manifest: `/manifest-${lang}.json`,
 });
 
 export const siteViewport: Viewport = { themeColor: "#2e261f" };

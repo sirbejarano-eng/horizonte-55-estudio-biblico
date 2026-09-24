@@ -47,9 +47,21 @@ npm.cmd run serve      # sirve out/ en http://localhost:4175
 - `scripts/sync-content.mjs` copia a `public/` los catálogos, los mapas y las ilustraciones
   (no se versionan dos veces). Lo ejecuta `next.config.ts` cada vez que arranca Next.
 
+- Exportar e importar progreso (mismo archivo JSON que la versión actual), con vista previa y deshacer.
+- Filtro de la biblioteca por testamento y nombre, y avance por libro.
+
+## Sin conexión
+
+- `public/sw.js` sustituye al service worker actual (misma dirección) y borra sus cachés al activarse.
+- Páginas: primero la red; sin conexión, la copia guardada. Un capítulo nunca abierto se muestra con
+  la página sin conexión (`/sin-conexion/`, `/en/offline/`, `/de/offline/`), que lo dibuja desde el
+  catálogo guardado: basta el catálogo del idioma, no las 1.189 páginas.
+- La cabecera prepara el idioma actual (portada, página sin conexión y catálogo) y muestra el estado.
+- Solo se activa en la versión compilada (`npm run build` + `npm run serve`), no en `npm run dev`.
+- Al cambiar el texto de `content/books*.json`, sube `CATALOG_VERSION` en `lib/i18n.ts`.
+- Manifiestos por idioma: `public/manifest-es.json`, `-en`, `-de`.
+
 ## Pendiente (siguientes pasos de la fase 2)
 
 - Estudios de contexto en inglés y alemán.
-- Exportar e importar progreso.
-- Modo sin conexión (service worker) y manifiesto.
 - Integración en el flujo de publicación de GitHub Pages.

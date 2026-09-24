@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { chapterPath, defaultEdition, EDITIONS, equivalentPath, ROUTES, t, type Edition, type Lang } from "@/lib/i18n";
+import OfflineStatus from "@/components/OfflineStatus";
 import { getPosition, getSpanishVersion, preferredEdition, saveLanguage, saveSpanishVersion } from "@/lib/storage";
 
 // Mismo marcado y clases que la cabecera actual (css heredado). Añade los selectores de idioma y,
@@ -88,6 +89,7 @@ export default function SiteHeader({ lang }: { lang: Lang }) {
             </select>
           </label>
         )}
+        <OfflineStatus lang={lang} />
       </nav>
       <button
         className="menu-button"

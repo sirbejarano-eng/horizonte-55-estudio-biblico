@@ -18,12 +18,16 @@ export const EDITIONS: Record<Edition, { lang: Lang; file: string; readBase: str
   de: { lang: "de", file: "books-de.json", readBase: "/de/lesen", label: "Schlachter 1951" },
 };
 
-export const defaultEdition = (lang: Lang): Edition => (lang === "es" ? "onbv" : lang);
+// Súbelo cuando cambie el texto de content/books*.json: invalida la copia sin conexión (service worker).
+export const CATALOG_VERSION = 1;
+export const catalogUrl = (edition: Edition) => `/content/${EDITIONS[edition].file}?v=${CATALOG_VERSION}`;
 
-export const ROUTES: Record<Lang, { home: string; library: string; search: string; timeline: string }> = {
-  es: { home: "/", library: "/biblioteca/", search: "/buscar/", timeline: "/cronologia/" },
-  en: { home: "/en/", library: "/en/library/", search: "/en/search/", timeline: "/en/timeline/" },
-  de: { home: "/de/", library: "/de/bibliothek/", search: "/de/suche/", timeline: "/de/zeitleiste/" },
+export const defaultEdition =(lang: Lang): Edition => (lang === "es" ? "onbv" : lang);
+
+export const ROUTES: Record<Lang, { home: string; library: string; search: string; timeline: string; offline: string }> = {
+  es: { home: "/", library: "/biblioteca/", search: "/buscar/", timeline: "/cronologia/", offline: "/sin-conexion/" },
+  en: { home: "/en/", library: "/en/library/", search: "/en/search/", timeline: "/en/timeline/", offline: "/en/offline/" },
+  de: { home: "/de/", library: "/de/bibliothek/", search: "/de/suche/", timeline: "/de/zeitleiste/", offline: "/de/offline/" },
 };
 
 export const chapterPath = (edition: Edition, bookId: string, chapter: number) => `${EDITIONS[edition].readBase}/${bookId}/${chapter}/`;
@@ -80,6 +84,17 @@ export const dict = {
     siteDescription: "Lee la Biblia capítulo a capítulo, toma notas y explora su contexto histórico. Gratis, sin registro y sin recopilar datos personales.",
     copyright: "© {year} Jose A Bejarano V. Código propio: licencia MIT. Material de estudio propio: derechos reservados. Textos bíblicos: licencias independientes.",
     privacy: "No se recopilan datos personales: el progreso y las notas se guardan únicamente en tu dispositivo.",
+    offlineReady: "Disponible sin conexión",
+    offlineNotReady: "Aún no disponible sin conexión en este idioma",
+    offlineChecking: "Comprobando disponibilidad sin conexión…",
+    offlineRequiresHttps: "El modo sin conexión requiere una conexión HTTPS segura en este dispositivo.",
+    offlineUnsupported: "Este navegador no permite preparar el modo sin conexión.",
+    offlineUnavailable: "No se pudo preparar el modo sin conexión en este dispositivo.",
+    offlinePreparing: "Preparando la lectura sin conexión…",
+    offlineTitle: "Sin conexión",
+    offlineCopy: "Estás sin conexión: este capítulo se muestra desde la copia guardada en tu dispositivo.",
+    offlineMissing: "Este contenido todavía no está guardado en este dispositivo. Conéctate a internet y vuelve a intentarlo.",
+    offlineBack: "Ir a la portada",
     testament: "Testamento",
     allBooks: "Todos los libros",
     searchBook: "Buscar libro",
@@ -153,6 +168,17 @@ export const dict = {
     siteDescription: "Read the Bible chapter by chapter, take notes and explore its historical context. Free, no sign-up and no personal data collected.",
     copyright: "© {year} Jose A Bejarano V. Original code: MIT license. Original study material: all rights reserved. Bible texts: separate licenses.",
     privacy: "No personal data is collected: your progress and notes are stored only on your device.",
+    offlineReady: "Available offline",
+    offlineNotReady: "Not yet available offline in this language",
+    offlineChecking: "Checking offline availability…",
+    offlineRequiresHttps: "Offline mode requires a secure HTTPS connection on this device.",
+    offlineUnsupported: "This browser cannot prepare offline mode.",
+    offlineUnavailable: "Offline mode could not be prepared on this device.",
+    offlinePreparing: "Preparing offline reading…",
+    offlineTitle: "Offline",
+    offlineCopy: "You are offline: this chapter is shown from the copy saved on your device.",
+    offlineMissing: "This content is not saved on this device yet. Connect to the internet and try again.",
+    offlineBack: "Go to the home page",
     testament: "Testament",
     allBooks: "All books",
     searchBook: "Search book",
@@ -226,6 +252,17 @@ export const dict = {
     siteDescription: "Lies die Bibel Kapitel für Kapitel, mache Notizen und entdecke ihren historischen Kontext. Kostenlos, ohne Anmeldung und ohne personenbezogene Daten.",
     copyright: "© {year} Jose A Bejarano V. Eigener Code: MIT-Lizenz. Eigenes Studienmaterial: alle Rechte vorbehalten. Bibeltexte: gesonderte Lizenzen.",
     privacy: "Es werden keine personenbezogenen Daten erhoben: Fortschritt und Notizen werden nur auf deinem Gerät gespeichert.",
+    offlineReady: "Offline verfügbar",
+    offlineNotReady: "In dieser Sprache noch nicht offline verfügbar",
+    offlineChecking: "Offline-Verfügbarkeit wird geprüft…",
+    offlineRequiresHttps: "Der Offline-Modus benötigt auf diesem Gerät eine sichere HTTPS-Verbindung.",
+    offlineUnsupported: "Dieser Browser kann den Offline-Modus nicht vorbereiten.",
+    offlineUnavailable: "Der Offline-Modus konnte auf diesem Gerät nicht vorbereitet werden.",
+    offlinePreparing: "Offline-Lesen wird vorbereitet…",
+    offlineTitle: "Offline",
+    offlineCopy: "Du bist offline: Dieses Kapitel wird aus der auf deinem Gerät gespeicherten Kopie angezeigt.",
+    offlineMissing: "Dieser Inhalt ist auf diesem Gerät noch nicht gespeichert. Verbinde dich mit dem Internet und versuche es erneut.",
+    offlineBack: "Zur Startseite",
     testament: "Testament",
     allBooks: "Alle Bücher",
     searchBook: "Buch suchen",

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { chapterPath, EDITIONS, t, type Edition, type Lang } from "@/lib/i18n";
+import { catalogUrl, chapterPath, EDITIONS, t, type Edition, type Lang } from "@/lib/i18n";
 import { preferredEdition } from "@/lib/storage";
 
 type Verse = { number: number; text: string };
@@ -28,7 +28,7 @@ export default function BibleSearch({ lang }: { lang: Lang }) {
 
   useEffect(() => {
     if (!edition) return;
-    fetch(`/content/${EDITIONS[edition].file}?v=1`)
+    fetch(catalogUrl(edition))
       .then((response) => (response.ok ? response.json() : Promise.reject()))
       .then((data: { books: Book[] }) => setBooks(data.books))
       .catch(() => setError(true));

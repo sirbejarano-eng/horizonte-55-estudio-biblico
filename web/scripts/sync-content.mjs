@@ -13,7 +13,7 @@ const catalogs = ["books-es-onbv.json", "books.json", "books-en.json", "books-de
 for (const name of catalogs) copy(path.resolve("..", "content", name), path.resolve("public", "content", name));
 
 const assetsDir = path.resolve("..", "assets");
-const images = fs.readdirSync(assetsDir).filter((name) => /^(mapa|contexto)-.+\.webp$/.test(name));
+const images = fs.readdirSync(assetsDir).filter((name) => /^((mapa|contexto)-.+\.webp|icon-(en|de)\.png)$/.test(name));
 for (const name of images) copy(path.join(assetsDir, name), path.resolve("public", "assets", name));
 
 console.log(`✅ Catálogo y ${images.length} imágenes copiados a public/`);

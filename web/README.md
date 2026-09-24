@@ -21,15 +21,14 @@ npm.cmd run serve      # sirve out/ en http://localhost:4175
   que la versión actual: nadie pierde su avance al cambiar.
 - Mismo diseño (`app/globals.css` es una copia de `css/styles.css`).
 - Notas por capítulo, copiar capítulo y compartir versículo.
-- Búsqueda local en `/buscar/` (palabras o referencias como `Juan 3:16`). `npm run dev` y
-  `npm run build` copian antes el catálogo a `public/content/` (`scripts/sync-content.mjs`).
+- Búsqueda local en `/buscar/` (palabras o referencias como `Juan 3:16`).
 - Línea de tiempo en `/cronologia/` y estudios de contexto en `/estudios/eden/` y
   `/estudios/babel/`. Los estudios se leen del HTML de la raíz (`contexto-*.html`) al compilar:
   una sola fuente de texto para ambas versiones.
 - Redirecciones desde las direcciones antiguas: `lectura.html?book=…&chapter=…`,
   `biblioteca.html`, `buscar.html`, `cronologia.html` y `contexto-*.html` (en `public/`).
 - `scripts/sync-content.mjs` copia a `public/` el catálogo, los mapas y las ilustraciones
-  (no se versionan dos veces).
+  (no se versionan dos veces). Lo ejecuta `next.config.ts` cada vez que arranca Next.
 
 ## Pendiente (siguientes pasos de la fase 2)
 

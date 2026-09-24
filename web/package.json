@@ -5,9 +5,7 @@
   "description": "Horizonte 55 – versión Next.js con páginas estáticas por capítulo (fase 2).",
   "license": "MIT",
   "scripts": {
-    "predev": "node scripts/sync-content.mjs",
     "dev": "next dev -p 4174",
-    "prebuild": "node scripts/sync-content.mjs",
     "build": "next build",
     "serve": "npx serve out -l 4175"
   },

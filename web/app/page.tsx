@@ -15,7 +15,7 @@ export default function HomePage() {
           <p>Una biblioteca personal para recorrer las Escrituras capítulo a capítulo, con tus propias preguntas y ritmo.</p>
           <div className="hero-actions">
             <Link className="hero-button" href="/biblioteca/">Biblioteca</Link>
-            <a className="hero-link" href="/buscar.html">Buscar en la Biblia</a>
+            <Link className="hero-link" href="/buscar/">Buscar en la Biblia</Link>
           </div>
         </div>
         <div className="hero-stats">

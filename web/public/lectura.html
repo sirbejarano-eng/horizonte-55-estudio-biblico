@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Horizonte 55 · Lectura</title>
+  <link rel="canonical" href="https://biblia.horizonte55.com/leer/genesis/1/">
+  <noscript><meta http-equiv="refresh" content="0; url=/biblioteca/"></noscript>
+  <script>
+    // Dirección antigua (lectura.html?book=juan&chapter=3#verse-16) → /leer/juan/3/#verse-16.
+    // Los enlaces compartidos antes de la migración siguen funcionando.
+    (function () {
+      var params = new URLSearchParams(location.search);
+      var book = params.get("book") || "";
+      var chapter = params.get("chapter") || "1";
+      var target = "/biblioteca/";
+      if (/^[a-z0-9-]+$/.test(book) && /^[0-9]{1,3}$/.test(chapter)) {
+        target = "/leer/" + book + "/" + Number(chapter) + "/" + (/^#verse-[0-9]{1,3}$/.test(location.hash) ? location.hash : "");
+      } else if (!book) {
+        try {
+          var saved = JSON.parse(localStorage.getItem("horizonte55-reading-position") || "null");
+          if (saved && /^[a-z0-9-]+$/.test(saved.bookId) && Number.isInteger(saved.chapter)) {
+            target = "/leer/" + saved.bookId + "/" + saved.chapter + "/";
+          }
+        } catch (e) {}
+      }
+      location.replace(target);
+    })();
+  </script>
+</head>
+<body>
+  <p><a href="/biblioteca/">Ir a la Biblioteca</a></p>
+</body>
+</html>

@@ -11,7 +11,7 @@ const links = [
   { href: "/biblioteca/", label: "Biblioteca", match: (p: string) => p.startsWith("/biblioteca") },
   { href: "/cronologia.html", label: "Línea de tiempo", match: () => false },
   { href: "/leer/genesis/1/", label: "Lectura", match: (p: string) => p.startsWith("/leer") },
-  { href: "/buscar.html", label: "Buscar", match: () => false },
+  { href: "/buscar/", label: "Buscar", match: (p: string) => p.startsWith("/buscar") },
 ];
 
 export default function SiteHeader() {

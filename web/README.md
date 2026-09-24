@@ -20,12 +20,15 @@ npm.cmd run serve      # sirve out/ en http://localhost:4175
 - Progreso, capítulo actual y tamaño de letra con las **mismas claves de `localStorage`**
   que la versión actual: nadie pierde su avance al cambiar.
 - Mismo diseño (`app/globals.css` es una copia de `css/styles.css`).
+- Notas por capítulo, copiar capítulo y compartir versículo.
+- Búsqueda local en `/buscar/` (palabras o referencias como `Juan 3:16`). `npm run dev` y
+  `npm run build` copian antes el catálogo a `public/content/` (`scripts/sync-content.mjs`).
+- Redirecciones desde las direcciones antiguas: `lectura.html?book=…&chapter=…`,
+  `biblioteca.html` y `buscar.html` (en `public/`).
 
 ## Pendiente (siguientes pasos de la fase 2)
 
-- Notas por capítulo, copiar y compartir versículo.
-- Búsqueda, línea de tiempo y estudios de contexto (hoy enlazan a las páginas actuales).
+- Línea de tiempo y estudios de contexto (hoy enlazan a las páginas actuales).
 - Inglés, alemán y Reina-Valera 1909.
 - Modo sin conexión (service worker) y manifiesto.
-- Redirección desde las direcciones antiguas (`lectura.html?book=…&chapter=…`).
 - Integración en el flujo de publicación de GitHub Pages.

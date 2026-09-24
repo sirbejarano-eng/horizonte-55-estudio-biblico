@@ -1,10 +1,17 @@
-// Copia el catálogo bíblico de la raíz del repositorio a public/content/ para que la búsqueda
-// (que se ejecuta en el navegador) pueda descargarlo. La fuente única sigue siendo ../content/.
+// Copia a public/ lo que la versión actual ya tiene en la raíz del repositorio, para no duplicarlo
+// en git: el catálogo bíblico (lo descarga la búsqueda) y los mapas e ilustraciones de los estudios.
 import fs from "node:fs";
 import path from "node:path";
 
-const source = path.resolve("..", "content", "books-es-onbv.json");
-const targetDir = path.resolve("public", "content");
-fs.mkdirSync(targetDir, { recursive: true });
-fs.copyFileSync(source, path.join(targetDir, "books-es-onbv.json"));
-console.log("✅ Catálogo copiado a public/content/");
+const copy = (source, target) => {
+  fs.mkdirSync(path.dirname(target), { recursive: true });
+  fs.copyFileSync(source, target);
+};
+
+copy(path.resolve("..", "content", "books-es-onbv.json"), path.resolve("public", "content", "books-es-onbv.json"));
+
+const assetsDir = path.resolve("..", "assets");
+const images = fs.readdirSync(assetsDir).filter((name) => /^(mapa|contexto)-.+\.webp$/.test(name));
+for (const name of images) copy(path.join(assetsDir, name), path.resolve("public", "assets", name));
+
+console.log(`✅ Catálogo y ${images.length} imágenes copiados a public/`);

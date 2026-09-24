@@ -32,7 +32,7 @@ export default function HomePage() {
           <p className="eyebrow">Línea de tiempo</p>
           <h2>Una historia en movimiento</h2>
           <p>Sitúa Egipto, Jerusalén, Canaán y Mesopotamia antes de volver al texto.</p>
-          <a className="hero-link dark-link" href="/cronologia.html">Línea de tiempo</a>
+          <Link className="hero-link dark-link" href="/cronologia/">Línea de tiempo</Link>
         </article>
       </section>
     </>

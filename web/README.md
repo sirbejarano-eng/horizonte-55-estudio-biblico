@@ -23,12 +23,16 @@ npm.cmd run serve      # sirve out/ en http://localhost:4175
 - Notas por capítulo, copiar capítulo y compartir versículo.
 - Búsqueda local en `/buscar/` (palabras o referencias como `Juan 3:16`). `npm run dev` y
   `npm run build` copian antes el catálogo a `public/content/` (`scripts/sync-content.mjs`).
+- Línea de tiempo en `/cronologia/` y estudios de contexto en `/estudios/eden/` y
+  `/estudios/babel/`. Los estudios se leen del HTML de la raíz (`contexto-*.html`) al compilar:
+  una sola fuente de texto para ambas versiones.
 - Redirecciones desde las direcciones antiguas: `lectura.html?book=…&chapter=…`,
-  `biblioteca.html` y `buscar.html` (en `public/`).
+  `biblioteca.html`, `buscar.html`, `cronologia.html` y `contexto-*.html` (en `public/`).
+- `scripts/sync-content.mjs` copia a `public/` el catálogo, los mapas y las ilustraciones
+  (no se versionan dos veces).
 
 ## Pendiente (siguientes pasos de la fase 2)
 
-- Línea de tiempo y estudios de contexto (hoy enlazan a las páginas actuales).
 - Inglés, alemán y Reina-Valera 1909.
 - Modo sin conexión (service worker) y manifiesto.
 - Integración en el flujo de publicación de GitHub Pages.

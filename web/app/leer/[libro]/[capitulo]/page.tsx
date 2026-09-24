@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { chapterHref, getBook, getBooks, neighbours } from "@/lib/bible";
+import { studyForChapter, studyHref } from "@/lib/studies";
 import ReaderTools from "@/components/ReaderTools";
 import VerseShare from "@/components/VerseShare";
 import ChapterNotes from "@/components/ChapterNotes";
@@ -34,12 +35,6 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   };
 }
 
-// Estudios de contexto que ya existen para ciertos capítulos (páginas de la versión actual).
-const relatedStudies: Record<string, { href: string; eyebrow: string; title: string }> = {
-  "genesis-2": { href: "/contexto-eden.html", eyebrow: "Estudio de contexto", title: "Los cuatro ríos del Edén: del texto sagrado al mapa" },
-  "genesis-11": { href: "/contexto-babel.html", eyebrow: "Estudio de contexto", title: "Babel: ciudad, torre y dispersión" },
-};
-
 export default async function ChapterPage({ params }: Params) {
   const { libro, capitulo } = await params;
   const found = find(libro, capitulo);
@@ -48,7 +43,7 @@ export default async function ChapterPage({ params }: Params) {
   const index = book.chapters.findIndex((item) => item.number === chapter.number);
   const percentage = Math.round(((index + 1) / book.chapters.length) * 100);
   const { prev, next } = neighbours(book.id, chapter.number);
-  const study = relatedStudies[`${book.id}-${chapter.number}`];
+  const study = studyForChapter(book.id, chapter.number);
   const options = getBooks().map((item) => ({ id: item.id, title: item.title, chapters: item.chapters.length }));
 
   return (
@@ -71,9 +66,9 @@ export default async function ChapterPage({ params }: Params) {
 
       {study && (
         <aside className="context-study-prompt" aria-labelledby="study-title">
-          <p className="eyebrow">{study.eyebrow}</p>
+          <p className="eyebrow">Estudio de contexto</p>
           <h2 id="study-title">{study.title}</h2>
-          <a className="secondary-button" href={study.href}>Abrir el estudio</a>
+          <Link className="secondary-button" href={studyHref(study.slug)}>Abrir el estudio</Link>
         </aside>
       )}
 

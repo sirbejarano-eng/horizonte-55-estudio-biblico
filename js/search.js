@@ -1,4 +1,4 @@
-import { loadBooks, normalizeText, navigateTo, escapeHtml } from './core.js?v=31';
+import { loadBooks, normalizeText, navigateTo, escapeHtml } from './core.js?v=32';
 import { renderError, renderShell } from './shell.js?v=15';
 import { t, localizedBookTitle, getLanguage } from './i18n.js?v=35';
 

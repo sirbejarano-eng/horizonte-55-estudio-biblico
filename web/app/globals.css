@@ -120,7 +120,7 @@ body {
   padding: clamp(2rem, 6vw, 4.5rem) max(1rem, calc((100vw - 1280px) / 2));
   overflow: hidden;
   background-color: #6a492f;
-  background-image: url('../assets/hero-background.jpg');
+  background-image: url('/assets/hero-background.jpg');
   background-position: center;
   background-size: cover;
   color: #fffaf0;
@@ -185,7 +185,7 @@ h2, h3 { font-family: var(--serif); }
 .page-heading h1 { margin: 0.35rem 0 0.6rem; font-family: var(--serif); font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 500; }
 .page-heading p:last-child { color: var(--muted); line-height: 1.6; }
 .home-layout { padding-top: 0; }
-.home-hero { display: flex; align-items: end; justify-content: space-between; gap: 2rem; min-height: 28rem; margin: 0 calc((1180px - 100vw) / 2) 1rem; padding: clamp(2rem, 7vw, 5rem) max(1rem, calc((100vw - 1180px) / 2)); background: linear-gradient(100deg, rgba(37,27,20,.78), rgba(37,27,20,.35)), url('../assets/hero-background.jpg') center/cover; color: #fffaf0; }
+.home-hero { display: flex; align-items: end; justify-content: space-between; gap: 2rem; min-height: 28rem; margin: 0 calc((1180px - 100vw) / 2) 1rem; padding: clamp(2rem, 7vw, 5rem) max(1rem, calc((100vw - 1180px) / 2)); background: linear-gradient(100deg, rgba(37,27,20,.78), rgba(37,27,20,.35)), url('/assets/hero-background.jpg') center/cover; color: #fffaf0; }
 .home-hero h1 { max-width: 45rem; margin: 0.5rem 0 0.8rem; font-family: var(--serif); font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 500; line-height: .98; }
 .home-hero > div:first-child > p:not(.eyebrow) { max-width: 38rem; color: #f5e9d6; font-size: 1.1rem; line-height: 1.55; }
 .hero-actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
@@ -746,3 +746,8 @@ h2, h3 { font-family: var(--serif); }
   .verse:hover .verse-share, .verse:focus-within .verse-share, .verse-highlight .verse-share { opacity: 1; }
 }
 @media (prefers-reduced-motion: reduce) { .verse-share { transition: none; } }
+
+/* Añadidos de la versión Next.js (fase 2) */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.chapter-nav { display: flex; justify-content: space-between; gap: 1rem; margin-top: 1.5rem; }
+.chapter-nav a { text-decoration: none; }

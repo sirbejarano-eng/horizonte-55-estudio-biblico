@@ -1,0 +1,31 @@
+# Horizonte 55 – versión Next.js (fase 2, en construcción)
+
+Nueva base del sitio: cada capítulo se genera como página HTML propia (`/leer/genesis/1/`),
+legible sin JavaScript e indexable por buscadores. **Todavía no se publica**: el sitio actual
+de la raíz sigue siendo el que despliega GitHub Pages.
+
+## Probar en local
+
+```powershell
+cd web
+npm.cmd install
+npm.cmd run dev        # http://localhost:4174
+npm.cmd run build      # genera out/ con ~1.190 páginas
+npm.cmd run serve      # sirve out/ en http://localhost:4175
+```
+
+## Qué incluye ya
+
+- Portada, Biblioteca y los 1.189 capítulos (Open Nueva Biblia Viva).
+- Progreso, capítulo actual y tamaño de letra con las **mismas claves de `localStorage`**
+  que la versión actual: nadie pierde su avance al cambiar.
+- Mismo diseño (`app/globals.css` es una copia de `css/styles.css`).
+
+## Pendiente (siguientes pasos de la fase 2)
+
+- Notas por capítulo, copiar y compartir versículo.
+- Búsqueda, línea de tiempo y estudios de contexto (hoy enlazan a las páginas actuales).
+- Inglés, alemán y Reina-Valera 1909.
+- Modo sin conexión (service worker) y manifiesto.
+- Redirección desde las direcciones antiguas (`lectura.html?book=…&chapter=…`).
+- Integración en el flujo de publicación de GitHub Pages.

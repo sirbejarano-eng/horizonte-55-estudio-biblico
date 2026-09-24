@@ -1,12 +1,12 @@
 import { renderShell } from './shell.js?v=15';
-import { navigateTo } from './core.js?v=31';
+import { navigateTo } from './core.js?v=32';
 import { getLanguage, getTimelineMilestones, t } from './i18n.js?v=35';
 
 const track = document.getElementById('timelineTrack');
 const contextMap = document.getElementById('contextMap');
 
 const language = getLanguage();
-contextMap.src = `./assets/mapa-${language}.png`;
+contextMap.src = `./assets/mapa-${language}.webp`;
 contextMap.alt = language === 'de'
   ? 'Biblische Karte von Ägypten, Jerusalem, Kanaan und Mesopotamien'
   : language === 'en'

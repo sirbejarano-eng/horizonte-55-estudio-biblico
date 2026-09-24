@@ -1,5 +1,5 @@
 import { applyLanguage, getLanguage, setLanguage, t } from './i18n.js?v=35';
-import { isLanguageOfflineReady, ensureLanguageOfflineReady, getSpanishVersion, setSpanishVersion } from './core.js?v=31';
+import { isLanguageOfflineReady, ensureLanguageOfflineReady, getSpanishVersion, setSpanishVersion } from './core.js?v=32';
 
 export function renderShell(activePage) {
   applyLanguage();

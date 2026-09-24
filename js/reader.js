@@ -1,4 +1,4 @@
-import { loadBooks, findBook, getReadingPosition, saveReadingPosition, getCompletedChapters, toggleCompleted, getNotes, saveNote, getReadingScale, saveReadingScale, copyReference, navigateTo, escapeHtml, getSpanishVersion, normalizeRv1909Opening } from './core.js?v=31';
+import { loadBooks, findBook, getReadingPosition, saveReadingPosition, getCompletedChapters, toggleCompleted, getNotes, saveNote, getReadingScale, saveReadingScale, copyReference, navigateTo, escapeHtml, getSpanishVersion, normalizeRv1909Opening } from './core.js?v=32';
 import { renderError, renderShell } from './shell.js?v=15';
 import { getLanguage, t, localizedBookTitle } from './i18n.js?v=36';
 

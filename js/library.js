@@ -1,4 +1,4 @@
-import { loadBooks, getCompletedChapters, navigateTo, normalizeText, totalChapters, totalCompleted, exportProgress, validateProgressImport, applyProgressImport, restoreProgressBackup, summarizeCurrentProgress, getPersistedImportBackup, escapeHtml } from './core.js?v=31';
+import { loadBooks, getCompletedChapters, navigateTo, normalizeText, totalChapters, totalCompleted, exportProgress, validateProgressImport, applyProgressImport, restoreProgressBackup, summarizeCurrentProgress, getPersistedImportBackup, escapeHtml } from './core.js?v=32';
 import { renderError, renderShell } from './shell.js?v=15';
 import { t, localizedBookTitle } from './i18n.js?v=35';
 

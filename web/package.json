@@ -1,0 +1,23 @@
+{
+  "name": "horizonte55-web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Horizonte 55 – versión Next.js con páginas estáticas por capítulo (fase 2).",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev -p 4174",
+    "build": "next build",
+    "serve": "npx serve out -l 4175"
+  },
+  "dependencies": {
+    "next": "16.3.6",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5"
+  }
+}

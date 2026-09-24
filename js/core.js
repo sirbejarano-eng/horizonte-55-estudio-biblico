@@ -37,7 +37,7 @@ export function getLanguageOfflineAssets(language) {
     `./content/${catalogFileFor(language)}?v=${CONTENT_VERSION}`,
     `./manifest-${language}.json`,
     `./assets/icon-${language}.png`,
-    `./assets/mapa-${language}.png`
+    `./assets/mapa-${language}.webp`
   ];
 }
 

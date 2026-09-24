@@ -9,19 +9,27 @@
   <noscript><meta http-equiv="refresh" content="0; url=/biblioteca/"></noscript>
   <script>
     // Dirección antigua (lectura.html?book=juan&chapter=3#verse-16) → /leer/juan/3/#verse-16.
-    // Los enlaces compartidos antes de la migración siguen funcionando.
+    // Los enlaces compartidos antes de la migración siguen funcionando, en el idioma y la versión
+    // que la persona tenía elegidos (inglés → /en/read/…, alemán → /de/lesen/…, RV1909 → /rv1909/leer/…).
     (function () {
+      var lang = "es", version = "onbv";
+      try {
+        lang = localStorage.getItem("horizonte55-language") || "es";
+        version = localStorage.getItem("horizonte55-spanish-version") || "onbv";
+      } catch (e) {}
+      var base = lang === "en" ? "/en/read/" : lang === "de" ? "/de/lesen/" : version === "rv1909" ? "/rv1909/leer/" : "/leer/";
+      var library = lang === "en" ? "/en/library/" : lang === "de" ? "/de/bibliothek/" : "/biblioteca/";
       var params = new URLSearchParams(location.search);
       var book = params.get("book") || "";
       var chapter = params.get("chapter") || "1";
-      var target = "/biblioteca/";
+      var target = library;
       if (/^[a-z0-9-]+$/.test(book) && /^[0-9]{1,3}$/.test(chapter)) {
-        target = "/leer/" + book + "/" + Number(chapter) + "/" + (/^#verse-[0-9]{1,3}$/.test(location.hash) ? location.hash : "");
+        target = base + book + "/" + Number(chapter) + "/" + (/^#verse-[0-9]{1,3}$/.test(location.hash) ? location.hash : "");
       } else if (!book) {
         try {
           var saved = JSON.parse(localStorage.getItem("horizonte55-reading-position") || "null");
           if (saved && /^[a-z0-9-]+$/.test(saved.bookId) && Number.isInteger(saved.chapter)) {
-            target = "/leer/" + saved.bookId + "/" + saved.chapter + "/";
+            target = base + saved.bookId + "/" + saved.chapter + "/";
           }
         } catch (e) {}
       }

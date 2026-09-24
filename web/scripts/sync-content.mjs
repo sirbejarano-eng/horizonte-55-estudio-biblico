@@ -8,7 +8,9 @@ const copy = (source, target) => {
   fs.copyFileSync(source, target);
 };
 
-copy(path.resolve("..", "content", "books-es-onbv.json"), path.resolve("public", "content", "books-es-onbv.json"));
+// Los cuatro catálogos (ONBV, RV1909, inglés y alemán): la búsqueda descarga el de la edición activa.
+const catalogs = ["books-es-onbv.json", "books.json", "books-en.json", "books-de.json"];
+for (const name of catalogs) copy(path.resolve("..", "content", name), path.resolve("public", "content", name));
 
 const assetsDir = path.resolve("..", "assets");
 const images = fs.readdirSync(assetsDir).filter((name) => /^(mapa|contexto)-.+\.webp$/.test(name));

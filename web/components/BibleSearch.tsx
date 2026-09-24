@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { chapterPath, EDITIONS, t, type Edition, type Lang } from "@/lib/i18n";
+import { preferredEdition } from "@/lib/storage";
 
 type Verse = { number: number; text: string };
 type Book = { id: string; title: string; chapters: { number: number; verses: Verse[] }[] };
@@ -12,19 +14,25 @@ const normalize = (value: string) => value.normalize("NFD").replace(/[̀-ͯ]/g, 
 
 // La búsqueda ocurre en el navegador: el catálogo se descarga una vez (y el navegador lo guarda en caché)
 // y ninguna consulta sale del dispositivo. Mismo comportamiento que buscar.html.
-export default function BibleSearch() {
+export default function BibleSearch({ lang }: { lang: Lang }) {
+  const text = t(lang);
+  const [edition, setEdition] = useState<Edition | null>(null);
   const [books, setBooks] = useState<Book[] | null>(null);
   const [error, setError] = useState(false);
   const [query, setQuery] = useState("");
   const [term, setTerm] = useState("");
   const [shown, setShown] = useState(PAGE_SIZE);
 
+  // En español se busca en la versión elegida (ONBV o RV1909).
+  useEffect(() => setEdition(preferredEdition(lang)), [lang]);
+
   useEffect(() => {
-    fetch("/content/books-es-onbv.json?v=1")
+    if (!edition) return;
+    fetch(`/content/${EDITIONS[edition].file}?v=1`)
       .then((response) => (response.ok ? response.json() : Promise.reject()))
       .then((data: { books: Book[] }) => setBooks(data.books))
       .catch(() => setError(true));
-  }, []);
+  }, [edition]);
 
   // Pequeña espera para no recalcular en cada tecla sobre 31.000 versículos.
   useEffect(() => {
@@ -61,29 +69,30 @@ export default function BibleSearch() {
 
   return (
     <section className="search-page-panel">
-      <label className="search-label" htmlFor="pageSearchInput">Palabras, temas o referencias</label>
+      <label className="search-label" htmlFor="pageSearchInput">{text.searchLabel}</label>
       <input
         id="pageSearchInput"
         type="search"
-        placeholder="Ej. esperanza o Juan 1:1"
+        placeholder={text.searchPlaceholder}
         value={query}
         onChange={(event) => setQuery(event.target.value)}
         disabled={!books && !error}
       />
+      {edition && <p className="search-summary">{EDITIONS[edition].label}</p>}
       <div id="pageSearchResults" className="search-results" aria-live="polite">
-        {error && <div className="empty-state">No se pudo cargar el texto bíblico. Revisa tu conexión y vuelve a intentarlo.</div>}
-        {!books && !error && <p className="search-summary">Cargando el texto bíblico…</p>}
-        {books && term.length >= 2 && matches.length === 0 &&<div className="empty-state">No se encontraron resultados.</div>}
-        {matches.length > 0 && (
+        {error && <div className="empty-state">{text.searchLoadError}</div>}
+        {!books && !error && <p className="search-summary">{text.searchLoading}</p>}
+        {books && term.length >= 2 && matches.length === 0 && <div className="empty-state">{text.noResults}</div>}
+        {edition && matches.length > 0 && (
           <>
             <p className="search-summary">
               {shown >= matches.length
-                ? `${matches.length} resultado${matches.length === 1 ? "" : "s"}`
-                : `Mostrando ${shown} de ${matches.length} resultados`}
+                ? `${matches.length} ${matches.length === 1 ? text.result : text.results}`
+                : `${text.showing} ${shown} ${text.of} ${matches.length} ${text.results}`}
             </p>
             <div className="search-results-list">
               {matches.slice(0, shown).map(({ book, chapter, verse }) => (
-                <Link key={`${book.id}-${chapter}-${verse.number}`} className="result-item" href={`/leer/${book.id}/${chapter}/#verse-${verse.number}`}>
+                <Link key={`${book.id}-${chapter}-${verse.number}`} className="result-item" href={`${chapterPath(edition, book.id, chapter)}#verse-${verse.number}`}>
                   <span className="result-book">{book.title} {chapter}:{verse.number}</span>
                   <p className="result-text">{verse.text}</p>
                 </Link>
@@ -91,7 +100,7 @@ export default function BibleSearch() {
             </div>
             {shown < matches.length && (
               <button type="button" className="secondary-button" onClick={() => setShown((value) => value + PAGE_SIZE)}>
-                Mostrar más resultados
+                {text.showMore}
               </button>
             )}
           </>

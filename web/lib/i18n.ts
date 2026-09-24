@@ -1,0 +1,161 @@
+// Idiomas de la interfaz y ediciones bíblicas. Cada edición tiene sus propias direcciones, así cada
+// capítulo existe como página real en cada idioma (indexable y compartible), en lugar de cambiar el
+// texto con JavaScript como en la versión actual.
+
+export type Lang = "es" | "en" | "de";
+export type Edition = "onbv" | "rv1909" | "en" | "de";
+
+export const LANGS: Lang[] = ["es", "en", "de"];
+
+// Mismas claves de localStorage que la versión actual.
+export const LANGUAGE_KEY = "horizonte55-language";
+export const SPANISH_VERSION_KEY = "horizonte55-spanish-version";
+
+export const EDITIONS: Record<Edition, { lang: Lang; file: string; readBase: string; label: string }> = {
+  onbv: { lang: "es", file: "books-es-onbv.json", readBase: "/leer", label: "Open Nueva Biblia Viva" },
+  rv1909: { lang: "es", file: "books.json", readBase: "/rv1909/leer", label: "Reina-Valera 1909" },
+  en: { lang: "en", file: "books-en.json", readBase: "/en/read", label: "World English Bible" },
+  de: { lang: "de", file: "books-de.json", readBase: "/de/lesen", label: "Schlachter 1951" },
+};
+
+export const defaultEdition = (lang: Lang): Edition => (lang === "es" ? "onbv" : lang);
+
+export const ROUTES: Record<Lang, { home: string; library: string; search: string; timeline: string }> = {
+  es: { home: "/", library: "/biblioteca/", search: "/buscar/", timeline: "/cronologia/" },
+  en: { home: "/en/", library: "/en/library/", search: "/en/search/", timeline: "/en/timeline/" },
+  de: { home: "/de/", library: "/de/bibliothek/", search: "/de/suche/", timeline: "/de/zeitleiste/" },
+};
+
+export const chapterPath = (edition: Edition, bookId: string, chapter: number) => `${EDITIONS[edition].readBase}/${bookId}/${chapter}/`;
+
+// Equivalente de una dirección en otro idioma/edición (para el selector de idioma y de versión).
+export function equivalentPath(pathname: string, target: Edition): string {
+  const lang = EDITIONS[target].lang;
+  for (const edition of Object.keys(EDITIONS) as Edition[]) {
+    const match = pathname.match(new RegExp(`^${EDITIONS[edition].readBase}/([a-z0-9-]+)/(\\d+)/?$`));
+    if (match) return chapterPath(target, match[1], Number(match[2]));
+  }
+  for (const from of LANGS) {
+    for (const key of ["library", "search", "timeline"] as const) {
+      if (pathname === ROUTES[from][key] || pathname === ROUTES[from][key].slice(0, -1)) return ROUTES[lang][key];
+    }
+  }
+  return ROUTES[lang].home;
+}
+
+export const dict = {
+  es: {
+    home: "Inicio", library: "Biblioteca", timeline: "Línea de tiempo", reader: "Lectura", search: "Buscar",
+    language: "Idioma", openMenu: "Abrir menú", closeMenu: "Cerrar menú", mainNavigation: "Navegación principal",
+    studyDesk: "Tu mesa de estudio", skipToContent: "Saltar al contenido", bibleVersion: "Versión bíblica",
+    heroTitle: "Lee. Anota. Vuelve a la fuente.",
+    heroIntro: "Una biblioteca personal para recorrer las Escrituras capítulo a capítulo, con tus propias preguntas y ritmo.",
+    searchBible: "Buscar en la Biblia", books: "libros", chapters: "capítulos", catalogPhase: "Catálogo disponible en esta fase",
+    chaptersCompleted: "capítulos completados en este dispositivo", savedLocally: "Guardado localmente en este dispositivo",
+    continueReading: "Continuar leyendo", contextTitle: "Una historia en movimiento",
+    contextIntro: "Sitúa Egipto, Jerusalén, Canaán y Mesopotamia antes de volver al texto.",
+    libraryTitle: "Los 66 libros", libraryIntro: "Elige un libro y empieza por el primer capítulo.", libraryIndexLabel: "Índice de la biblioteca", index: "Índice",
+    oldTestament: "Antiguo Testamento", newTestament: "Nuevo Testamento", openBook: "Abrir libro", open: "Abrir",
+    chapter: "Capítulo", of: "de", progressIn: "Avance en", chapterNav: "Capítulos",
+    complete: "Marcar como completado", completed: "Completado", reduceText: "Reducir texto", increaseText: "Aumentar texto",
+    copy: "Copiar", copied: "copiado al portapapeles", copyError: "No se pudo copiar la referencia.", saveError: "No se pudo guardar en este dispositivo.",
+    chooseBook: "Seleccionar libro", chooseChapter: "Seleccionar capítulo",
+    shareVerse: "Compartir versículo", shared: "Versículo preparado para compartir", shareError: "No se pudo compartir el versículo.",
+    notes: "Notas", notesPlaceholder: "Escribe tus observaciones, preguntas o referencias...",
+    notesSaveError: "No se pudo guardar la nota en este dispositivo. Copia el texto para no perderlo.", copyNote: "Copiar nota", noteCopied: "Nota copiada al portapapeles",
+    contextStudy: "Estudio de contexto", openStudy: "Abrir el estudio",
+    localSearch: "Búsqueda local", searchLabel: "Palabras, temas o referencias", searchPlaceholder: "Ej. esperanza o Juan 1:1",
+    searchHint: "Busca palabras, temas o referencias como Mateo 1:25.", searchLoading: "Cargando el texto bíblico…",
+    searchLoadError: "No se pudo cargar el texto bíblico. Revisa tu conexión y vuelve a intentarlo.", noResults: "No se encontraron resultados.",
+    result: "resultado", results: "resultados", showing: "Mostrando", showMore: "Mostrar más resultados",
+    searchDescription: "Busca palabras o referencias en toda la Biblia directamente en tu navegador, sin enviar datos a ningún servidor.",
+    timelineEyebrow: "Orientación histórica", timelineTitle: "Línea de tiempo bíblica",
+    timelineIntro: "Una vista de contexto para situar pueblos, territorios y desplazamientos alrededor de Jerusalén y Egipto.",
+    mapReference: "Mapa de referencia", mapTitle: "Entre el Nilo, Jerusalén y Mesopotamia",
+    mapIntro: "Las rutas son una guía visual de estudio. Las fechas se presentan como aproximaciones y no sustituyen el análisis histórico especializado.",
+    mapAlt: "Mapa bíblico de Egipto, Jerusalén, Canaán y Mesopotamia", milestones: "Hitos para recorrer",
+    milestonesIntro: "Selecciona un hito para ver su región y una puerta de entrada al texto bíblico.",
+    timelineDescription: "Línea de tiempo bíblica y mapa de estudio de Oriente Próximo: de Abraham a la iglesia primitiva.",
+    libraryDescription: "Los 66 libros de la Biblia ordenados para leer capítulo a capítulo y seguir tu progreso en este dispositivo.",
+    siteDescription: "Lee la Biblia capítulo a capítulo, toma notas y explora su contexto histórico. Gratis, sin registro y sin recopilar datos personales.",
+    copyright: "© {year} Jose A Bejarano V. Código propio: licencia MIT. Material de estudio propio: derechos reservados. Textos bíblicos: licencias independientes.",
+    privacy: "No se recopilan datos personales: el progreso y las notas se guardan únicamente en tu dispositivo.",
+  },
+  en: {
+    home: "Home", library: "Library", timeline: "Timeline", reader: "Reading", search: "Search",
+    language: "Language", openMenu: "Open menu", closeMenu: "Close menu", mainNavigation: "Main navigation",
+    studyDesk: "Your study desk", skipToContent: "Skip to content", bibleVersion: "Bible version",
+    heroTitle: "Read. Take notes. Return to the source.",
+    heroIntro: "A personal library for exploring Scripture chapter by chapter, with your own questions and pace.",
+    searchBible: "Search the Bible", books: "books", chapters: "chapters", catalogPhase: "Catalog available in this phase",
+    chaptersCompleted: "chapters completed on this device", savedLocally: "Saved locally on this device",
+    continueReading: "Continue reading", contextTitle: "A story in motion",
+    contextIntro: "Place Egypt, Jerusalem, Canaan and Mesopotamia before returning to the text.",
+    libraryTitle: "The 66 books", libraryIntro: "Choose a book and start with the first chapter.", libraryIndexLabel: "Library index", index: "Index",
+    oldTestament: "Old Testament", newTestament: "New Testament", openBook: "Open book", open: "Open",
+    chapter: "Chapter", of: "of", progressIn: "Progress in", chapterNav: "Chapters",
+    complete: "Mark as completed", completed: "Completed", reduceText: "Reduce text size", increaseText: "Increase text size",
+    copy: "Copy", copied: "copied to clipboard", copyError: "The reference could not be copied.", saveError: "The change could not be saved on this device.",
+    chooseBook: "Select book", chooseChapter: "Select chapter",
+    shareVerse: "Share verse", shared: "Verse ready to share", shareError: "The verse could not be shared.",
+    notes: "Notes", notesPlaceholder: "Write your observations, questions or references...",
+    notesSaveError: "The note could not be saved on this device. Copy the text so you do not lose it.", copyNote: "Copy note", noteCopied: "Note copied to clipboard",
+    contextStudy: "Context study", openStudy: "Open the study",
+    localSearch: "Local search", searchLabel: "Words, topics or references", searchPlaceholder: "E.g. hope or John 1:1",
+    searchHint: "Search words, topics or references such as Matthew 1:25.", searchLoading: "Loading the Bible text…",
+    searchLoadError: "The Bible text could not be loaded. Check your connection and try again.", noResults: "No results found.",
+    result: "result", results: "results", showing: "Showing", showMore: "Show more results",
+    searchDescription: "Search words or references across the whole Bible directly in your browser, without sending data to any server.",
+    timelineEyebrow: "Historical orientation", timelineTitle: "Biblical timeline",
+    timelineIntro: "A context view for peoples, territories and movements around Jerusalem and Egypt.",
+    mapReference: "Reference map", mapTitle: "Between the Nile, Jerusalem and Mesopotamia",
+    mapIntro: "The routes are a visual study guide. Dates are approximate and do not replace specialized historical analysis.",
+    mapAlt: "Biblical map of Egypt, Jerusalem, Canaan and Mesopotamia", milestones: "Milestones to explore",
+    milestonesIntro: "Choose a milestone to see its region and a way into the biblical text.",
+    timelineDescription: "Biblical timeline and study map of the Near East: from Abraham to the early church.",
+    libraryDescription: "The 66 books of the Bible, ready to read chapter by chapter and track your progress on this device.",
+    siteDescription: "Read the Bible chapter by chapter, take notes and explore its historical context. Free, no sign-up and no personal data collected.",
+    copyright: "© {year} Jose A Bejarano V. Original code: MIT license. Original study material: all rights reserved. Bible texts: separate licenses.",
+    privacy: "No personal data is collected: your progress and notes are stored only on your device.",
+  },
+  de: {
+    home: "Startseite", library: "Bibliothek", timeline: "Zeitleiste", reader: "Lesen", search: "Suchen",
+    language: "Sprache", openMenu: "Menü öffnen", closeMenu: "Menü schließen", mainNavigation: "Hauptnavigation",
+    studyDesk: "Dein Studiertisch", skipToContent: "Zum Inhalt springen", bibleVersion: "Bibelversion",
+    heroTitle: "Lies. Notiere. Kehre zur Quelle zurück.",
+    heroIntro: "Eine persönliche Bibliothek, um die Bibel Kapitel für Kapitel mit deinen eigenen Fragen und in deinem Tempo zu erkunden.",
+    searchBible: "In der Bibel suchen", books: "Bücher", chapters: "Kapitel", catalogPhase: "Katalog in dieser Phase",
+    chaptersCompleted: "Kapitel auf diesem Gerät abgeschlossen", savedLocally: "Lokal auf diesem Gerät gespeichert",
+    continueReading: "Weiterlesen", contextTitle: "Eine Geschichte in Bewegung",
+    contextIntro: "Ordne Ägypten, Jerusalem, Kanaan und Mesopotamien ein, bevor du zum Text zurückkehrst.",
+    libraryTitle: "Die 66 Bücher", libraryIntro: "Wähle ein Buch und beginne mit dem ersten Kapitel.", libraryIndexLabel: "Bibliotheksindex", index: "Index",
+    oldTestament: "Altes Testament", newTestament: "Neues Testament", openBook: "Buch öffnen", open: "Öffnen",
+    chapter: "Kapitel", of: "von", progressIn: "Fortschritt in", chapterNav: "Kapitel",
+    complete: "Als abgeschlossen markieren", completed: "Abgeschlossen", reduceText: "Text verkleinern", increaseText: "Text vergrößern",
+    copy: "Kopieren", copied: "in die Zwischenablage kopiert", copyError: "Der Verweis konnte nicht kopiert werden.", saveError: "Die Änderung konnte auf diesem Gerät nicht gespeichert werden.",
+    chooseBook: "Buch auswählen", chooseChapter: "Kapitel auswählen",
+    shareVerse: "Vers teilen", shared: "Vers zum Teilen bereit", shareError: "Der Vers konnte nicht geteilt werden.",
+    notes: "Notizen", notesPlaceholder: "Beobachtungen, Fragen oder Verweise eingeben...",
+    notesSaveError: "Die Notiz konnte auf diesem Gerät nicht gespeichert werden. Kopiere den Text, damit er nicht verloren geht.", copyNote: "Notiz kopieren", noteCopied: "Notiz in die Zwischenablage kopiert",
+    contextStudy: "Kontextstudie", openStudy: "Studie öffnen",
+    localSearch: "Lokale Suche", searchLabel: "Wörter, Themen oder Verweise", searchPlaceholder: "z. B. Hoffnung oder Johannes 1:1",
+    searchHint: "Suche nach Wörtern, Themen oder Verweisen wie Matthäus 1:25.", searchLoading: "Bibeltext wird geladen…",
+    searchLoadError: "Der Bibeltext konnte nicht geladen werden. Prüfe deine Verbindung und versuche es erneut.", noResults: "Keine Ergebnisse gefunden.",
+    result: "Ergebnis", results: "Ergebnisse", showing: "Angezeigt", showMore: "Weitere Ergebnisse anzeigen",
+    searchDescription: "Durchsuche die ganze Bibel nach Wörtern oder Verweisen direkt im Browser, ohne Daten an einen Server zu senden.",
+    timelineEyebrow: "Historische Orientierung", timelineTitle: "Biblische Zeitleiste",
+    timelineIntro: "Ein Überblick über Völker, Gebiete und Bewegungen rund um Jerusalem und Ägypten.",
+    mapReference: "Referenzkarte", mapTitle: "Zwischen Nil, Jerusalem und Mesopotamien",
+    mapIntro: "Die Routen dienen als visuelle Orientierung. Die Datierungen sind ungefähr und ersetzen keine spezialisierte historische Analyse.",
+    mapAlt: "Biblische Karte von Ägypten, Jerusalem, Kanaan und Mesopotamien", milestones: "Stationen zum Entdecken",
+    milestonesIntro: "Wähle eine Station, um ihre Region und einen Zugang zum Bibeltext zu sehen.",
+    timelineDescription: "Biblische Zeitleiste und Studienkarte des Nahen Ostens: von Abraham bis zur frühen Kirche.",
+    libraryDescription: "Die 66 Bücher der Bibel, bereit zum Lesen Kapitel für Kapitel, mit Fortschritt auf diesem Gerät.",
+    siteDescription: "Lies die Bibel Kapitel für Kapitel, mache Notizen und entdecke ihren historischen Kontext. Kostenlos, ohne Anmeldung und ohne personenbezogene Daten.",
+    copyright: "© {year} Jose A Bejarano V. Eigener Code: MIT-Lizenz. Eigenes Studienmaterial: alle Rechte vorbehalten. Bibeltexte: gesonderte Lizenzen.",
+    privacy: "Es werden keine personenbezogenen Daten erhoben: Fortschritt und Notizen werden nur auf deinem Gerät gespeichert.",
+  },
+} satisfies Record<Lang, Record<string, string>>;
+
+export type Dict = (typeof dict)["es"];
+export const t = (lang: Lang): Dict => dict[lang];

@@ -30,7 +30,9 @@ npm.cmd run serve      # sirve out/ en http://localhost:4175
   la preferencia con las mismas claves que la versión actual (`horizonte55-language`,
   `horizonte55-spanish-version`). Quien tenía inglés o alemán llega a su idioma desde la portada.
 - Progreso y notas son comunes a todas las ediciones (se guardan por libro y capítulo).
-- Los estudios de contexto están, por ahora, solo en español.
+- Estudios de contexto en los tres idiomas: `/estudios/eden/`, `/en/studies/eden/`, `/de/studien/eden/`
+  (y `babel`). Inglés y alemán están en `content/studies/`, generados a partir del HTML en español
+  y de las traducciones de `js/eden-content.js` y `js/babel-content.js` de la versión actual.
 
 ## Qué incluye ya
 
@@ -63,5 +65,4 @@ npm.cmd run serve      # sirve out/ en http://localhost:4175
 
 ## Pendiente (siguientes pasos de la fase 2)
 
-- Estudios de contexto en inglés y alemán.
 - Integración en el flujo de publicación de GitHub Pages.

@@ -2,8 +2,8 @@ import StudyView, { studyMetadata, studyStaticParams, type StudyParams } from "@
 
 export const dynamicParams = false;
 export const generateStaticParams = studyStaticParams;
-export const generateMetadata = (props: StudyParams) => studyMetadata("es", props);
+export const generateMetadata = (props: StudyParams) => studyMetadata("de", props);
 
 export default function Page(props: StudyParams) {
-  return <StudyView lang="es" {...props} />;
+  return <StudyView lang="de" {...props} />;
 }

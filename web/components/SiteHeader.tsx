@@ -38,7 +38,7 @@ export default function SiteHeader({ lang }: { lang: Lang }) {
     { href: routes.home, label: text.home, current: pathname === routes.home },
     { href: routes.library, label: text.library, current: pathname.startsWith(routes.library) },
     { href: routes.timeline, label: text.timeline, current: pathname.startsWith(routes.timeline) },
-    { href: readHref, label: text.reader, current: readBases.some((base) => pathname.startsWith(base)) || pathname.startsWith("/estudios") },
+    { href: readHref, label: text.reader, current: readBases.some((base) => pathname.startsWith(base)) || pathname.startsWith(routes.studies) },
     { href: routes.search, label: text.search, current: pathname.startsWith(routes.search) },
   ];
 

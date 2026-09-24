@@ -47,7 +47,7 @@ export default async function ChapterView({ edition, params }: { edition: Editio
   const index = book.chapters.findIndex((item) => item.number === chapter.number);
   const percentage = Math.round(((index + 1) / book.chapters.length) * 100);
   const { prev, next } = neighbours(edition, book.id, chapter.number);
-  const study = lang === "es" ? studyForChapter(book.id, chapter.number) : undefined;
+  const study = studyForChapter(book.id, chapter.number);
   const options = getBooks(edition).map((item) => ({ id: item.id, title: item.title, chapters: item.chapters.length }));
 
   return (
@@ -71,8 +71,8 @@ export default async function ChapterView({ edition, params }: { edition: Editio
       {study && (
         <aside className="context-study-prompt" aria-labelledby="study-title">
           <p className="eyebrow">{text.contextStudy}</p>
-          <h2 id="study-title">{study.title}</h2>
-          <Link className="secondary-button" href={studyHref(study.slug)}>{text.openStudy}</Link>
+          <h2 id="study-title">{study.titles[lang]}</h2>
+          <Link className="secondary-button" href={studyHref(study.slug, lang)}>{text.openStudy}</Link>
         </aside>
       )}
 

@@ -24,10 +24,10 @@ export const catalogUrl = (edition: Edition) => `/content/${EDITIONS[edition].fi
 
 export const defaultEdition =(lang: Lang): Edition => (lang === "es" ? "onbv" : lang);
 
-export const ROUTES: Record<Lang, { home: string; library: string; search: string; timeline: string; offline: string }> = {
-  es: { home: "/", library: "/biblioteca/", search: "/buscar/", timeline: "/cronologia/", offline: "/sin-conexion/" },
-  en: { home: "/en/", library: "/en/library/", search: "/en/search/", timeline: "/en/timeline/", offline: "/en/offline/" },
-  de: { home: "/de/", library: "/de/bibliothek/", search: "/de/suche/", timeline: "/de/zeitleiste/", offline: "/de/offline/" },
+export const ROUTES: Record<Lang, { home: string; library: string; search: string; timeline: string; offline: string; studies: string }> = {
+  es: { home: "/", library: "/biblioteca/", search: "/buscar/", timeline: "/cronologia/", offline: "/sin-conexion/", studies: "/estudios/" },
+  en: { home: "/en/", library: "/en/library/", search: "/en/search/", timeline: "/en/timeline/", offline: "/en/offline/", studies: "/en/studies/" },
+  de: { home: "/de/", library: "/de/bibliothek/", search: "/de/suche/", timeline: "/de/zeitleiste/", offline: "/de/offline/", studies: "/de/studien/" },
 };
 
 export const chapterPath = (edition: Edition, bookId: string, chapter: number) => `${EDITIONS[edition].readBase}/${bookId}/${chapter}/`;
@@ -40,6 +40,8 @@ export function equivalentPath(pathname: string, target: Edition): string {
     if (match) return chapterPath(target, match[1], Number(match[2]));
   }
   for (const from of LANGS) {
+    const study = pathname.match(new RegExp(`^${ROUTES[from].studies}([a-z0-9-]+)/?$`));
+    if (study) return `${ROUTES[lang].studies}${study[1]}/`;
     for (const key of ["library", "search", "timeline"] as const) {
       if (pathname === ROUTES[from][key] || pathname === ROUTES[from][key].slice(0, -1)) return ROUTES[lang][key];
     }

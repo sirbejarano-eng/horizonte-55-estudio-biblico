@@ -26,8 +26,10 @@ export default function HomeView({ lang }: { lang: Lang }) {
     { icon: <LeafIcon />, title: text.promiseFree, body: text.promiseFreeBody },
   ];
 
+  // Un solo elemento raíz: Next desplaza la vista hasta el comienzo de la página al navegar;
+  // con varios bloques sueltos terminaba en el último (el pie de la página).
   return (
-    <>
+    <div className="page-root">
       {lang === "es" && <LanguageRedirect />}
 
       {/* Hero: tres fotos que se funden despacio; cada una con su lugar y un pasaje que se puede abrir. */}
@@ -118,6 +120,6 @@ export default function HomeView({ lang }: { lang: Lang }) {
           </div>
         ))}
       </section>
-    </>
+    </div>
   );
 }

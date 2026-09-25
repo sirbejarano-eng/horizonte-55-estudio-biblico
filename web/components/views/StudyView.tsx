@@ -22,11 +22,13 @@ export default async function StudyView({ lang, params }: { lang: Lang } & Study
   const study = readStudy((await params).slug, lang);
   if (!study) notFound();
   // Contenido propio del repositorio (no de usuarios), por eso se inserta como HTML.
+  // Un solo elemento raíz: Next desplaza la vista hasta el comienzo de la página al navegar;
+  // con varios bloques sueltos terminaba en el último (el pie de la página).
   return (
-    <>
+    <div className="page-root">
       <div className="container context-study" dangerouslySetInnerHTML={{ __html: study.html }} />
       <div dangerouslySetInnerHTML={{ __html: study.dialog }} />
       <StudyImageDialog />
-    </>
+    </div>
   );
 }

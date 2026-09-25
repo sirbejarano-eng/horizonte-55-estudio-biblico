@@ -60,7 +60,9 @@
 
 /* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-h) + 24px); -webkit-text-size-adjust: 100%; }
+/* Sin scroll-behavior: smooth global: interrumpía el salto al inicio al cambiar de página
+   (se quedaba a medio camino o en el pie). Los desplazamientos suaves se piden en el código. */
+html { scroll-padding-top: calc(var(--header-h) + 24px); -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   background: var(--bg);

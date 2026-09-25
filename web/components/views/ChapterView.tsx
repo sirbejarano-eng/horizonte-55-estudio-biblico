@@ -58,8 +58,10 @@ export default async function ChapterView({ edition, params }: { edition: Editio
   const prevHref = prev ? chapterHref(prev.book.id, prev.chapter, edition) : null;
   const nextHref = next ? chapterHref(next.book.id, next.chapter, edition) : null;
 
+  // Un solo elemento raíz: Next desplaza la vista hasta el comienzo de la página al navegar;
+  // con varios bloques sueltos terminaba en el último (el pie de la página).
   return (
-    <>
+    <div className="page-root">
       <ReadingProgress key={`p-${book.id}-${chapter.number}`} />
       <div className="container reader-layout">
         <article className="chapter" aria-labelledby="chapter-title">
@@ -120,6 +122,6 @@ export default async function ChapterView({ edition, params }: { edition: Editio
         <ReaderTools edition={edition} bookId={book.id} bookTitle={book.title} chapter={chapter.number} chapterCount={book.chapters.length} prevHref={prevHref} nextHref={nextHref} />
       </div>
       <VerseActions key={`v-${book.id}-${chapter.number}`} edition={edition} bookTitle={book.title} bookId={book.id} chapter={chapter.number} />
-    </>
+    </div>
   );
 }

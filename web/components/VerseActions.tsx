@@ -120,8 +120,8 @@ export default function VerseActions({ edition, bookTitle, bookId, chapter }: { 
   return (
     <div className={`verse-bar${open ? " is-open" : ""}`} role="region" aria-label={text.selectedVerses} aria-hidden={!open}>
       <span className="verse-bar-ref">{open ? reference() : ""}</span>
-      <button type="button" className="verse-bar-button" onClick={copy} tabIndex={open ? 0 : -1}><CopyIcon size={18} /> {text.copy}</button>
-      <button type="button" className="verse-bar-button" onClick={share} tabIndex={open ? 0 : -1}><ShareIcon size={18} /> {text.share}</button>
+      <button type="button" className="verse-bar-button" onClick={copy} tabIndex={open ? 0 : -1}><CopyIcon size={18} /> <span className="verse-bar-label">{text.copy}</span></button>
+      <button type="button" className="verse-bar-button" onClick={share} tabIndex={open ? 0 : -1}><ShareIcon size={18} /> <span className="verse-bar-label">{text.share}</span></button>
       <button type="button" className="icon-button" aria-label={text.clearSelection} onClick={() => setSelected([])} tabIndex={open ? 0 : -1}><CloseIcon size={18} /></button>
       <span className="sr-only" role="status" aria-live="polite">{status}</span>
       {status && <span className="verse-bar-status" aria-hidden="true">{status}</span>}

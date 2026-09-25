@@ -524,7 +524,11 @@ mark { padding: 0 .1em; border-radius: 3px; background: var(--highlight); color:
   .timeline-dot { left: -52px; width: 38px; height: 38px; font-size: .72rem; }
   .verse-bar { right: 12px; left: 12px; transform: translateY(20px); }
   .verse-bar.is-open { transform: none; }
-  .verse-bar-ref { flex: 1; }
+  .verse-bar-ref { flex: 1; min-width: 0; }
+  /* En el móvil los botones quedan solo con el icono (el texto sigue para lectores de pantalla)
+     y la referencia del versículo se ve completa. */
+  .verse-bar-button { padding-inline: 12px; }
+  .verse-bar-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 }
 
 @media (prefers-reduced-motion: reduce) {

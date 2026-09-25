@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { catalogUrl, chapterPath, EDITIONS, t, type Edition, type Lang } from "@/lib/i18n";
 import { preferredEdition } from "@/lib/storage";
+import { SearchIcon } from "@/components/Icons";
 
 type Verse = { number: number; text: string };
 type Book = { id: string; title: string; chapters: { number: number; verses: Verse[] }[] };
@@ -67,39 +68,71 @@ export default function BibleSearch({ lang }: { lang: Lang }) {
     return index.filter((item) => item.text.includes(term) || item.title.includes(term));
   }, [books, index, term]);
 
+  // Resalta la palabra buscada dentro del versículo (sin tener en cuenta tildes ni mayúsculas).
+  function highlight(value: string) {
+    if (!term || term.length < 2 || /\d/.test(term)) return value;
+    const plain = normalize(value);
+    const parts: ReactNode[] = [];
+    let from = 0;
+    let at = plain.indexOf(term);
+    while (at !== -1 && parts.length < 20) {
+      parts.push(value.slice(from, at), <mark key={at}>{value.slice(at, at + term.length)}</mark>);
+      from = at + term.length;
+      at = plain.indexOf(term, from);
+    }
+    parts.push(value.slice(from));
+    return parts;
+  }
+
   return (
-    <section className="search-page-panel">
-      <label className="search-label" htmlFor="pageSearchInput">{text.searchLabel}</label>
-      <input
-        id="pageSearchInput"
-        type="search"
-        placeholder={text.searchPlaceholder}
-        value={query}
-        onChange={(event) => setQuery(event.target.value)}
-        disabled={!books && !error}
-      />
-      {edition && <p className="search-summary">{EDITIONS[edition].label}</p>}
+    <section className="search-panel">
+      <label className="search-field search-field-lg">
+        <SearchIcon size={22} />
+        <span className="sr-only">{text.searchLabel}</span>
+        <input
+          id="pageSearchInput"
+          type="search"
+          placeholder={text.searchPlaceholder}
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          disabled={!books && !error}
+          autoFocus
+        />
+      </label>
+      <p className="muted small search-edition">{edition ? `${text.searchingIn} ${EDITIONS[edition].label}` : ""}</p>
       <div id="pageSearchResults" className="search-results" aria-live="polite">
         {error && <div className="empty-state">{text.searchLoadError}</div>}
-        {!books && !error && <p className="search-summary">{text.searchLoading}</p>}
+        {!books && !error && <p className="muted">{text.searchLoading}</p>}
         {books && term.length >= 2 && matches.length === 0 && <div className="empty-state">{text.noResults}</div>}
+        {books && term.length < 2 && (
+          <div className="search-suggestions">
+            <p className="muted small">{text.searchTry}</p>
+            <div className="chip-row">
+              {text.searchExamples.split("|").map((example) => (
+                <button key={example} type="button" className="chip" onClick={() => setQuery(example)}>{example}</button>
+              ))}
+            </div>
+          </div>
+        )}
         {edition && matches.length > 0 && (
           <>
-            <p className="search-summary">
+            <p className="muted small">
               {shown >= matches.length
                 ? `${matches.length} ${matches.length === 1 ? text.result : text.results}`
                 : `${text.showing} ${shown} ${text.of} ${matches.length} ${text.results}`}
             </p>
-            <div className="search-results-list">
+            <ol className="result-list">
               {matches.slice(0, shown).map(({ book, chapter, verse }) => (
-                <Link key={`${book.id}-${chapter}-${verse.number}`} className="result-item" href={`${chapterPath(edition, book.id, chapter)}#verse-${verse.number}`}>
-                  <span className="result-book">{book.title} {chapter}:{verse.number}</span>
-                  <p className="result-text">{verse.text}</p>
-                </Link>
+                <li key={`${book.id}-${chapter}-${verse.number}`}>
+                  <Link className="result" href={`${chapterPath(edition, book.id, chapter)}#verse-${verse.number}`}>
+                    <span className="result-ref">{book.title} {chapter}:{verse.number}</span>
+                    <span className="result-text">{highlight(verse.text)}</span>
+                  </Link>
+                </li>
               ))}
-            </div>
+            </ol>
             {shown < matches.length && (
-              <button type="button" className="secondary-button" onClick={() => setShown((value) => value + PAGE_SIZE)}>
+              <button type="button" className="button button-outline" onClick={() => setShown((value) => value + PAGE_SIZE)}>
                 {text.showMore}
               </button>
             )}

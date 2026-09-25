@@ -9,7 +9,7 @@
 // - /_next/static/: archivos con huella en el nombre, nunca cambian → primero la caché.
 // - Catálogos (/content/…?v=N): primero la caché; al cambiar el texto se sube N (CATALOG_VERSION).
 // - Imágenes y manifiestos: la copia guardada al instante y se actualiza por detrás.
-const CACHE_NAME = 'horizonte55-web-v1';
+const CACHE_NAME = 'horizonte55-web-v2';
 const CACHE_PREFIX = 'horizonte55-';
 
 const OFFLINE_PAGES = { es: '/sin-conexion/', en: '/en/offline/', de: '/de/offline/' };

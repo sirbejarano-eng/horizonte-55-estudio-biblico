@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { OfflineIcon } from "@/components/Icons";
 import { catalogUrl, ROUTES, t, type Lang } from "@/lib/i18n";
 import { preferredEdition } from "@/lib/storage";
 
@@ -49,5 +50,10 @@ export default function OfflineStatus({ lang }: { lang: Lang }) {
   }, [lang, text]);
 
   if (!status) return null;
-  return <span className="offline-status" role="status" aria-live="polite">{status}</span>;
+  return (
+    <p className={`offline-status${status === text.offlineReady ? " is-ready" : ""}`} role="status" aria-live="polite">
+      <OfflineIcon size={16} />
+      {status}
+    </p>
+  );
 }

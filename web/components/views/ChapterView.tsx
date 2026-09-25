@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { chapterHref, displayVerseText, getBook, getBooks, neighbours } from "@/lib/bible";
-import { chapterPath, EDITIONS, t, type Edition } from "@/lib/i18n";
+import { chapterPath, EDITIONS, ROUTES, t, type Edition } from "@/lib/i18n";
 import { studyForChapter, studyHref } from "@/lib/studies";
 import ReaderTools from "@/components/ReaderTools";
-import VerseShare from "@/components/VerseShare";
+import VerseActions from "@/components/VerseActions";
+import ReadingProgress from "@/components/ReadingProgress";
 import ChapterNotes from "@/components/ChapterNotes";
+import { ArrowLeftIcon, ArrowRightIcon, MapIcon } from "@/components/Icons";
 
 export type ChapterParams = { params: Promise<{ libro: string; capitulo: string }> };
 
@@ -27,9 +29,11 @@ export async function chapterMetadata(edition: Edition, { params }: ChapterParam
   const text = found.chapter.verses.map((verse) => displayVerseText(edition, verse)).join(" ");
   const description = text.length > 155 ? `${text.slice(0, 152).replace(/\s+\S*$/, "")}…` : text;
   const n = found.chapter.number;
+  const title = `${found.book.title} ${n}${edition === "rv1909" ? " (RV1909)" : ""}`;
   return {
-    title: `${found.book.title} ${n}${edition === "rv1909" ? " (RV1909)" : ""}`,
+    title,
     description,
+    openGraph: { title, description, type: "article" },
     alternates: {
       canonical: chapterPath(edition, libro, n),
       languages: { es: chapterPath("onbv", libro, n), en: chapterPath("en", libro, n), de: chapterPath("de", libro, n) },
@@ -37,6 +41,9 @@ export async function chapterMetadata(edition: Edition, { params }: ChapterParam
   };
 }
 
+// Página de lectura: tipografía de libro (Source Serif), letra capital, números discretos y un
+// panel "Tu lectura" que acompaña al bajar (en el móvil, una barra inferior). El HTML contiene
+// solo el texto; los botones de compartir y la selección de versículos los añade VerseActions.
 export default async function ChapterView({ edition, params }: { edition: Edition } & ChapterParams) {
   const { libro, capitulo } = await params;
   const found = find(edition, libro, capitulo);
@@ -44,63 +51,75 @@ export default async function ChapterView({ edition, params }: { edition: Editio
   const lang = EDITIONS[edition].lang;
   const text = t(lang);
   const { book, chapter } = found;
-  const index = book.chapters.findIndex((item) => item.number === chapter.number);
-  const percentage = Math.round(((index + 1) / book.chapters.length) * 100);
   const { prev, next } = neighbours(edition, book.id, chapter.number);
   const study = studyForChapter(book.id, chapter.number);
-  const options = getBooks(edition).map((item) => ({ id: item.id, title: item.title, chapters: item.chapters.length }));
+  const words = chapter.verses.reduce((sum, verse) => sum + verse.text.split(/\s+/).length, 0);
+  const minutes = Math.max(1, Math.round(words / 200));
+  const prevHref = prev ? chapterHref(prev.book.id, prev.chapter, edition) : null;
+  const nextHref = next ? chapterHref(next.book.id, next.chapter, edition) : null;
 
   return (
-    <article className="chapter-card" aria-labelledby="chapter-title">
-      <header className="chapter-header">
-        <div className="chapter-header-main">
-          <p className="eyebrow chapter-book-title">{book.title}</p>
-          <h1 className="chapter-title" id="chapter-title">
-            <span className="sr-only">{book.title} </span>{text.chapter} {chapter.number}
-          </h1>
-          <div className="book-progress">
-            <div className="book-progress-track" role="progressbar" aria-label={`${text.progressIn} ${book.title}`} aria-valuenow={percentage} aria-valuemin={0} aria-valuemax={100}>
-              <span className="book-progress-fill" style={{ width: `${percentage}%` }} />
-            </div>
-            <span className="book-progress-label">{text.chapter} {index + 1} {text.of} {book.chapters.length} · {EDITIONS[edition].label}</span>
-          </div>
-        </div>
-        <ReaderTools edition={edition} bookId={book.id} bookTitle={book.title} chapter={chapter.number} books={options} />
-      </header>
+    <>
+      <ReadingProgress key={`p-${book.id}-${chapter.number}`} />
+      <div className="container reader-layout">
+        <article className="chapter" aria-labelledby="chapter-title">
+          <header className="chapter-head">
+            <nav className="breadcrumbs" aria-label={text.breadcrumbs}>
+              <Link href={ROUTES[lang].library}>{text.library}</Link>
+              <span aria-hidden="true">/</span>
+              <span>{book.title}</span>
+            </nav>
+            <p className="eyebrow chapter-book">{book.title}</p>
+            <h1 className="chapter-title" id="chapter-title">
+              <span className="sr-only">{book.title} </span>
+              {text.chapter} {chapter.number}
+            </h1>
+            <p className="chapter-meta">
+              {EDITIONS[edition].label} · {chapter.verses.length} {text.versesLabel} · {minutes} {text.minRead}
+            </p>
+          </header>
 
-      {study && (
-        <aside className="context-study-prompt" aria-labelledby="study-title">
-          <p className="eyebrow">{text.contextStudy}</p>
-          <h2 id="study-title">{study.titles[lang]}</h2>
-          <Link className="secondary-button" href={studyHref(study.slug, lang)}>{text.openStudy}</Link>
-        </aside>
-      )}
+          {study && (
+            <aside className="study-callout" aria-labelledby="study-title">
+              <span className="study-callout-icon"><MapIcon /></span>
+              <div>
+                <p className="eyebrow">{text.contextStudy}</p>
+                <p className="study-callout-title" id="study-title">{study.titles[lang]}</p>
+              </div>
+              <Link className="button button-ghost" href={studyHref(study.slug, lang)}>{text.openStudy}</Link>
+            </aside>
+          )}
 
-      <VerseShare edition={edition} bookTitle={book.title} bookId={book.id} chapter={chapter.number} />
-      <div className="verses">
-        {chapter.verses.map((verse) => (
-          <div className="verse" id={`verse-${verse.number}`} key={verse.number}>
-            <span className="verse-number">{verse.number}</span>
-            <div className="verse-content">
-              <p className="verse-text">{displayVerseText(edition, verse)}</p>
-              <button className="verse-share" type="button" data-verse-number={verse.number} aria-label={`${text.shareVerse} ${book.title} ${chapter.number}:${verse.number}`}>
-                {text.shareVerse}
-              </button>
-            </div>
+          <div className="scripture" data-book={book.id} data-chapter={chapter.number}>
+            {chapter.verses.map((verse) => (
+              <p className="v" id={`verse-${verse.number}`} key={verse.number}>
+                <sup>{verse.number}</sup>
+                {displayVerseText(edition, verse)}
+              </p>
+            ))}
           </div>
-        ))}
+
+          <nav className="chapter-pager" aria-label={text.chapterNav}>
+            {prev && prevHref ? (
+              <Link className="pager-link" href={prevHref} rel="prev">
+                <span className="pager-label"><ArrowLeftIcon size={16} /> {text.previous}</span>
+                <span className="pager-title">{prev.book.title} {prev.chapter}</span>
+              </Link>
+            ) : <span />}
+            {next && nextHref ? (
+              <Link className="pager-link pager-next" href={nextHref} rel="next">
+                <span className="pager-label">{text.next} <ArrowRightIcon size={16} /></span>
+                <span className="pager-title">{next.book.title} {next.chapter}</span>
+              </Link>
+            ) : <span />}
+          </nav>
+
+          <ChapterNotes lang={lang} bookId={book.id} chapter={chapter.number} />
+        </article>
+
+        <ReaderTools edition={edition} bookId={book.id} bookTitle={book.title} chapter={chapter.number} chapterCount={book.chapters.length} prevHref={prevHref} nextHref={nextHref} />
       </div>
-
-      <ChapterNotes lang={lang} bookId={book.id} chapter={chapter.number} />
-
-      <nav className="chapter-nav" aria-label={text.chapterNav}>
-        {prev ? (
-          <Link className="secondary-button" href={chapterHref(prev.book.id, prev.chapter, edition)} rel="prev">← {prev.book.title} {prev.chapter}</Link>
-        ) : <span />}
-        {next ? (
-          <Link className="secondary-button" href={chapterHref(next.book.id, next.chapter, edition)} rel="next">{next.book.title} {next.chapter} →</Link>
-        ) : <span />}
-      </nav>
-    </article>
+      <VerseActions key={`v-${book.id}-${chapter.number}`} edition={edition} bookTitle={book.title} bookId={book.id} chapter={chapter.number} />
+    </>
   );
 }

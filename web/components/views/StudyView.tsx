@@ -24,7 +24,7 @@ export default async function StudyView({ lang, params }: { lang: Lang } & Study
   // Contenido propio del repositorio (no de usuarios), por eso se inserta como HTML.
   return (
     <>
-      <div className="context-study" style={{ marginInline: "auto" }} dangerouslySetInnerHTML={{ __html: study.html }} />
+      <div className="container context-study" dangerouslySetInnerHTML={{ __html: study.html }} />
       <div dangerouslySetInnerHTML={{ __html: study.dialog }} />
       <StudyImageDialog />
     </>

@@ -9,8 +9,15 @@ const copy = (source, target) => {
 };
 
 // Los cuatro catálogos (ONBV, RV1909, inglés y alemán): la búsqueda descarga el de la edición activa.
-const catalogs = ["books-es-onbv.json", "books.json", "books-en.json", "books-de.json"];
-for (const name of catalogs) copy(path.resolve("..", "content", name), path.resolve("public", "content", name));
+const catalogs = { onbv: "books-es-onbv.json", rv1909: "books.json", en: "books-en.json", de: "books-de.json" };
+for (const [edition, name] of Object.entries(catalogs)) {
+  const source = path.resolve("..", "content", name);
+  copy(source, path.resolve("public", "content", name));
+  // Índice ligero (título y nº de capítulos por libro) para el selector de la página de lectura.
+  const { books } = JSON.parse(fs.readFileSync(source, "utf8"));
+  const index = books.map((book) => ({ id: book.id, title: book.title, chapters: book.chapters.length }));
+  fs.writeFileSync(path.resolve("public", "content", `index-${edition}.json`), JSON.stringify(index));
+}
 
 const assetsDir = path.resolve("..", "assets");
 const images = fs.readdirSync(assetsDir).filter((name) => /^((mapa|contexto)-.+\.webp|icon-(en|de)\.png)$/.test(name));

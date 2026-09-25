@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { t, type Lang } from "@/lib/i18n";
+import { DownloadIcon, UploadIcon } from "@/components/Icons";
 import {
   applyProgressImport, downloadProgress, getPersistedImportBackup, restoreProgressBackup, summarizeCurrentProgress,
   validateProgressImport, type Backup, type ChapterCounts, type Field, type Fields,
@@ -63,12 +64,15 @@ export default function ProgressManager({ lang, counts }: { lang: Lang; counts: 
   }
 
   return (
-    <section className="progress-management">
-      <p className="eyebrow">{text.progressManagement}</p>
-      <p>{text.progressManagementHint}</p>
-      <div className="progress-management-actions">
+    <section className="card backup" aria-labelledby="backup-title">
+      <div>
+        <p className="eyebrow">{text.progressManagement}</p>
+        <h2 id="backup-title" className="h3">{text.backupTitle}</h2>
+        <p className="muted small">{text.progressManagementHint}</p>
+      </div>
+      <div className="button-row">
         <button
-          className="secondary-button"
+          className="button button-outline"
           type="button"
           onClick={() => {
             try {
@@ -79,9 +83,9 @@ export default function ProgressManager({ lang, counts }: { lang: Lang; counts: 
             }
           }}
         >
-          {text.exportProgress}
+          <DownloadIcon size={18} /> {text.exportProgress}
         </button>
-        <button className="secondary-button" type="button" onClick={() => input.current?.click()}>{text.importProgress}</button>
+        <button className="button button-outline" type="button" onClick={() => input.current?.click()}><UploadIcon size={18} /> {text.importProgress}</button>
         <input
           ref={input}
           type="file"
@@ -103,14 +107,14 @@ export default function ProgressManager({ lang, counts }: { lang: Lang; counts: 
             ))}
           </ul>
           {overwrite && <p className="import-overwrite-warning">{text.importOverwriteWarning}</p>}
-          <div className="import-preview-actions">
-            <button className="hero-button" type="button" onClick={confirm}>{text.importConfirm}</button>
-            <button className="secondary-button" type="button" onClick={() => setPending(null)}>{text.importCancel}</button>
+          <div className="button-row">
+            <button className="button button-primary" type="button" onClick={confirm}>{text.importConfirm}</button>
+            <button className="button button-ghost" type="button" onClick={() => setPending(null)}>{text.importCancel}</button>
           </div>
         </div>
       )}
       <p className="action-status" role="status">{status}</p>
-      {undo && <button className="secondary-button" type="button" onClick={undoImport}>{text.undoImport}</button>}
+      {undo && <button className="button button-ghost" type="button" onClick={undoImport}>{text.undoImport}</button>}
     </section>
   );
 }

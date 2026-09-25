@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import { t, type Lang } from "@/lib/i18n";
 import { copyText, getNote, MAX_NOTE_LENGTH, saveNote } from "@/lib/storage";
+import { CheckIcon, NoteIcon } from "@/components/Icons";
 
-// Notas del capítulo, guardadas solo en este dispositivo y con el mismo formato que la versión actual.
+// Notas del capítulo, guardadas solo en este dispositivo y con el mismo formato que la versión anterior.
 // Son las mismas en todos los idiomas: una nota de Juan 3 aparece también en John 3 y Johannes 3.
 export default function ChapterNotes({ lang, bookId, chapter }: { lang: Lang; bookId: string; chapter: number }) {
   const text = t(lang);
@@ -26,23 +27,27 @@ export default function ChapterNotes({ lang, bookId, chapter }: { lang: Lang; bo
   }
 
   return (
-    <section className="notes-panel" aria-labelledby="notes-title">
-      <p className="eyebrow">{text.notes}</p>
-      <h2 id="notes-title">{text.notes}</h2>
+    <section className="notes" aria-labelledby="notes-title">
+      <div className="notes-head">
+        <span className="notes-icon"><NoteIcon /></span>
+        <h2 id="notes-title" className="h3">{text.notes}</h2>
+      </div>
       <textarea
-        className="chapter-notes"
+        className="notes-field"
         id="chapterNotes"
-        rows={6}
+        rows={5}
         maxLength={MAX_NOTE_LENGTH}
         placeholder={text.notesPlaceholder}
         aria-labelledby="notes-title"
         value={value}
         onChange={(event) => onChange(event.target.value)}
       />
-      <div className="notes-footer">
-        <p className="notes-status" role="status">{message}</p>
+      <div className="notes-foot">
+        <p className={`notes-status${failed ? " is-error" : ""}`} role="status">
+          {!failed && <CheckIcon size={14} />} {message}
+        </p>
         {failed && (
-          <button className="secondary-button" type="button" onClick={async () => { await copyText(value); setMessage(text.noteCopied); }}>
+          <button className="button button-ghost" type="button" onClick={async () => { await copyText(value); setMessage(text.noteCopied); }}>
             {text.copyNote}
           </button>
         )}

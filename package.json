@@ -11,14 +11,18 @@
     "start": "serve . -l 4173 -c serve.json",
     "open": "powershell -ExecutionPolicy Bypass -File ./abrir-horizonte.ps1",
     "dev:network": "powershell -ExecutionPolicy Bypass -File ./launch-network.ps1",
-    "test": "node tests/validate.cjs && node tests/validate-bible-sources.cjs && node tests/validate-behavior.mjs",
+    "test": "node tests/validate.cjs && node tests/validate-bible-sources.cjs && node tests/validate-studies.mjs && node tests/validate-catalog-versions.mjs && node tests/validate-web-storage.mjs && node tests/validate-behavior.mjs",
+    "test:studies": "node tests/validate-studies.mjs",
     "build:pages": "node tools/build-pages.cjs",
     "test:pages": "node tests/validate-pages-build.cjs",
     "convert:onbv": "node tools/convert-onbv.js",
     "convert:ebible": "node tools/convert-ebible-usfm.js all",
-    "convert:all-bibles": "node tools/convert-ebible-usfm.js all && node tools/convert-onbv.js"
+    "convert:all-bibles": "node tools/convert-ebible-usfm.js all && node tools/convert-onbv.js",
+    "test:browser": "playwright test",
+    "test:browser:headed": "playwright test --headed"
   },
   "devDependencies": {
+    "@playwright/test": "^1.55.1",
     "serve": "^14.2.4"
   }
 }

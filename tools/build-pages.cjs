@@ -24,6 +24,9 @@ for (const file of ['LICENSE', 'THIRD_PARTY_NOTICES.md']) {
   fs.copyFileSync(path.join(root, file), path.join(output, file));
 }
 
+// Página 404 propia (trilingüe, con el estilo del sitio) en lugar de la genérica de Next.js.
+fs.copyFileSync(path.join(web, 'static', '404.html'), path.join(output, '404.html'));
+
 // Sin este archivo GitHub Pages (Jekyll) ignoraría la carpeta _next/ y la web quedaría sin JavaScript ni estilos.
 fs.writeFileSync(path.join(output, '.nojekyll'), '');
 console.log(`✅ Sitio público preparado en ${path.relative(root, output)}/`);

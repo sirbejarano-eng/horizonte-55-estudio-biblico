@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Página no encontrada · Horizonte 55</title>
+<link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
+<style>
+  :root { --papel: #fbf7ef; --tinta: #2b241e; --gris: #6b5f52; --terracota: #b4583c; --linea: #e6dfd1; }
+  @media (prefers-color-scheme: dark) { :root { --papel: #1d1814; --tinta: #efe6d6; --gris: #b5a894; --terracota: #e0a84a; --linea: #3a3027; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px;
+    background: radial-gradient(900px 340px at 80% 110%, rgb(217 164 65 / .35), transparent 62%), var(--papel);
+    color: var(--tinta); font: 18px/1.6 "Atkinson Hyperlegible", system-ui, sans-serif; }
+  main { max-width: 34rem; text-align: center; }
+  .mark { display: inline-grid; place-items: center; width: 56px; height: 56px; border-radius: 16px; background: var(--terracota); color: #fff8ec; font: 600 20px Georgia, serif; }
+  h1 { font: 600 clamp(2rem, 6vw, 3rem)/1.1 "Source Serif 4", Georgia, serif; margin: 20px 0 8px; letter-spacing: -.01em; }
+  p { color: var(--gris); margin: 0 0 8px; }
+  .verse { font: italic 1.1rem/1.6 Georgia, serif; margin: 20px 0 28px; }
+  a.button { display: inline-block; margin: 4px; padding: 12px 20px; border-radius: 999px; background: var(--terracota); color: #fff8ec; font-weight: 700; text-decoration: none; }
+  a.button.alt { background: transparent; color: var(--tinta); border: 1px solid var(--linea); }
+  a:focus-visible { outline: 3px solid #d9a441; outline-offset: 3px; }
+</style>
+</head>
+<body>
+<main>
+  <span class="mark" aria-hidden="true">H55</span>
+  <h1 id="t">Esta página no existe</h1>
+  <p id="d">Puede que la dirección haya cambiado o tenga un error de escritura.</p>
+  <p class="verse" id="v">«Pedid, y se os dará; buscad, y hallaréis.» — Mateo 7:7</p>
+  <a class="button" id="h" href="/">Ir a la portada</a>
+  <a class="button alt" id="s" href="/buscar/">Buscar en la Biblia</a>
+</main>
+<script>
+  (function () {
+    var p = location.pathname, l = p.indexOf('/en/') === 0 ? 'en' : p.indexOf('/de/') === 0 ? 'de' : null;
+    if (!l) { try { var s = localStorage.getItem('horizonte55-language'); if (s === 'en' || s === 'de') l = s; } catch (e) {} }
+    var T = {
+      en: ['en', 'Page not found · Horizonte 55', 'This page does not exist', 'The address may have changed or contain a typo.', '“Ask, and it will be given you. Seek, and you will find.” — Matthew 7:7', 'Go to the home page', '/en/', 'Search the Bible', '/en/search/'],
+      de: ['de', 'Seite nicht gefunden · Horizonte 55', 'Diese Seite gibt es nicht', 'Vielleicht hat sich die Adresse geändert oder sie enthält einen Tippfehler.', '„Bittet, so wird euch gegeben; suchet, so werdet ihr finden.“ — Matthäus 7,7', 'Zur Startseite', '/de/', 'In der Bibel suchen', '/de/suche/']
+    }[l];
+    if (!T) return;
+    document.documentElement.lang = T[0]; document.title = T[1];
+    document.getElementById('t').textContent = T[2]; document.getElementById('d').textContent = T[3];
+    document.getElementById('v').textContent = T[4];
+    var h = document.getElementById('h'); h.textContent = T[5]; h.href = T[6];
+    var s2 = document.getElementById('s'); s2.textContent = T[7]; s2.href = T[8];
+  })();
+</script>
+</body>
+</html>

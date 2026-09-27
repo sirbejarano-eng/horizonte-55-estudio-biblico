@@ -6,8 +6,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "next dev -p 4174",
-    "build": "next build",
-    "serve": "npx serve out -l 4175"
+    "build": "next build && node scripts/fix-static-rsc.mjs",
+    "serve": "npx serve out -l 4175",
+    "build:internal": "node scripts/build-internal.mjs"
   },
   "dependencies": {
     "next": "16.3.6",

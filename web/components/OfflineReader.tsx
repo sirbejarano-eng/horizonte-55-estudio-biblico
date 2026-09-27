@@ -5,6 +5,7 @@ import { catalogUrl, chapterPath, EDITIONS, ROUTES, t, type Edition, type Lang }
 import { savePosition } from "@/lib/storage";
 import { displayVerseText, type Verse } from "@/lib/verse";
 import ChapterNotes from "@/components/ChapterNotes";
+import { OfflineIcon } from "@/components/Icons";
 
 type Book = { id: string; title: string; chapters: { number: number; verses: Verse[] }[] };
 type State =
@@ -25,8 +26,20 @@ export default function OfflineReader({ lang }: { lang: Lang }) {
     if (!edition) return setState({ kind: "missing" });
     const [, bookId, chapterText] = path.match(/\/([a-z0-9-]+)\/(\d+)\/?$/)!;
     const chapter = Number(chapterText);
-    fetch(catalogUrl(edition))
-      .then((response) => (response.ok ? response.json() : Promise.reject()))
+    const catalog = catalogUrl(edition);
+    // Normalmente responde el Service Worker. La lectura directa de Cache Storage cubre también
+    // navegadores que entregan la página offline pero no vuelven a interceptar el fetch del catálogo.
+    const loadCatalog = async () => {
+      try {
+        const response = await fetch(catalog);
+        if (response.ok) return response.json();
+      } catch {}
+      const catalogAddress = new URL(catalog, window.location.origin).href;
+      const cached = 'caches' in window ? await caches.match(catalogAddress) : undefined;
+      if (!cached?.ok) throw new Error('Catálogo sin conexión no disponible');
+      return cached.json();
+    };
+    loadCatalog()
       .then((data: { books: Book[] }) => {
         const flat = data.books.flatMap((book) => book.chapters.map((c) => ({ book, number: c.number })));
         const index = flat.findIndex((item) => item.book.id === bookId && item.number === chapter);
@@ -48,46 +61,47 @@ export default function OfflineReader({ lang }: { lang: Lang }) {
       .catch(() => setState({ kind: "missing" }));
   }, []);
 
-  if (state.kind === "loading") return <p className="search-summary">{text.searchLoading}</p>;
+  if (state.kind === "loading") return <div className="container page"><p className="muted">{text.searchLoading}</p></div>;
 
   if (state.kind === "missing") {
     return (
-      <section className="empty-state">
-        <h1>{text.offlineTitle}</h1>
-        <p>{text.offlineMissing}</p>
-        {/* Enlace normal (no <Link>): sin conexión, la navegación completa pasa por el service worker. */}
-        <a className="hero-button" href={ROUTES[lang].home}>{text.offlineBack}</a>
-      </section>
+      <div className="container page page-narrow">
+        <section className="empty-state empty-state-lg">
+          <span className="feature-icon"><OfflineIcon /></span>
+          <h1 className="h2">{text.offlineTitle}</h1>
+          <p className="muted">{text.offlineMissing}</p>
+          {/* Enlace normal (no <Link>): sin conexión, la navegación completa pasa por el service worker. */}
+          <a className="button button-primary" href={ROUTES[lang].home}>{text.offlineBack}</a>
+        </section>
+      </div>
     );
   }
 
   const { edition, book, chapter, verses } = state;
   return (
-    <article className="chapter-card" aria-labelledby="chapter-title">
-      <header className="chapter-header">
-        <div className="chapter-header-main">
-          <p className="eyebrow chapter-book-title">{book.title}</p>
+    <div className="container reader-layout reader-layout-single">
+      <article className="chapter" aria-labelledby="chapter-title">
+        <header className="chapter-head">
+          <p className="eyebrow chapter-book">{book.title}</p>
           <h1 className="chapter-title" id="chapter-title">
             <span className="sr-only">{book.title} </span>{text.chapter} {chapter}
           </h1>
-          <p className="book-progress-label">{text.offlineCopy} · {EDITIONS[edition].label}</p>
+          <p className="chapter-meta"><OfflineIcon size={16} /> {text.offlineCopy} · {EDITIONS[edition].label}</p>
+        </header>
+        <div className="scripture">
+          {verses.map((verse) => (
+            <p className="v" id={`verse-${verse.number}`} key={verse.number}>
+              <sup>{verse.number}</sup>
+              {displayVerseText(edition, verse)}
+            </p>
+          ))}
         </div>
-      </header>
-      <div className="verses">
-        {verses.map((verse) => (
-          <div className="verse" id={`verse-${verse.number}`} key={verse.number}>
-            <span className="verse-number">{verse.number}</span>
-            <div className="verse-content">
-              <p className="verse-text">{displayVerseText(edition, verse)}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-      <ChapterNotes lang={lang} bookId={book.id} chapter={chapter} />
-      <nav className="chapter-nav" aria-label={text.chapterNav}>
-        {state.prev ? <a className="secondary-button" href={state.prev} rel="prev">← {state.prevLabel}</a> : <span />}
-        {state.next ? <a className="secondary-button" href={state.next} rel="next">{state.nextLabel} →</a> : <span />}
-      </nav>
-    </article>
+        <nav className="chapter-pager" aria-label={text.chapterNav}>
+          {state.prev ? <a className="pager-link" href={state.prev} rel="prev"><span className="pager-label">{text.previous}</span><span className="pager-title">{state.prevLabel}</span></a> : <span />}
+          {state.next ? <a className="pager-link pager-next" href={state.next} rel="next"><span className="pager-label">{text.next}</span><span className="pager-title">{state.nextLabel}</span></a> : <span />}
+        </nav>
+        <ChapterNotes lang={lang} bookId={book.id} chapter={chapter} />
+      </article>
+    </div>
   );
 }

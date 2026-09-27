@@ -39,6 +39,10 @@ jobs:
         run: npm run build:pages
       - name: Validar publicación
         run: npm run test:pages
+      - name: Instalar navegador para pruebas
+        run: npx playwright install --with-deps chromium
+      - name: Probar navegación y modo sin conexión
+        run: npm run test:browser
       - name: Configurar GitHub Pages
         uses: actions/configure-pages@v5
       - name: Subir sitio preparado

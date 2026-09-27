@@ -20,14 +20,14 @@ export default function LibraryView({ lang }: { lang: Lang }) {
   ];
   const counts = Object.fromEntries(books.map((book) => [book.id, book.chapters]));
   return (
-    <>
-      <header className="page-heading">
+    <div className="container page">
+      <header className="page-head">
         <p className="eyebrow">{text.library}</p>
-        <h1>{text.libraryTitle}</h1>
-        <p>{text.libraryIntro}</p>
+        <h1 className="display-sm">{text.libraryTitle}</h1>
+        <p className="lead">{text.libraryIntro}</p>
       </header>
-      <ProgressManager lang={lang} counts={counts} />
       <LibraryBrowser lang={lang} edition={edition} books={books} />
-    </>
+      <ProgressManager lang={lang} counts={counts} />
+    </div>
   );
 }

@@ -30,6 +30,23 @@ try {
   ];
   pages.forEach(assertExists);
 
+  // Los 23 estudios con aprobación editorial deben aparecer en cada idioma y en el sitemap.
+  const approvedStudies = [
+    'eden',
+    'diluvio', 'abraham', 'jose', 'exodo', 'tabernaculo', 'jerico', 'silo', 'ciudad-david',
+    'templo-salomon', 'ezequias', 'caida-jerusalen', 'daniel', 'ciro', 'ester', 'belen',
+    'galilea', 'jerusalen', 'pentecostes', 'pablo', 'atenas', 'siete-iglesias', 'babel',
+  ];
+  const sitemap = fs.readFileSync(path.join(output, 'sitemap.xml'), 'utf8');
+  for (const slug of approvedStudies) {
+    for (const base of ['estudios', 'en/studies', 'de/studien']) {
+      assertExists(`${base}/${slug}/index.html`);
+    }
+    for (const base of ['/estudios/', '/en/studies/', '/de/studien/']) {
+      if (!sitemap.includes(`${base}${slug}/`)) throw new Error(`El estudio aprobado ${slug} falta en sitemap.xml (${base}).`);
+    }
+  }
+
   // Redirecciones de la versión anterior (enlaces compartidos y marcadores).
   ['lectura.html', 'biblioteca.html', 'buscar.html', 'cronologia.html', 'contexto-eden.html', 'contexto-babel.html'].forEach(assertExists);
 

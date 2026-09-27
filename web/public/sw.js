@@ -7,9 +7,9 @@
 //   dibuja a partir del catálogo guardado: basta con tener el catálogo del idioma (≈6,5 MB), no
 //   las 1.189 páginas.
 // - /_next/static/: archivos con huella en el nombre, nunca cambian → primero la caché.
-// - Catálogos (/content/…?v=N): primero la caché; al cambiar el texto se sube N (CATALOG_VERSION).
+// - Catálogos (/content/…?v=hash): primero la caché; el hash cambia automáticamente con el contenido.
 // - Imágenes y manifiestos: la copia guardada al instante y se actualiza por detrás.
-const CACHE_NAME = 'horizonte55-web-v1';
+const CACHE_NAME = 'horizonte55-web-v2';
 const CACHE_PREFIX = 'horizonte55-';
 
 const OFFLINE_PAGES = { es: '/sin-conexion/', en: '/en/offline/', de: '/de/offline/' };
@@ -60,7 +60,17 @@ self.addEventListener('message', (event) => {
     }
     try {
       const catalog = await fetch(data.catalog);
-      if (catalog.ok) await cache.put(data.catalog, catalog); else ok = false;
+      if (catalog.ok) {
+        const nextUrl = new URL(data.catalog, self.location.origin);
+        const keys = await cache.keys();
+        await Promise.all(keys
+          .filter((request) => {
+            const saved = new URL(request.url);
+            return saved.pathname === nextUrl.pathname && saved.search !== nextUrl.search;
+          })
+          .map((request) => cache.delete(request)));
+        await cache.put(data.catalog, catalog);
+      } else ok = false;
     } catch (error) { ok = false; }
     event.source?.postMessage({ type: 'offline-prepared', ok, catalog: data.catalog });
   })());

@@ -1,6 +1,7 @@
 // Mismas claves y formatos que js/core.js de la versión actual: quien ya usa la web conserva
 // su posición de lectura, capítulos completados y tamaño de letra al pasar a esta versión.
 import { LANGUAGE_KEY, SPANISH_VERSION_KEY, type Edition, type Lang } from "./i18n";
+import { localGet, localSet } from "./local-storage";
 
 export const READING_POSITION_KEY = "horizonte55-reading-position";
 export const COMPLETED_CHAPTERS_KEY = "horizonte55-completed-chapters";
@@ -9,21 +10,17 @@ export const READING_SCALE_KEY = "horizonte55-reading-scale";
 type Completed = Record<string, number[]>;
 
 function read<T>(key: string): T | null {
+  const result = localGet(key);
+  if (!result.ok || !result.value) return null;
   try {
-    const raw = localStorage.getItem(key);
-    return raw ? (JSON.parse(raw) as T) : null;
+    return JSON.parse(result.value) as T;
   } catch {
     return null;
   }
 }
 
 function write(key: string, value: unknown) {
-  try {
-    localStorage.setItem(key, typeof value === "string" ? value : JSON.stringify(value));
-    return true;
-  } catch {
-    return false; // modo privado o almacenamiento lleno: la lectura sigue funcionando
-  }
+  return localSet(key, typeof value === "string" ? value : JSON.stringify(value)).ok;
 }
 
 export function getPosition(): { bookId: string; chapter: number } | null {
@@ -34,7 +31,7 @@ export function getPosition(): { bookId: string; chapter: number } | null {
 }
 
 export function savePosition(bookId: string, chapter: number) {
-  write(READING_POSITION_KEY, { bookId, chapter });
+  return write(READING_POSITION_KEY, { bookId, chapter });
 }
 
 export function getCompleted(): Completed {
@@ -56,17 +53,25 @@ export function toggleCompleted(bookId: string, chapter: number) {
   return write(COMPLETED_CHAPTERS_KEY, completed) ? completed : null;
 }
 
-export function getScale() {
-  try {
-    const scale = Number(localStorage.getItem(READING_SCALE_KEY));
-    return scale >= 0.9 && scale <= 1.3 ? scale : 1;
-  } catch {
-    return 1;
+// Marca varios capítulos como completados de una vez (al terminar un día de un plan).
+export function markCompleted(list: [string, number][]) {
+  const completed = getCompleted();
+  for (const [bookId, chapter] of list) {
+    const set = new Set(completed[bookId] ?? []);
+    set.add(chapter);
+    completed[bookId] = [...set].sort((a, b) => a - b);
   }
+  return write(COMPLETED_CHAPTERS_KEY, completed) ? completed : null;
+}
+
+export function getScale() {
+  const result = localGet(READING_SCALE_KEY);
+  const scale = Number(result.ok ? result.value : null);
+  return scale >= 0.9 && scale <= 1.3 ? scale : 1;
 }
 
 export function saveScale(scale: number) {
-  write(READING_SCALE_KEY, String(scale));
+  return write(READING_SCALE_KEY, String(scale));
 }
 
 // Notas por capítulo: mismo formato que la versión actual ({ libro: { capítulo: texto } }).
@@ -75,7 +80,7 @@ export const MAX_NOTE_LENGTH = 20000;
 
 type Notes = Record<string, Record<string, string>>;
 
-function getAllNotes(): Notes {
+export function getAllNotes(): Notes {
   const saved = read<Notes>(CHAPTER_NOTES_KEY);
   return saved && typeof saved === "object" && !Array.isArray(saved) ? saved : {};
 }
@@ -96,28 +101,22 @@ export function saveNote(bookId: string, chapter: number, value: string) {
 
 // Idioma y versión preferidos (mismas claves y valores que la versión actual).
 export function getSavedLanguage(): Lang | null {
-  try {
-    const value = localStorage.getItem(LANGUAGE_KEY);
-    return value === "es" || value === "en" || value === "de" ? value : null;
-  } catch {
-    return null;
-  }
+  const result = localGet(LANGUAGE_KEY);
+  const value = result.ok ? result.value : null;
+  return value === "es" || value === "en" || value === "de" ? value : null;
 }
 
 export function saveLanguage(lang: Lang) {
-  write(LANGUAGE_KEY, lang);
+  return write(LANGUAGE_KEY, lang);
 }
 
 export function getSpanishVersion(): "onbv" | "rv1909" {
-  try {
-    return localStorage.getItem(SPANISH_VERSION_KEY) === "rv1909" ? "rv1909" : "onbv";
-  } catch {
-    return "onbv";
-  }
+  const result = localGet(SPANISH_VERSION_KEY);
+  return result.ok && result.value === "rv1909" ? "rv1909" : "onbv";
 }
 
 export function saveSpanishVersion(version: "onbv" | "rv1909") {
-  write(SPANISH_VERSION_KEY, version);
+  return write(SPANISH_VERSION_KEY, version);
 }
 
 // Edición que corresponde a un idioma según la preferencia guardada (en español: ONBV o RV1909).

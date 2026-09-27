@@ -33,15 +33,20 @@ La redacción nunca debe convertir una asociación cultural o una ilustración e
 - Las imágenes generadas con inteligencia artificial deben identificarse como ilustraciones conceptuales.
 - Las imágenes no deben contener rótulos cartográficos inventados ni controles que cubran la ilustración.
 - Cada imagen debe poder ampliarse y conservar un texto alternativo útil en español, inglés y alemán.
+- La versión de distribución debe usar recursos WebP optimizados y declarar ancho y alto para evitar saltos de diseño.
 
-## Contrato técnico reutilizable
+## Contrato técnico Next.js
 
-- Cada página conserva la misma estructura HTML y los mismos identificadores de sección.
-- El contenido traducible vive en un módulo `*-content.js` con español, inglés y alemán.
-- Un módulo pequeño `*-study.js` entrega ese contenido al motor compartido `context-study.js`.
-- El lector muestra el anexo mediante una configuración por libro y capítulo.
-- El constructor público, las pruebas y el Service Worker deben reconocer cada anexo nuevo.
+- `web/lib/studies.ts` registra cada estudio, capítulo relacionado, hito cronológico, títulos y estado editorial.
+- Cada estudio declara `draft` y `published`; no se infiere la autorización por la existencia de archivos o por superar pruebas.
+- El contenido vive en `web/content/studies/<slug>.<idioma>.html`. Las fuentes españolas históricas de Edén y Babel permanecen temporalmente en `contexto-*.html`.
+- `web/components/views/StudyView.tsx` entrega el fragmento al diseño común y activa el visor de imágenes.
+- `visibleStudies` muestra todos los estudios durante el desarrollo interno, pero solo `publicStudies` entra en una compilación pública.
+- `web/scripts/sync-content.mjs` sincroniza los recursos; `npm run build` produce la salida pública y `npm run build:internal` produce una salida local de revisión.
+- `tests/validate-studies.mjs` comprueba registro, idiomas, estructura, fuentes, imágenes y coherencia editorial.
 
 ## Puerta de publicación
 
-Un anexo permanece interno hasta completar revisión editorial, traducciones, comprobación visual móvil y de escritorio, pruebas automatizadas y aprobación explícita. El piloto de Babel es el segundo uso de este modelo después del anexo de los cuatro ríos de Edén.
+Un anexo permanece interno hasta completar revisión editorial, traducciones, comprobación visual móvil y de escritorio, pruebas automatizadas y aprobación explícita. Para publicarlo deben cambiarse juntos y de forma consciente `draft: false` y `published: true`; después se ejecutan las pruebas y una compilación pública. La aprobación editorial no la sustituyen el validador, la compilación ni la existencia de ilustraciones.
+
+Edén y Babel son los dos estudios aprobados actuales. Los 21 anexos restantes continúan internos hasta una aprobación individual posterior.

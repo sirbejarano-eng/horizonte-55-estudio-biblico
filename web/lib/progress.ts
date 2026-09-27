@@ -1,12 +1,19 @@
 // Exportar e importar progreso: mismo formato de archivo (version: 1) y mismas reglas que js/core.js,
 // así un archivo exportado desde la versión actual se puede importar aquí y al revés.
 import { MAX_NOTE_LENGTH } from "./storage";
+import { localGetOrThrow, localRemoveOrThrow, localSetOrThrow } from "./local-storage";
+import { isValidPlans, PLANS_EVENT, READING_PLANS_KEY } from "./plans";
+import { countMarks, isValidMarks, isValidVerseNotes, MARKS_EVENT, VERSE_MARKS_KEY, VERSE_NOTES_KEY, type MarksStore } from "./marks";
 
 const KEYS = {
   readingPosition: "horizonte55-reading-position",
   completedChapters: "horizonte55-completed-chapters",
   chapterNotes: "horizonte55-chapter-notes",
   readingScale: "horizonte55-reading-scale",
+  // Fase 4: marcas y notas por versículo (campos opcionales; los archivos antiguos siguen valiendo).
+  verseMarks: VERSE_MARKS_KEY,
+  verseNotes: VERSE_NOTES_KEY,
+  readingPlans: READING_PLANS_KEY,
 } as const;
 const IMPORT_BACKUP_KEY = "horizonte55-import-backup";
 export const MAX_IMPORT_FILE_SIZE = 2 * 1024 * 1024;
@@ -35,15 +42,22 @@ const hasChapter = (counts: ChapterCounts, bookId: string, n: unknown) => Number
 const isCanonicalKey = (key: string) => Number.isInteger(Number(key)) && String(Number(key)) === key;
 
 export function exportProgress() {
-  let scale = Number(localStorage.getItem(KEYS.readingScale));
+  let scale = Number(localGetOrThrow(KEYS.readingScale));
   if (!(scale >= 0.9 && scale <= 1.3)) scale = 1;
+  const marks = parse(localGetOrThrow(KEYS.verseMarks));
+  const verseNotes = parse(localGetOrThrow(KEYS.verseNotes));
+  const readingPlans = parse(localGetOrThrow(KEYS.readingPlans));
   return {
     version: 1,
     exportedAt: new Date().toISOString(),
-    readingPosition: parse(localStorage.getItem(KEYS.readingPosition)),
-    completedChapters: parse(localStorage.getItem(KEYS.completedChapters)),
-    chapterNotes: parse(localStorage.getItem(KEYS.chapterNotes)),
+    readingPosition: parse(localGetOrThrow(KEYS.readingPosition)),
+    completedChapters: parse(localGetOrThrow(KEYS.completedChapters)),
+    chapterNotes: parse(localGetOrThrow(KEYS.chapterNotes)),
     readingScale: scale,
+    // Solo si hay algo: un campo con null borraría las marcas del dispositivo que importe el archivo.
+    ...(marks ? { verseMarks: marks } : {}),
+    ...(verseNotes ? { verseNotes } : {}),
+    ...(readingPlans ? { readingPlans } : {}),
   };
 }
 
@@ -59,13 +73,16 @@ export function downloadProgress() {
 
 // Qué hay ya guardado, para avisar antes de sobrescribir.
 export function summarizeCurrentProgress() {
-  const completed = parse(localStorage.getItem(KEYS.completedChapters));
-  const notes = parse(localStorage.getItem(KEYS.chapterNotes));
+  const completed = parse(localGetOrThrow(KEYS.completedChapters));
+  const notes = parse(localGetOrThrow(KEYS.chapterNotes));
   return {
-    readingPosition: localStorage.getItem(KEYS.readingPosition) !== null,
+    readingPosition: localGetOrThrow(KEYS.readingPosition) !== null,
     completedChapters: isObject(completed) && Object.keys(completed).length > 0,
     chapterNotes: isObject(notes) && Object.keys(notes).length > 0,
     readingScale: false,
+    verseMarks: isObject(parse(localGetOrThrow(KEYS.verseMarks))),
+    verseNotes: isObject(parse(localGetOrThrow(KEYS.verseNotes))),
+    readingPlans: isObject(parse(localGetOrThrow(KEYS.readingPlans))),
   };
 }
 
@@ -124,19 +141,42 @@ export function validateProgressImport(raw: string, counts: ChapterCounts): { va
     else errors.add("importErrorShape");
   }
 
+  const exists = (bookId: string, chapter: number) => hasChapter(counts, bookId, chapter);
+
+  if ("verseMarks" in data) {
+    const value = data.verseMarks;
+    if (value === null) fields.verseMarks = { clear: true, count: 0 };
+    else if (isValidMarks(value, exists)) fields.verseMarks = { clear: false, value, count: countMarks(value as MarksStore).total };
+    else errors.add("importErrorReference");
+  }
+
+  if ("verseNotes" in data) {
+    const value = data.verseNotes;
+    if (value === null) fields.verseNotes = { clear: true, count: 0 };
+    else if (isValidVerseNotes(value, exists)) fields.verseNotes = { clear: false, value, count: Object.keys(value).length };
+    else errors.add("importErrorReference");
+  }
+
+  if ("readingPlans" in data) {
+    const value = data.readingPlans;
+    if (value === null) fields.readingPlans = { clear: true, count: 0 };
+    else if (isValidPlans(value)) fields.readingPlans = { clear: false, value, count: Object.keys(value).length };
+    else errors.add("importErrorShape");
+  }
+
   if (errors.size) return { valid: false, errors: [...errors] };
   if (!Object.keys(fields).length) return { valid: false, errors: ["importNoChanges"] };
   return { valid: true, fields };
 }
 
 function writeField(field: Field, entry: FieldEntry) {
-  if (entry.clear) localStorage.removeItem(KEYS[field]);
-  else localStorage.setItem(KEYS[field], field === "readingScale" ? String(entry.value) : JSON.stringify(entry.value));
+  if (entry.clear) localRemoveOrThrow(KEYS[field]);
+  else localSetOrThrow(KEYS[field], field === "readingScale" ? String(entry.value) : JSON.stringify(entry.value));
 }
 
 function restoreRaw(field: Field, previous: string | null | undefined) {
-  if (previous == null) localStorage.removeItem(KEYS[field]);
-  else localStorage.setItem(KEYS[field], previous);
+  if (previous == null) localRemoveOrThrow(KEYS[field]);
+  else localSetOrThrow(KEYS[field], previous);
 }
 
 // Todo o nada: si falla una escritura se revierte lo ya escrito. Guarda un respaldo para "Deshacer",
@@ -144,9 +184,9 @@ function restoreRaw(field: Field, previous: string | null | undefined) {
 export function applyProgressImport(fields: Fields): { success: true; backup: Backup } | { success: false; atomic: boolean } {
   const entries = Object.entries(fields) as [Field, FieldEntry][];
   const backup: Backup = {};
-  for (const [field] of entries) backup[field] = localStorage.getItem(KEYS[field]);
   const written: Field[] = [];
   try {
+    for (const [field] of entries) backup[field] = localGetOrThrow(KEYS[field]);
     for (const [field, entry] of entries) {
       writeField(field, entry);
       written.push(field);
@@ -163,22 +203,30 @@ export function applyProgressImport(fields: Fields): { success: true; backup: Ba
     return { success: false, atomic };
   }
   try {
-    localStorage.setItem(IMPORT_BACKUP_KEY, JSON.stringify({ backup, createdAt: new Date().toISOString() }));
+    localSetOrThrow(IMPORT_BACKUP_KEY, JSON.stringify({ backup, createdAt: new Date().toISOString() }));
   } catch {
     /* sin respaldo duradero: "Deshacer" solo en esta sesión */
   }
+  window.dispatchEvent(new Event(MARKS_EVENT));
+  window.dispatchEvent(new Event(PLANS_EVENT));
   return { success: true, backup };
 }
 
 export function getPersistedImportBackup(): Backup | null {
-  const saved = parse(localStorage.getItem(IMPORT_BACKUP_KEY));
-  return isObject(saved) && isObject(saved.backup) ? (saved.backup as Backup) : null;
+  try {
+    const saved = parse(localGetOrThrow(IMPORT_BACKUP_KEY));
+    return isObject(saved) && isObject(saved.backup) ? (saved.backup as Backup) : null;
+  } catch {
+    return null;
+  }
 }
 
 export function restoreProgressBackup(backup: Backup) {
   try {
     for (const [field, previous] of Object.entries(backup) as [Field, string | null][]) restoreRaw(field, previous);
-    localStorage.removeItem(IMPORT_BACKUP_KEY);
+    localRemoveOrThrow(IMPORT_BACKUP_KEY);
+    window.dispatchEvent(new Event(MARKS_EVENT));
+    window.dispatchEvent(new Event(PLANS_EVENT));
     return true;
   } catch {
     return false;

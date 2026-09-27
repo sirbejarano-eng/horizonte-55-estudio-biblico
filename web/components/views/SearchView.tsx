@@ -11,13 +11,13 @@ export const searchMetadata = (lang: Lang): Metadata => ({
 export default function SearchView({ lang }: { lang: Lang }) {
   const text = t(lang);
   return (
-    <>
-      <header className="page-heading">
+    <div className="container page page-narrow">
+      <header className="page-head">
         <p className="eyebrow">{text.localSearch}</p>
-        <h1>{text.searchBible}</h1>
-        <p>{text.searchHint}</p>
+        <h1 className="display-sm">{text.searchBible}</h1>
+        <p className="lead">{text.searchHint}</p>
       </header>
       <BibleSearch lang={lang} />
-    </>
+    </div>
   );
 }

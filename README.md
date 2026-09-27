@@ -50,11 +50,14 @@ También puedes ejecutar `abrir-horizonte.ps1` con PowerShell. El lanzador inici
 npm test
 ```
 
-`npm test` ejecuta tres pruebas en orden: `tests/validate.cjs` (estructura de páginas y catálogos), `tests/validate-bible-sources.cjs` (procedencia, licencias, huellas y correspondencia de las cuatro ediciones bíblicas) y `tests/validate-behavior.mjs` (comportamiento de importar/exportar progreso, notas, guardado y selección de versión, descrito en la sección siguiente). También se pueden ejecutar por separado:
+`npm test` ejecuta seis pruebas en orden: `tests/validate.cjs` (estructura de páginas y catálogos), `tests/validate-bible-sources.cjs` (procedencia, licencias, huellas y correspondencia de las cuatro ediciones bíblicas), `tests/validate-studies.mjs` (registro, lista explícita de HTML permitido, estructura editorial, fuentes, imágenes, accesibilidad y paridad trilingüe), `tests/validate-catalog-versions.mjs` (versiones automáticas de los catálogos), `tests/validate-web-storage.mjs` (acceso controlado al almacenamiento local) y `tests/validate-behavior.mjs` (comportamiento de importar/exportar progreso, notas, guardado y selección de versión). También se pueden ejecutar por separado desde la raíz del repositorio:
 
 ```bash
 node tests/validate.cjs
 node tests/validate-bible-sources.cjs
+npm run test:studies
+node tests/validate-catalog-versions.mjs
+node tests/validate-web-storage.mjs
 node tests/validate-behavior.mjs
 ```
 
